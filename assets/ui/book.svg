@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" shape-rendering="crispEdges" role="img" aria-label="Книга в стиле пиксель-арт">
+  <path fill="#272342" d="M8 19h28v4h8v-4h28v44H44v4h-8v-4H8z"/>
+  <path fill="#d47f46" d="M12 19h24v4h8v-4h24v40H44v4h-8v-4H12z"/>
+  <path fill="#fff2ca" d="M16 16h20v4h8v-4h20v39H44v4h-8v-4H16z"/>
+  <path fill="#fae2a1" d="M40 22h4v35h-4z"/>
+  <path fill="#6c819f" d="M20 26h14v3H20zM20 33h14v3H20zM20 40h10v3H20zM49 26h12v3H49zM49 33h12v3H49zM49 40h10v3H49z"/>
+  <path fill="#eea54d" d="M12 60h24v4H12zM44 60h24v4H44z"/>
+</svg>

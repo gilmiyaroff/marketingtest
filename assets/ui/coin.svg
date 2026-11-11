@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72" shape-rendering="crispEdges" role="img" aria-label="Пиксельная игровая монета">
+  <path fill="#292543" d="M24 4h24v4h8v4h8v12h4v24h-4v12h-8v4h-8v4H24v-4h-8v-4H8V48H4V24h4V12h8V8h8z"/>
+  <path fill="#9f4e20" d="M24 8h24v4h8v8h4v12h4v8h-4v12h-4v8h-8v4H24v-4h-8v-8h-4V40H8v-8h4V20h4v-8h8z"/>
+  <path fill="#f6a529" d="M24 8h24v4h8v8h4v12h4v8h-4v12h-4v8h-8v4H24v-4h-8v-8h-4V40H8v-8h4V20h4v-8h8z"/>
+  <path fill="#ffdc63" d="M24 12h24v4h8v8h4v24h-4v8h-8v4H24v-4h-8v-8h-4V24h4v-8h8z"/>
+  <path fill="#fff2a0" d="M24 16h24v4H24zM20 20h4v24h-4zM24 48h4v4h-4z"/>
+  <path fill="#bd6e20" d="M32 24h8v4h4v4h-8v4h8v4h-4v4h-8v-4h-4v-4h8v-4h-8v-4h4zM34 20h4v28h-4z"/>
+  <path fill="#ffe898" d="M32 22h8v4h4v4h-8v4h8v4h-4v4h-8v-4h-4v-4h8v-4h-8v-4h4zM34 18h4v28h-4z"/>
+  <path fill="#fff8d0" d="M16 24h4v8h-4zM20 20h4v4h-4z"/>
+</svg>

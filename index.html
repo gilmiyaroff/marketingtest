@@ -119,7 +119,7 @@ button{font-family:inherit;line-height:1.12;transition:filter .12s ease,transfor
 </main>
 <script>
 (()=>{'use strict';
-const $=(s,scope=document)=>scope.querySelector(s),$=(s,scope=document)=>[...scope.querySelectorAll(s)];const icon=(name)=>`<svg class="pix-icon" aria-hidden="true" focusable="false"><use href="#pix-${name}"></use></svg>`;const scenes=['home','hunt','route','links','result'];let current='home';let coins=0;let muted=true;let audio=null;let toastTimer=null;let modalReturnFocus=null;
+const $=(s,scope=document)=>scope.querySelector(s),$$=(s,scope=document)=>[...scope.querySelectorAll(s)];const icon=(name)=>`<svg class="pix-icon" aria-hidden="true" focusable="false"><use href="#pix-${name}"></use></svg>`;const scenes=['home','hunt','route','links','result'];let current='home';let coins=0;let muted=true;let audio=null;let toastTimer=null;let modalReturnFocus=null;
 const state={found:new Set(),route:Array(5).fill(null),selected:null,links:{},source:null,completed:new Set()};
 const save=()=>{try{sessionStorage.setItem('cap-quest-v3',JSON.stringify({coins,found:[...state.found],route:state.route,links:state.links,completed:[...state.completed]}))}catch(e){}};
 const load=()=>{try{const d=JSON.parse(sessionStorage.getItem('cap-quest-v3')||'null');if(d){coins=Number(d.coins)||0;state.found=new Set(d.found||[]);state.route=Array.isArray(d.route)&&d.route.length===5?d.route:Array(5).fill(null);state.links=d.links||{};state.completed=new Set(d.completed||[])}}catch(e){}};

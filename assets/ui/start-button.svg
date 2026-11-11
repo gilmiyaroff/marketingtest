@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 110" shape-rendering="crispEdges" role="img" aria-label="Пиксельная золотая кнопка">
+  <path fill="#272345" d="M20 12h360v8h12v74h-12v8H20v-8H8V20h12z"/>
+  <path fill="#70402c" d="M20 16h360v8h8v64h-8v8H20v-8h-8V24h8z"/>
+  <path fill="#b36a30" d="M24 12h352v8h8v64h-8v8H24v-8h-8V20h8z"/>
+  <path fill="#ffcf48" d="M30 16h340v8h8v52h-8v8H30v-8h-8V24h8z"/>
+  <path fill="#ffe68c" d="M36 22h328v8H36zM28 30h8v36h-8z"/>
+  <path fill="#f4ac32" d="M36 66h328v10H36zM364 30h8v36h-8z"/>
+  <path fill="#fff2b0" d="M45 27h16v6H45zM65 27h10v6H65zM87 27h8v6h-8z"/>
+  <path fill="#ad641e" d="M32 82h336v6H32z"/>
+  <path fill="#fff6c8" d="M58 39h6v6h-6zM55 45h12v6H55zM58 51h6v6h-6z"/>
+  <path fill="#fffbdb" d="M339 40h6v6h-6zM336 46h12v6h-12zM339 52h6v6h-6z"/>
+</svg>

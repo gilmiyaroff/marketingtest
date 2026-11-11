@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 190" preserveAspectRatio="none" shape-rendering="crispEdges" role="img" aria-label="Пиксельная панель диалога">
+  <path fill="#24253e" d="M16 0h568v8h8v8h8v158h-8v8h-8v8H16v-8H8v-8H0V16h8V8h8z"/>
+  <path fill="#734e6b" d="M20 8h560v8h8v8h4v146h-4v8h-8v4H20v-4h-8v-8H8V24h4v-8h8z"/>
+  <path fill="#f7e7c2" d="M24 12h552v8h8v150h-8v8H24v-8h-8V20h8z"/>
+  <path fill="#fff4d9" d="M28 16h544v8H28zM20 24h8v136h-8z"/>
+  <path fill="#e8cda4" d="M28 162h544v8H28zM572 24h8v136h-8z"/>
+  <path fill="#d39362" d="M30 28h8v8h-8zM562 30h8v8h-8zM30 150h8v8h-8zM562 150h8v8h-8z"/>
+  <path fill="#ab6680" d="M46 36h8v4h-8zM544 36h8v4h-8z"/>
+</svg>

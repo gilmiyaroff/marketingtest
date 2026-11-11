@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#263e75">
+<title>CAP Growth Quest — Pixel UI Lab</title>
+<style>
+:root{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:#252544;background:#16162d}*{box-sizing:border-box}
+body{margin:0;min-height:100dvh;display:grid;place-items:center}.phone{width:min(100vw,450px);height:100dvh;min-height:640px;max-height:980px;position:relative;overflow:hidden;background:linear-gradient(180deg,#3271ba 0%,#756cc3 36%,#e99d9e 67%,#e5b977 100%);isolation:isolate}
+.sky:before{content:"";position:absolute;width:280px;height:280px;border-radius:50%;background:#fff1ad;filter:blur(16px);left:50%;top:58%;transform:translate(-50%,-50%);opacity:.48}
+.cloud{position:absolute;top:26%;left:-20%;width:155px;height:22px;background:#f6c3cf;box-shadow:26px -16px 0 #f6c3cf,70px 3px 0 #e7abc8,98px -6px 0 #e7abc8;animation:drift 29s linear infinite;image-rendering:pixelated;opacity:.7}.cloud.c2{top:43%;left:-34%;transform:scale(.6);animation-duration:40s;animation-delay:-15s}@keyframes drift{to{translate:650px 0}}
+.sun{position:absolute;left:47%;top:55%;height:74px;width:74px;border-radius:50%;background:#ffdf86;box-shadow:0 0 0 9px #ffd99150,0 0 60px #fff29e}
+.mountains{position:absolute;inset:auto 0 25% 0;height:32%;background:#7e779f;clip-path:polygon(0 100%,0 59%,14% 42%,24% 61%,43% 15%,62% 66%,80% 24%,100% 63%,100% 100%)}.mountains:after{content:"";position:absolute;inset:15% 0 0;background:#5d6b95;clip-path:polygon(0 100%,0 83%,15% 44%,25% 80%,45% 16%,65% 87%,80% 40%,100% 80%,100% 100%)}
+.hill{position:absolute;inset:auto -7% 0;height:34%;background:#416f56;border-top:10px solid #7cb76e;clip-path:polygon(0 39%,17% 25%,35% 40%,56% 8%,76% 27%,100% 12%,100% 100%,0 100%)}
+.grass{position:absolute;inset:auto 0 0;height:17%;background:repeating-linear-gradient(90deg,#2e604d 0 18px,#376d54 18px 34px)}
+.logo{position:absolute;top:max(18px,env(safe-area-inset-top));left:20px;right:20px;text-align:center;color:#fff8d8;text-shadow:0 4px #3c325e,3px 0 #3c325e,-3px 0 #3c325e,0 -3px #3c325e;letter-spacing:1px;font-size:clamp(35px,10vw,51px);font-weight:1000;line-height:1.06}.logo span{display:block;color:#ffca44}
+.tag{position:absolute;top:22%;left:25px;right:25px;color:#382945;text-align:center;font-size:16px;font-weight:800;background:#fff0c8;padding:12px 10px;border:5px solid #63406a;box-shadow:0 7px #b57556,6px 6px 0 #312747}
+.kid{position:absolute;bottom:31%;left:6%;font-size:60px;filter:drop-shadow(3px 6px 0 #343158);animation:bob 2.2s ease-in-out infinite;user-select:none}.pet{position:absolute;bottom:29.5%;left:25%;font-size:49px;filter:drop-shadow(3px 5px 0 #343158);animation:bob 2.2s ease-in-out -1s infinite;user-select:none}@keyframes bob{50%{translate:0 -7px}}
+.dialog{position:absolute;right:18px;left:18px;bottom:18%;min-height:115px;display:grid;place-items:center;background:url("assets/ui/dialog-panel.svg") 50% 50% / 100% 100% no-repeat;padding:25px 35px;color:#302c4b;text-align:center;font-weight:800;font-size:clamp(13px,3.7vw,18px);line-height:1.35}
+.cta{border:0;position:absolute;left:9%;bottom:6%;width:82%;height:12%;background:url("assets/ui/start-button.svg") center / 100% 100% no-repeat;cursor:pointer;font-weight:1000;font-size:clamp(22px,6vw,30px);color:#433052;letter-spacing:1px;text-shadow:0 2px #fff5b9;filter:drop-shadow(0 5px 0 #2e2547);transition:transform .1s,filter .1s}.cta:active{transform:translateY(5px);filter:drop-shadow(0 1px 0 #2e2547)}
+.hud{position:absolute;top:14%;right:16px;display:flex;align-items:center;gap:5px;color:#fff8cd;font-weight:900;font-size:19px;text-shadow:2px 2px #3a315a}.hud img{width:40px}
+.topline{position:absolute;top:14%;left:16px;color:#e9f1ff;font-size:12px;font-weight:800;text-shadow:1px 1px #354270}
+.panel{display:none;position:absolute;inset:0;background:#191936bb;z-index:5;place-items:center;padding:30px;backdrop-filter:blur(3px)}.panel.open{display:grid}.card{width:100%;background:#fff0cc;border:6px solid #5a395f;box-shadow:8px 8px #231d3b;padding:22px;text-align:center}.card h2{margin:5px 0 16px;color:#39254d}.card img{width:70px}.card p{line-height:1.5}.card button{font-size:18px;padding:12px 19px;background:#ffce49;border:4px solid #51365b;box-shadow:3px 4px #2d2147;font-weight:900;cursor:pointer} .small-note{font-size:12px;color:#615a75;margin-top:13px}
+@media(min-width:700px){.phone{border:8px solid #393047;border-radius:18px;height:900px;max-height:94vh}.cta{bottom:5%}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
+</style></head><body><main class="phone">
+<div class="sky"></div><div class="cloud"></div><div class="cloud c2"></div><div class="sun"></div><div class="mountains"></div><div class="hill"></div><div class="grass"></div>
+<div class="logo" aria-label="CAP Growth Quest">CAP <span>GROWTH</span> QUEST</div>
+<div class="topline">PIXEL UI LAB • DEMO</div><div class="hud"><img src="assets/ui/coin.svg" alt="Монеты"><span id="coins">250</span></div>
+<div class="tag">Собери стратегию роста образовательного продукта!</div>
+<div class="kid" aria-hidden="true">🧑🏻‍🎓</div><div class="pet" aria-hidden="true">🐈</div>
+<div class="dialog">5 миссий. Находи подсказки, соединяй механики и открывай новые возможности.</div>
+<button class="cta" id="start">▶ НАЧАТЬ ИГРУ</button>
+<div class="panel" id="modal" role="dialog" aria-modal="true" aria-labelledby="missiontitle"><div class="card"><img src="assets/ui/book.svg" alt=""><h2 id="missiontitle">Миссия открыта!</h2><p>Первый шаг — понять, почему школьник отстаёт по теме. За запуск получи 100 монет!</p><img src="assets/ui/coin.svg" alt=""><p><strong>+100 монет</strong></p><button id="close">Продолжить</button><div class="small-note">Это демонстрация SVG и анимаций, не замена основной игры.</div></div></div>
+</main><script>
+const coins=document.getElementById("coins"),modal=document.getElementById("modal"),start=document.getElementById("start"),close=document.getElementById("close");let rewarded=false;
+start.addEventListener("click",()=>{if(!rewarded){coins.textContent=String(Number(coins.textContent)+100);rewarded=true}modal.classList.add("open");close.focus()});
+close.addEventListener("click",()=>{modal.classList.remove("open");start.focus()});document.addEventListener("keydown",e=>{if(e.key==="Escape")modal.classList.remove("open")});
+</script></body></html>

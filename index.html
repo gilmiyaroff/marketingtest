@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
 <meta name="theme-color" content="#211a39"/>
 <meta name="description" content="CAP Growth Quest — интерактивная маркетинговая стратегия запуска EdTech-продукта в Казахстане."/>
-<title>CAP Growth Quest — от идеи к системе роста</title>
+<title>CAP Growth Quest — интерактивная маркетинговая стратегия</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Tektur:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
@@ -35,6 +35,68 @@
 @media(max-height:730px) and (max-width:640px){.layout{padding-top:calc(8px + var(--top));padding-bottom:calc(9px + var(--bottom));gap:6px}.hud{min-height:40px}.hud-btn,.hud-tag{min-height:33px;padding:5px 7px}.chap-head{padding:8px 10px}.chapter-title{margin:4px 0}.chapter-kicker{font-size:10px}.explore{height:27dvh;min-height:140px}.guide img{width:42px}.panel p{margin:3px 0 6px}.gold-btn{min-height:45px;padding:7px}.home-character{width:28vw}.home-mid{flex-direction:row}.speech{font-size:12px}.road-slot{min-height:53px}.links-area{min-height:215px}.link-node{min-height:38px}.economy .range-row{margin:3px 0}.model-note,.model-warning{font-size:10px}}
 @media(min-width:900px){.layout{padding-inline:clamp(25px,5vw,70px)}.mission-layout{display:grid;grid-template-columns:minmax(340px,1fr) minmax(360px,1fr);grid-template-rows:auto auto 1fr;gap:22px;align-items:start}.mission-layout .hud{grid-column:1/-1}.mission-layout .chap-head{grid-column:1;grid-row:2}.mission-layout .activity{grid-column:2;grid-row:2/4;align-self:center}.mission-layout .bottom-stack{grid-column:1;grid-row:3;align-self:end}.mission-layout .spacer{display:none}.home-mid{justify-content:center}.home-character{width:320px}.speech{max-width:460px}.explore{height:min(64dvh,520px)}.road-slot{min-height:90px}.links-area{min-height:370px}.final-layout{max-width:1100px}.final-card{padding:22px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+
+/* CAP Growth Quest v7 — 16-bit illustrated responsive gameplay */
+.scene{overflow-y:auto;overscroll-behavior-y:contain}.scene.active{display:block}
+.layout{min-height:100dvh}.activity{position:relative;flex:0 1 auto;min-height:0}
+.hud{gap:6px}.chap-head{border:4px solid #7b5170;background:linear-gradient(155deg,#302443f5,#2a2745f5);box-shadow:0 6px 0 #1c1935, inset 0 0 0 2px #c38c9a3d}
+.chapter-kicker{font-weight:800;letter-spacing:.035em;color:#ffd582}.chapter-title{font-size:clamp(10px,2.7vw,17px);line-height:1.62}
+.panel{background:#fff1d2;box-shadow:0 6px #241a35,inset 0 0 0 4px #e0b68a;border-color:#755071}
+.dialog-title{line-height:1.7}.gold-btn{border-color:#674058;box-shadow:0 6px #28172f,inset 0 3px #fff2bb,inset 0 -5px #cf762f;background:linear-gradient(#ffe27e,#ffb638)}
+/* Mission 1: preserve the photographic pixel-art composition without distortion */
+.explore{height:clamp(215px,34dvh,430px);border:5px solid #a77a68;box-shadow:0 6px #291e3d;background:#251c45;flex-shrink:0}
+.explore-world{position:relative;height:100%;width:auto;min-width:100%;background:url('assets/scenes/research.webp') center center / cover no-repeat}
+.explore-scroll{touch-action:pan-x;overflow:auto hidden;scrollbar-width:none}
+.explore-scroll:focus-visible{outline:2px solid #ffdc83;outline-offset:-3px}
+.clue{width:clamp(33px,9vw,46px);height:clamp(33px,9vw,46px);border:2px solid #ffe39c;background:#f6c4533d;box-shadow:0 0 0 4px #ffcf5d55,0 0 16px #fff1a4;backdrop-filter:blur(1px);border-radius:50%;z-index:3;animation:clue-pulse 1.9s ease-in-out infinite}
+.clue:before{content:"";width:9px;height:9px;background:#fff4a8;border-radius:50%;box-shadow:0 0 8px #fff1bd}
+.clue.done{opacity:.08}
+.clue[data-clue="parent"]{left:11.4%;top:67.5%}.clue[data-clue="market"]{left:35%;top:87%}.clue[data-clue="feedback"]{left:83.3%;top:65.7%}
+@keyframes clue-pulse{50%{transform:translate(-50%,-50%) scale(.88);box-shadow:0 0 0 2px #ffcf5d55,0 0 7px #fff1a4}}
+.pan-arrow{display:none!important}.pan-bar{top:10px;z-index:5;height:6px}
+/* Pipes mission */
+.pipes-panel,.jigsaw-panel{background:#2a2345ed;border:5px solid #b98c72;box-shadow:0 7px #1d1934,inset 0 0 0 2px #e6b58a55;border-radius:7px;padding:12px;color:#fff2d7}
+.pipes-top,.jigsaw-top{display:flex;align-items:center;justify-content:space-between;gap:10px;font-weight:900;font-size:clamp(13px,3.2vw,18px);margin-bottom:9px;color:#ffe2a0}
+.pipes-heading{font-family:var(--title);font-size:clamp(7px,2vw,11px);line-height:1.5}
+.pipe-legend{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px;margin:0 0 8px}
+.pipe-legend-item{background:#fff0ce;border:3px solid #705271;color:#332846;display:flex;gap:7px;align-items:center;min-width:0;text-align:left;padding:6px;min-height:42px;font-size:clamp(11px,2.9vw,15px);font-weight:850;line-height:1.12;border-radius:3px}
+.pipe-legend-item small{display:block;font-size:.85em;opacity:.8}.pipe-legend-item.selected{box-shadow:0 0 0 3px var(--pipe-color);background:#fff9e4}.pipe-legend-item.complete{border-color:#7de6aa}
+.pipe-dot{width:28px;height:28px;display:grid;place-items:center;background:var(--pipe-color);border:3px solid #403252;color:#2d2441;flex-shrink:0;font-family:var(--title);font-size:10px}
+.pipe-board-wrap{display:flex;justify-content:center;overflow:hidden;padding:4px 0}
+.pipe-board{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));width:min(100%,360px);aspect-ratio:7 / 8;background:#3b3159;border:4px solid #856680;box-shadow:0 4px #160f2c;touch-action:none}
+.pipe-cell{position:relative;min-width:0;min-height:0;aspect-ratio:1;border:1px solid #8b78915c;background:#322949;display:grid;place-items:center;cursor:crosshair;padding:0;overflow:hidden;color:#fff}
+.pipe-cell:nth-child(2n){background:#362d50}.pipe-cell:focus-visible{z-index:5}
+.pipe-cell svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.pipe-cell.pipe-endpoint{background:#3c3555;box-shadow:inset 0 0 0 2px var(--pipe-color);color:#fff;}
+.pipe-cell .endpoint-glyph{font-family:var(--title);font-size:clamp(10px,2.9vw,17px);color:var(--pipe-color);text-shadow:1px 1px #171229}
+.pipes-instruction,.jigsaw-instructions{font-size:clamp(12px,3vw,15px);color:#ffe8c1;line-height:1.3;margin:11px 0 8px;min-height:35px}
+.pipe-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}.pipe-actions .soft-btn{min-height:37px;white-space:nowrap;font-size:clamp(12px,3vw,15px);border-width:3px;padding:7px 3px}
+/* Growth laboratory */
+.growth-economy{padding:12px}.growth-caption{display:flex;justify-content:space-between;align-items:center;gap:8px;font-family:var(--title);font-size:clamp(8px,2.1vw,11px);line-height:1.5;color:#ffe2a0}
+.growth-caption small{font-family:var(--body);font-size:12px;font-weight:700;text-align:right;color:#f7e1c6}
+.audience-value{text-align:center;background:#fff1d1;color:#3b2b53;padding:9px 7px;margin:10px 0;border:3px solid #c79d78;box-shadow:0 4px #211932}.audience-value span{display:block;font-size:13px;font-weight:800}.audience-value strong{font-family:var(--title);font-weight:400;font-size:clamp(13px,3.8vw,22px);line-height:1.75}
+.tier-chips{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;margin:10px 0 15px}.tier-chip{border:2px solid #99748d;background:#fff1cf;color:#473251;font-family:var(--body);font-size:clamp(12px,2.9vw,16px);font-weight:800;padding:6px 1px;min-height:35px}.tier-chip.active{background:#ffcd58;border-color:#fff1aa;box-shadow:0 0 0 2px #5d3e69}
+.growth-economy .range-row{margin:10px 0}.growth-economy .range-head{font-size:clamp(13px,3.2vw,16px)}.growth-economy .growth-metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin:13px 0}
+.growth-metrics .metric{padding:10px 5px;min-width:0}.growth-metrics .metric b{font-size:clamp(14px,3.45vw,23px);overflow-wrap:anywhere;line-height:1.2}.growth-metrics .metric span{font-size:clamp(10px,2.65vw,14px)}
+.growth-chart{background:#28223e;border:2px solid #755673;padding:10px;display:grid;gap:7px}.chart-level{display:grid;grid-template-columns:52px 1fr 55px;gap:7px;align-items:center;font-size:clamp(11px,2.9vw,15px);font-weight:800}.chart-level>div{height:12px;background:#48365e;border:1px solid #9976a0}.chart-level i{display:block;background:linear-gradient(90deg,#50e7c0,#ffcb4e);height:100%}.chart-level b{text-align:right;font-size:12px}.growth-economy .model-warning{margin:10px 0 0;font-size:clamp(11px,2.75vw,14px);line-height:1.35}
+/* Puzzle mission */
+.jigsaw-panel{padding:12px}.jigsaw-top{font-family:var(--title);font-size:clamp(8px,2.1vw,12px)}
+.jigsaw-board{position:relative;width:min(100%,350px);aspect-ratio:1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:repeat(3,minmax(0,1fr));margin:auto;background:linear-gradient(#2d254aca,#2d254aca),url('assets/scenes/scale.webp') center 67% / cover;border:4px solid #c69c76;box-shadow:0 5px #1b1532;overflow:hidden}
+.jigsaw-slot{position:relative;min-width:0;min-height:0;overflow:hidden;background:#28213a94;border:1px dashed #e6c99d8b;display:grid;place-items:center;color:#f8dfad}
+.jigsaw-slot:disabled{opacity:1}.slot-guide{font-family:var(--title);font-size:15px;opacity:.35}.jigsaw-slot.is-placed{border:1px solid #d5a671}
+.jigsaw-piece{position:relative;width:100%;height:100%;border:2px solid #fff1be;box-shadow:inset 0 0 0 2px #634765;min-width:0;min-height:0;background-image:linear-gradient(#16112e35,#16112e35),url('assets/scenes/scale.webp');background-size:300% 300%;background-repeat:no-repeat;image-rendering:pixelated;display:grid;place-items:end center;text-align:center;padding:3px;cursor:grab}
+.jigsaw-piece span{background:#271d42d9;color:#fff4d6;font-size:clamp(8px,2.35vw,12px);font-weight:850;line-height:1.05;width:100%;padding:3px 1px;text-shadow:1px 1px #21162b}
+.jigsaw-tray{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;min-height:84px;margin-top:7px}.jigsaw-tray .jigsaw-piece{height:clamp(53px,14vw,78px);border-width:3px}.jigsaw-tray .jigsaw-piece.selected{outline:3px solid #ffd668;outline-offset:0;filter:brightness(1.15)}
+#puzzle .bottom-stack .guide img{width:clamp(58px,13vw,95px)}
+@media(max-width:420px){.layout{gap:9px;padding:calc(10px + var(--top)) 12px calc(13px + var(--bottom))}.chap-head{padding:10px 12px}.chapter-title{font-size:clamp(10px,2.65vw,12px);margin:5px 0}.chap-head p{font-size:clamp(13px,3.6vw,15px)}.panel{padding:10px 12px}.panel p{font-size:13px}.dialog-title{font-size:10px}.gold-btn{min-height:49px}.explore{height:clamp(213px,32dvh,330px)}.clue-chip{font-size:clamp(12px,3vw,14px)}.pipes-panel{padding:8px}.pipe-board{width:min(100%,310px)}.pipes-instruction{margin:6px 0;font-size:12px}.pipe-legend-item{min-height:34px;padding:3px 4px}.pipe-dot{width:22px;height:22px;font-size:8px}.jigsaw-board{width:min(100%,300px)}.jigsaw-panel{padding:8px}.jigsaw-instructions{font-size:12px}.jigsaw-tray .jigsaw-piece{height:55px}.growth-economy{padding:8px}.growth-chart{padding:5px}}
+@media(max-height:760px) and (max-width:480px){.explore{height:clamp(185px,29dvh,270px)}.pipes-panel{padding:6px}.pipe-board{width:min(100%,282px)}.pipe-legend-item{min-height:30px}.jigsaw-board{width:min(100%,258px)}.jigsaw-tray .jigsaw-piece{height:45px}}
+@media(prefers-reduced-motion:reduce){.clue{animation:none}}
+
+
+/* Finishing touches: keep exact aspect ratio on desktop, crop-free puzzle success */
+@media(min-width:800px){#research .explore{width:min(100%,1100px);height:min(65vw,620px);margin-inline:auto}#research .activity{max-width:1100px;margin-inline:auto;width:100%}}
+.jigsaw-piece em{font-style:normal;color:#ffda72}.jigsaw-board .jigsaw-piece{pointer-events:none}
+#puzzle .jigsaw-tray:empty{display:none}
 </style>
 </head>
 <body>
@@ -53,9 +115,9 @@
   <section class="scene" id="research" aria-label="Миссия 1: разведка рынка">
     <div class="backdrop"><img src="assets/scenes/research.webp" alt=""/><div class="weather"></div></div>
     <div class="layout mission-layout">
-      <header class="hud"><button class="hud-btn" data-menu>← Меню</button><span class="hud-title">01 / 05</span><div class="hud-tag">◈ <span data-coins>0</span></div></header>
+      <header class="hud"><button class="hud-btn" data-menu>← Меню</button><span class="hud-title">01 / 06</span><div class="hud-tag">◈ <span data-coins>0</span></div></header>
       <div class="chap-head"><div class="chapter-kicker">МИССИЯ 01 · ИССЛЕДОВАНИЕ</div><h1 class="chapter-title">Найти реальную проблему</h1><p>Прежде чем покупать трафик, изучаем родителей, конкурентов и опыт первых пользователей.</p><div class="progress" data-progress></div></div>
-      <div class="activity"><div class="explore"><div class="explore-scroll" id="explore-scroll" tabindex="0" aria-label="Панорама исследовательской комнаты. Свайпай или нажимай стрелки"><div class="explore-world"><button class="clue" data-clue="parent" aria-label="Исследовать родителей"><svg class="pixel-svg"><use href="#i-people"/></svg></button><button class="clue" data-clue="market" aria-label="Исследовать конкурентов"><svg class="pixel-svg"><use href="#i-chart"/></svg></button><button class="clue" data-clue="feedback" aria-label="Исследовать обратную связь"><svg class="pixel-svg"><use href="#i-search"/></svg></button></div></div><button class="pan-arrow left" id="pan-left" aria-label="Сдвинуть сцену влево">◀</button><button class="pan-arrow right" id="pan-right" aria-label="Сдвинуть сцену вправо">▶</button><div class="pan-bar"><span id="pan-thumb"></span></div></div></div>
+      <div class="activity"><div class="explore"><div class="explore-scroll" id="explore-scroll" tabindex="0" aria-label="Широкая исследовательская комната. Проведи пальцем влево или вправо, чтобы осмотреть её"><div class="explore-world" id="explore-world"><button class="clue" data-clue="parent" aria-label="Изучить аудиторию: глобус"></button><button class="clue" data-clue="market" aria-label="Изучить рынок: тетрадь с графиками"></button><button class="clue" data-clue="feedback" aria-label="Изучить кастдев: ноутбук"></button></div></div><div class="pan-bar" aria-hidden="true"><span id="pan-thumb"></span></div></div></div>
       <div class="spacer"></div>
       <div class="bottom-stack"><div class="panel"><div class="dialog-title" id="research-status">Разведка начинается</div><p id="research-copy">Осмотри три подсвеченных объекта, чтобы собрать базу для маркетинговой стратегии.</p><div class="clue-chip-row"><span class="clue-chip" data-chip="parent">Родители</span><span class="clue-chip" data-chip="market">Рынок</span><span class="clue-chip" data-chip="feedback">Кастдев</span></div></div><button class="gold-btn" id="research-next" disabled>Найдено 0 из 3</button></div>
     </div>
@@ -63,7 +125,7 @@
 
   <section class="scene" id="strategy" aria-label="Миссия 2: маркетинговая стратегия">
     <div class="backdrop"><img src="assets/scenes/strategy.webp" alt=""/><div class="weather"></div></div>
-    <div class="layout mission-layout"><header class="hud"><button class="hud-btn" data-menu>← Меню</button><span class="hud-title">02 / 05</span><div class="hud-tag">◈ <span data-coins>0</span></div></header>
+    <div class="layout mission-layout"><header class="hud"><button class="hud-btn" data-menu>← Меню</button><span class="hud-title">02 / 06</span><div class="hud-tag">◈ <span data-coins>0</span></div></header>
       <div class="chap-head"><div class="chapter-kicker">МИССИЯ 02 · СТРАТЕГИЯ</div><h1 class="chapter-title">Собери план выхода на рынок</h1><p>Изучили аудиторию — теперь определяем сегменты, позиционирование, последовательность экспериментов и метрики.</p><div class="progress" data-progress></div></div>
       <div class="activity"><div class="board"><p class="board-caption">Перетащи или нажми карточку, затем нужное место на карте.</p><div class="road-slots" id="road-slots" aria-label="Пять этапов стратегии"></div><div class="cards-bank" id="strategy-cards" aria-label="Карточки стратегических задач"></div></div></div>
       <div class="spacer"></div><div class="bottom-stack"><div class="panel"><div class="guide"><picture><source srcset="assets/characters/hero-petting.webp" type="image/webp"><img src="assets/characters/hero-petting.gif" alt=""/></picture><p id="strategy-feedback">Начнём с аудитории и позиционирования. Потом спланируем тест и каналы роста.</p></div></div><button class="gold-btn" id="strategy-check">Проверить стратегию</button></div>
@@ -72,35 +134,64 @@
 
   <section class="scene" id="pilot" aria-label="Миссия 3: продуктовый пилот">
     <div class="backdrop"><img src="assets/scenes/pilot.webp" alt=""/><div class="weather"></div></div>
-    <div class="layout mission-layout"><header class="hud"><button class="hud-btn" data-menu>← Меню</button><span class="hud-title">03 / 05</span><div class="hud-tag">◈ <span data-coins>0</span></div></header>
+    <div class="layout mission-layout"><header class="hud"><button class="hud-btn" data-menu>← Меню</button><span class="hud-title">03 / 06</span><div class="hud-tag">◈ <span data-coins>0</span></div></header>
       <div class="chap-head"><div class="chapter-kicker">МИССИЯ 03 · ПРОДУКТОВЫЙ ПИЛОТ</div><h1 class="chapter-title">Первые пользователи и UX</h1><p>Тестируем диагностику, первый опыт и готовность платить — прежде чем масштабировать маркетинг.</p><div class="progress" data-progress></div></div>
       <div class="activity"><div class="funnel"><div class="funnel-kicker">ИГРОВАЯ СИТУАЦИЯ · ЦИФРЫ УСЛОВНЫЕ</div><div class="funnel-row"><div class="metric"><b>100</b><span>Начали тест</span></div><div class="metric"><b>42</b><span>Завершили</span></div><div class="metric"><b>8</b><span>Оплатили</span></div></div><div class="issue-title">Найди две точки потери пользователей</div><div class="issue-row"><button class="issue" data-issue="long">Анкета слишком длинная</button><button class="issue" data-issue="value">Не показан результат диагностики</button></div><div class="mini-note">Нажми на проблемы, чтобы увидеть гипотезы улучшения. Не делаем вывод о причине только по конверсиям.</div></div></div>
       <div class="spacer"></div><div class="bottom-stack"><div class="panel"><div class="guide"><picture><source srcset="assets/characters/hero-petting.webp" type="image/webp"><img src="assets/characters/hero-petting.gif" alt=""/></picture><p id="pilot-feedback">Попросим родителей пройти путь и проведём интервью: на каком шаге им стало сложно и почему?</p></div></div><button class="gold-btn" id="pilot-next" disabled>Исследуй 2 проблемы</button></div>
     </div>
   </section>
 
-  <section class="scene" id="content" aria-label="Миссия 4: фабрика роста">
+  <section class="scene" id="content" aria-label="Миссия 4: соедини каналы роста трубами">
     <div class="backdrop"><img src="assets/scenes/content.webp" alt=""/><div class="weather"></div></div>
-    <div class="layout mission-layout"><header class="hud"><button class="hud-btn" data-menu>← Меню</button><span class="hud-title">04 / 05</span><div class="hud-tag">◈ <span data-coins>0</span></div></header>
-      <div class="chap-head"><div class="chapter-kicker">МИССИЯ 04 · КОНТЕНТ И ПРИВЛЕЧЕНИЕ</div><h1 class="chapter-title">Запусти фабрику роста</h1><p>Соедини четыре маркетинговые механики с их задачами. Родители создают UGC, дети могут приглашать друзей за игровые монеты.</p><div class="progress" data-progress></div></div>
-      <div class="activity"><div class="links-board"><p class="board-caption">Выбери инструмент слева, затем его задачу справа.</p><div class="links-area" id="links-area"><svg class="links-svg" id="link-lines" aria-hidden="true"></svg><div class="links-col" id="link-sources"></div><div class="links-col" id="link-targets"></div></div></div></div>
-      <div class="spacer"></div><div class="bottom-stack"><div class="panel"><div class="guide"><picture><source srcset="assets/characters/hero-petting.webp" type="image/webp"><img src="assets/characters/hero-petting.gif" alt=""/></picture><p id="content-feedback">Вместе строим путь: узнаваемость → доверие → диагностика → первая покупка.</p></div></div><button class="gold-btn" id="content-next" disabled>Соедини 0 из 4</button></div>
+    <div class="layout mission-layout">
+      <header class="hud"><button class="hud-btn" data-menu>← Меню</button><span class="hud-title">04 / 06</span><div class="hud-tag">◇ <span data-coins>0</span></div></header>
+      <div class="chap-head"><div class="chapter-kicker">МИССИЯ 04 · ФАБРИКА РОСТА</div><h1 class="chapter-title">Проложи каналы роста</h1><p>Соедини маркетинговые инструменты с результатами. Веди трубу по соседним клеткам — повороты собираются автоматически.</p><div class="progress" data-progress></div></div>
+      <div class="activity activity-pipes"><div class="pipes-panel">
+        <div class="pipes-top"><span class="pipes-heading">МАРКЕТИНГОВЫЙ ТРУБОПРОВОД</span><span id="pipes-count">0 / 4</span></div>
+        <div class="pipe-legend" id="pipe-legend"></div>
+        <div class="pipe-board-wrap"><div id="pipe-board" class="pipe-board" role="group" aria-label="Поле для прокладки четырёх трубных маршрутов"></div></div>
+        <div class="pipes-instruction" id="pipes-tip" aria-live="polite">Нажми на цветной источник слева, затем веди линию до выхода того же цвета справа. Можно проводить пальцем.</div>
+        <div class="pipe-actions"><button class="soft-btn" id="pipe-undo" type="button">↶ Отменить шаг</button><button class="soft-btn" id="pipe-reset" type="button">Сбросить трубы</button></div>
+      </div></div>
+      <div class="spacer"></div>
+      <div class="bottom-stack"><div class="panel"><div class="guide"><picture><source srcset="assets/characters/hero-petting.webp" type="image/webp"><img src="assets/characters/hero-petting.gif" alt="Мальчик гладит кота"/></picture><p id="content-feedback">TikTok даёт охват, UGC родителей — доверие, обучение — интерес, рекомендации — покупки. Собери все четыре потока.</p></div></div><button class="gold-btn" id="content-next" disabled>Проложено 0 из 4</button></div>
     </div>
   </section>
-
-  <section class="scene" id="scale" aria-label="Миссия 5: экономика роста">
+  <section class="scene" id="scale" aria-label="Миссия 5: симулятор масштабирования">
     <div class="backdrop"><img src="assets/scenes/scale.webp" alt=""/><div class="weather"></div></div>
-    <div class="layout mission-layout"><header class="hud"><button class="hud-btn" data-menu>← Меню</button><span class="hud-title">05 / 05</span><div class="hud-tag">◈ <span data-coins>0</span></div></header>
-      <div class="chap-head"><div class="chapter-kicker">МИССИЯ 05 · АНАЛИТИКА И МАСШТАБ</div><h1 class="chapter-title">Найди устойчивую экономику</h1><p>Настрой пилотную модель: конверсию, удержание, бюджет и стоимость рефералов. Задача — масштабировать не только заявки, но и полезность.</p><div class="progress" data-progress></div></div>
-      <div class="activity"><div class="economy"><p class="model-note">Условные данные для игры: 400 лидов в месяц, цена 10 000 ₸/предмет. Это не прогноз CAP.</p><div class="range-row"><div class="range-head"><span>Конверсия в оплату</span><b id="conval">12%</b></div><input id="conv" type="range" min="4" max="25" value="12" step="1"/></div><div class="range-row"><div class="range-head"><span>Продление на 2-й месяц</span><b id="retval">55%</b></div><input id="ret" type="range" min="35" max="90" value="55" step="5"/></div><div class="range-row"><div class="range-head"><span>Маркетинговый бюджет</span><b id="budgetval">500 000 ₸</b></div><input id="budget" type="range" min="150000" max="850000" value="500000" step="50000"/></div><div class="range-row"><div class="range-head"><span>Комиссия партнёру за покупку</span><b id="refval">15%</b></div><input id="ref" type="range" min="5" max="30" value="15" step="1"/></div><div class="numbers"><div class="metric"><b id="buyers">48</b><span>Покупателей</span></div><div class="metric"><b id="cac">10 417 ₸</b><span>CAC*</span></div><div class="metric"><b id="retain">26</b><span>Продлят</span></div></div><div class="successbar" id="model-status">Нужно снизить CAC и улучшить удержание</div><p class="model-warning">*Условный CAC = бюджет / покупатели; без затрат на UGC и поддержку. Качество обучения и маржу оцениваем отдельно.</p></div></div>
-      <div class="spacer"></div><div class="bottom-stack"><div class="panel"><div class="guide"><picture><source srcset="assets/characters/hero-petting.webp" type="image/webp"><img src="assets/characters/hero-petting.gif" alt=""/></picture><p id="scale-feedback">Управляем метриками, а не угадываем. После пилота цели должны опираться на реальные когорты и экономику.</p></div></div><button class="gold-btn" id="scale-next" disabled>Сбалансируй показатели</button></div>
+    <div class="layout mission-layout">
+      <header class="hud"><button class="hud-btn" data-menu>← Меню</button><span class="hud-title">05 / 06</span><div class="hud-tag">◇ <span data-coins>0</span></div></header>
+      <div class="chap-head"><div class="chapter-kicker">МИССИЯ 05 · МАСШТАБИРОВАНИЕ</div><h1 class="chapter-title">Посчитай потенциал роста</h1><p>От первых 5 000 пользователей до большой аудитории. Меняй масштаб и оценивай, как он повлияет на экономику и нагрузку.</p><div class="progress" data-progress></div></div>
+      <div class="activity"><div class="economy growth-economy">
+        <div class="growth-caption">СИМУЛЯТОР РОСТА <small>Иллюстративная модель, не прогноз CAP</small></div>
+        <div class="audience-value"><span>Потенциальная аудитория</span><strong id="audience-total">10 000</strong></div>
+        <div class="tier-chips" id="tier-chips" role="group" aria-label="Выбери масштаб аудитории"></div>
+        <div class="range-row"><div class="range-head"><span>Станут платящими</span><b id="payrate-value">10%</b></div><input id="payrate" type="range" min="1" max="20" step="1" value="10"/></div>
+        <div class="range-row"><div class="range-head"><span>Продлят на второй месяц</span><b id="renew-value">70%</b></div><input id="renew" type="range" min="40" max="90" step="5" value="70"/></div>
+        <div class="growth-metrics"><div class="metric"><b id="payers-total">1 000</b><span>Платящих семей</span></div><div class="metric"><b id="mrr-total">10 млн ₸</b><span>Первая месячная выручка</span></div><div class="metric"><b id="renewed-total">700</b><span>Продлят*</span></div></div>
+        <div class="growth-chart" id="growth-chart" aria-label="Сравнение сценариев по платящей аудитории"></div>
+        <p class="model-warning">*При условном чеке 10 000 ₸ за один предмет и выбранной конверсии. Без учёта налогов, расходов, возвратов и скидок. Уровни 300 тыс.–1 млн — сценарии для оценки масштаба, не обязательство по привлечению.</p>
+      </div></div>
+      <div class="spacer"></div><div class="bottom-stack"><div class="panel"><div class="guide"><picture><source srcset="assets/characters/hero-petting.webp" type="image/webp"><img src="assets/characters/hero-petting.gif" alt="Мальчик гладит кота"/></picture><p id="scale-feedback">Показатели выручки — только верхняя часть экономики. Для решения нужны CAC, себестоимость обслуживания и фактическое удержание.</p></div></div><button class="gold-btn" id="scale-next" disabled>Изучи 3 сценария масштаба</button></div>
     </div>
   </section>
-
+  <section class="scene" id="puzzle" aria-label="Миссия 6: собери карту стратегии">
+    <div class="backdrop"><img src="assets/scenes/strategy.webp" alt=""/><div class="weather"></div></div>
+    <div class="layout mission-layout">
+      <header class="hud"><button class="hud-btn" data-menu>← Меню</button><span class="hud-title">06 / 06</span><div class="hud-tag">◇ <span data-coins>0</span></div></header>
+      <div class="chap-head"><div class="chapter-kicker">МИССИЯ 06 · ФИНАЛЬНАЯ СТРАТЕГИЯ</div><h1 class="chapter-title">Собери общую картину</h1><p>Всё, что мы изучили, должно сложиться в единую систему. Вставь недостающие фрагменты, чтобы увидеть перспективу.</p><div class="progress" data-progress></div></div>
+      <div class="activity"><div class="jigsaw-panel"><div class="jigsaw-top"><span>КАРТА СТРАТЕГИИ</span><strong id="puzzle-progress">0 / 9</strong></div>
+        <div class="jigsaw-board" id="jigsaw-board" role="group" aria-label="Девять ячеек стратегического пазла"></div>
+        <div class="jigsaw-instructions" id="jigsaw-tip">Выбери фрагмент внизу, затем нажми на его место на картине. Или перетащи его.</div>
+        <div class="jigsaw-tray" id="jigsaw-tray" role="group" aria-label="Доступные фрагменты пазла"></div>
+      </div></div>
+      <div class="spacer"></div><div class="bottom-stack"><div class="panel"><div class="guide"><picture><source srcset="assets/characters/hero-petting.webp" type="image/webp"><img src="assets/characters/hero-petting.gif" alt="Мальчик гладит кота"/></picture><p id="puzzle-feedback">Маленькие решения превращаются в большую систему роста. Собери девять частей, чтобы открыть план реализации.</p></div></div><button class="gold-btn" id="puzzle-next" disabled>Собрано 0 из 9</button></div>
+    </div>
+  </section>
   <section class="scene" id="final" aria-label="Финал — план развития на 90 дней">
     <div class="backdrop"><img src="assets/scenes/home.webp" alt=""/><div class="weather"></div></div>
     <div class="layout final-layout"><header class="hud"><button class="hud-btn" data-menu>← Меню</button><span class="hud-title">ПЛАН ГОТОВ</span><div class="hud-tag">◈ <span data-coins>0</span></div></header>
-      <div class="final-scroll"><article class="final-card"><h1 class="final-title">Стратегия собрана. Теперь — реализация.</h1><p>Ты прошёл с нашими героями путь от исследования потребностей до системы роста. Ниже — предварительный план работы Head of Marketing для CAP Education и нового школьного продукта.</p>
+      <div class="final-scroll"><article class="final-card"><h1 class="final-title">Стратегия собрана. Теперь — реализация.</h1><p>Ты прошёл с нашими героями путь от исследования потребностей и маркетингового трубопровода до расчётов и финального пазла стратегии. Ниже — предварительный план работы Head of Marketing для CAP Education и нового школьного продукта.</p>
         <div class="phase"><strong>ДНИ 01–30 · ОСНОВА</strong><p>Аудит действующих каналов CAP Education и ALFA Z, интервью родителей, анализ конкурентов и CRM, сегментация, позиционирование, KPI и запуск продуктового пилота.</p></div>
         <div class="phase"><strong>ДНИ 31–60 · ЭКСПЕРИМЕНТЫ</strong><p>Диагностика как лид-магнит, тесты онбординга, образовательные Shorts и AI-мультфильмы, пилот 15–20 UGC-авторов среди родителей, реферальная механика и аналитика конверсий.</p></div>
         <div class="phase"><strong>ДНИ 61–90 · СИСТЕМНЫЙ РОСТ</strong><p>Усиление окупаемых каналов, партнёрства со школами, стандартизация контент-производства, отчёты родителям о прогрессе, работа с retention/churn и масштабирование проверенных связок.</p></div>
@@ -124,30 +215,30 @@
 <script>
 (()=>{'use strict';
 const $=(s,root=document)=>root.querySelector(s), $$=(s,root=document)=>[...root.querySelectorAll(s)];
-const stages=['home','research','strategy','pilot','content','scale','final'];
-const data={coins:0,found:[],strategy:[null,null,null,null,null],chosen:null,issues:[],links:{},selected:null,completed:[]};
+const stages=['home','research','strategy','pilot','content','scale','puzzle','final'];
+const data={coins:0,found:[],strategy:[null,null,null,null,null],chosen:null,issues:[],links:{},selected:null,pipes:{},pipeActive:null,pipePending:[],audience:10000,seenTiers:[],jigsaw:[],jigsawSelected:null,completed:[]};
 let current='home',drag=null,toastTimer=0,previewPlayed=false,panEngaged=false;
 const clueData={parent:['Кто наш клиент?','Проведём кастдевы с родителями: когда ребёнок отстаёт, за что они готовы платить и как ищут помощь.'],market:['Что происходит на рынке?','Изучим конкурентов, цены и разные сегменты семей. Не будем путать интерес к идее с готовностью платить.'],feedback:['Каков первый опыт?','Посмотрим, где семьи бросают диагностику, понятен ли результат, что нравится и что мешает продлить подписку.']};
 const strategyCards=[{id:'audience',text:'Сегменты ЦА'},{id:'value',text:'Позиционирование'},{id:'pilot',text:'Пилот продукта'},{id:'channels',text:'Каналы роста'},{id:'kpi',text:'KPI и экономика'}];
 const linkData=[{id:'shorts',src:'Shorts и AI-мультфильмы',target:'Охват',to:'reach'},{id:'ugc',src:'UGC родителей',target:'Доверие',to:'trust'},{id:'quiz',src:'Бесплатный квиз',target:'Первый опыт',to:'experience'},{id:'referral',src:'Рекомендации',target:'Оплаты',to:'payments'}];const shuffledTargets=[linkData[3],linkData[0],linkData[2],linkData[1]];
 const fmt=n=>new Intl.NumberFormat('ru-RU').format(Math.round(n));
-function persist(){try{sessionStorage.setItem('cap-growth-quest-v6',JSON.stringify(data))}catch(e){}}
-function restore(){try{const saved=JSON.parse(sessionStorage.getItem('cap-growth-quest-v6')||'null');if(saved){data.coins=Number(saved.coins)||0;data.found=Array.isArray(saved.found)?saved.found:[];data.strategy=Array.isArray(saved.strategy)&&saved.strategy.length===5?saved.strategy:[null,null,null,null,null];data.issues=Array.isArray(saved.issues)?saved.issues:[];data.links=saved.links||{};data.completed=saved.completed||[]}}catch(e){}}
-function updateCoins(){$$('[data-coins]').forEach(x=>x.textContent=fmt(data.coins));$$('[data-progress]').forEach(x=>x.replaceChildren(...Array.from({length:5},(_,i)=>{const a=document.createElement('span');a.className=i<Math.max(0,stages.indexOf(current)-1)?'done':'';return a})))}
+function persist(){try{sessionStorage.setItem('cap-growth-quest-v7',JSON.stringify(data))}catch(e){}}
+function restore(){try{const saved=JSON.parse(sessionStorage.getItem('cap-growth-quest-v7')||'null');if(saved){data.coins=Number(saved.coins)||0;data.found=Array.isArray(saved.found)?saved.found:[];data.strategy=Array.isArray(saved.strategy)&&saved.strategy.length===5?saved.strategy:[null,null,null,null,null];data.issues=Array.isArray(saved.issues)?saved.issues:[];data.links=saved.links||{};data.pipes=saved.pipes||{};data.pipeActive=saved.pipeActive||null;data.audience=audienceTiers.includes(saved.audience)?saved.audience:10000;data.seenTiers=saved.seenTiers||[];data.jigsaw=saved.jigsaw||[];data.jigsawSelected=null;data.completed=saved.completed||[]}}catch(e){}}
+function updateCoins(){$$('[data-coins]').forEach(x=>x.textContent=fmt(data.coins));$$('[data-progress]').forEach(x=>x.replaceChildren(...Array.from({length:6},(_,i)=>{const a=document.createElement('span');a.className=i<Math.max(0,stages.indexOf(current)-1)?'done':'';return a})))}
 function reward(id){if(data.completed.includes(id))return;data.completed.push(id);data.coins+=100;updateCoins();showToast('★ +100 монет за миссию');persist()}
 function showToast(s){const t=$('#toast');t.textContent=s;t.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),2200)}
 function modal(title,copy){$('#modal-title').textContent=title;$('#modal-copy').textContent=copy;$('#modal').hidden=false;$('#modal-close').focus()}
 function closeModal(){$('#modal').hidden=true}
 $('#modal-close').addEventListener('click',closeModal);$('#modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal()});window.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
-function go(id){if(!stages.includes(id))return;stages.forEach(x=>$('#'+x).classList.toggle('active',x===id));current=id;updateCoins();if(id==='research'){renderResearch();requestAnimationFrame(()=>{panUpdate();panPreview()})}if(id==='strategy')renderStrategy();if(id==='pilot')renderPilot();if(id==='content')renderLinks();if(id==='scale')computeModel();window.scrollTo(0,0)}
+function go(id){if(!stages.includes(id))return;stages.forEach(x=>$('#'+x).classList.toggle('active',x===id));current=id;updateCoins();if(id==='research'){renderResearch();requestAnimationFrame(()=>{panUpdate();panPreview()})}if(id==='strategy')renderStrategy();if(id==='pilot')renderPilot();if(id==='content')drawPipes();if(id==='scale')buildGrowth();if(id==='puzzle')renderPuzzle();window.scrollTo(0,0)}
 $$('[data-menu]').forEach(b=>b.addEventListener('click',()=>go('home')));
 $('#start').addEventListener('click',()=>go('research'));
 $('#home-info').addEventListener('click',()=>modal('CAP Growth Quest','Это не утверждённые данные компании, а интерактивное предложение: от изучения рынка до маркетинговых экспериментов и экономики роста.'));
-$('#about').addEventListener('click',()=>modal('О проекте','Пять игровых миссий показывают, как руководитель маркетинга исследует рынок, строит стратегию, тестирует продукт, запускает контентные каналы и работает с удержанием.'));
-$('#how').addEventListener('click',()=>modal('Как играть','Ищи скрытые подсказки, перетаскивай блоки или нажимай на них, соединяй каналы с задачами и управляй показателями. Всё работает на сенсорном экране.'));
+$('#about').addEventListener('click',()=>modal('О проекте','Шесть игровых миссий показывают, как руководитель маркетинга исследует рынок, строит стратегию, тестирует продукт, запускает контентные каналы и работает с удержанием.'));
+$('#how').addEventListener('click',()=>modal('Как играть','Осмотри панораму, собери стратегию, найди точки потерь, проведи трубы пальцем, сравни масштаб и закончи пазл. Все миссии доступны с телефона.'));
 // Mission 1: Pan and clue search
-const pan=$('#explore-scroll');function panUpdate(){const max=Math.max(1,pan.scrollWidth-pan.clientWidth),ratio=pan.clientWidth/Math.max(1,pan.scrollWidth);$('#pan-thumb').style.width=Math.max(12,ratio*100)+'%';$('#pan-thumb').style.left=((100-ratio*100)*pan.scrollLeft/max)+'%';$('#pan-left').disabled=pan.scrollLeft<3;$('#pan-right').disabled=pan.scrollLeft>max-3}
-$('#pan-left').addEventListener('click',()=>{panEngaged=true;pan.scrollBy({left:-pan.clientWidth*.76,behavior:'smooth'})});$('#pan-right').addEventListener('click',()=>{panEngaged=true;pan.scrollBy({left:pan.clientWidth*.76,behavior:'smooth'})});pan.addEventListener('scroll',panUpdate,{passive:true});pan.addEventListener('pointerdown',()=>panEngaged=true,{passive:true});window.addEventListener('resize',()=>{panUpdate();if(current==='content')requestAnimationFrame(drawLinks)});
+const pan=$('#explore-scroll');function panSize(){const world=$('#explore-world');world.style.width=Math.max(pan.clientWidth,Math.round(pan.clientHeight*1439/810))+'px'}function panUpdate(){panSize();const max=Math.max(1,pan.scrollWidth-pan.clientWidth),ratio=Math.min(1,pan.clientWidth/Math.max(1,pan.scrollWidth));$('#pan-thumb').style.width=Math.max(12,ratio*100)+'%';$('#pan-thumb').style.left=((100-ratio*100)*pan.scrollLeft/max)+'%'}
+pan.addEventListener('scroll',panUpdate,{passive:true});pan.addEventListener('keydown',e=>{if(e.key==='ArrowLeft'||e.key==='ArrowRight'){panEngaged=true;pan.scrollBy({left:(e.key==='ArrowRight'?1:-1)*120,behavior:'smooth'})}});pan.addEventListener('pointerdown',()=>panEngaged=true,{passive:true});pan.addEventListener('touchstart',()=>panEngaged=true,{passive:true});window.addEventListener('resize',()=>{panUpdate()});
 function panPreview(){if(previewPlayed)return;previewPlayed=true;setTimeout(()=>{if(current!=='research'||panEngaged)return;pan.scrollTo({left:90,behavior:'smooth'});setTimeout(()=>{if(!panEngaged&&current==='research')pan.scrollTo({left:0,behavior:'smooth'})},850)},650)}
 function renderResearch(){const n=data.found.length;$$('[data-clue]').forEach(b=>b.classList.toggle('done',data.found.includes(b.dataset.clue)));$$('[data-chip]').forEach(x=>x.classList.toggle('done',data.found.includes(x.dataset.chip)));$('#research-next').disabled=n!==3;$('#research-next').textContent=n===3?'Собрать маркетинговую стратегию':`Найдено ${n} из 3`;if(n===3){$('#research-status').textContent='Исследование завершено';$('#research-copy').textContent='Мы собрали гипотезы о потребностях, рынке и первом опыте. Пора строить план.'}}
 $$('[data-clue]').forEach(btn=>btn.addEventListener('click',()=>{const k=btn.dataset.clue;if(data.found.includes(k))return;data.found.push(k);renderResearch();modal(...clueData[k]);if(data.found.length===3)reward('research');persist()}));$('#research-next').addEventListener('click',()=>{if(data.found.length===3)go('strategy')});
@@ -160,16 +251,90 @@ $('#strategy-check').addEventListener('click',()=>{if(data.completed.includes('s
 const issueCopy={long:'Гипотеза: диагностика слишком длинная. Проверяем в интервью и тестируем короткий первый шаг.',value:'Гипотеза: после теста родитель не понимает ценность. Покажем карту пробелов и ближайший полезный шаг.'};
 function renderPilot(){data.issues.forEach(k=>{const b=$(`[data-issue="${k}"]`);if(b)b.classList.add('discovered')});const n=data.issues.length;$('#pilot-next').disabled=n!==2;$('#pilot-next').textContent=n===2?'К каналам привлечения':`Исследовано ${n} из 2`;if(n===2)$('#pilot-feedback').textContent='Две гипотезы зафиксированы. Теперь ставим эксперимент, измеряем активацию и возвращаемся к интервью.'}
 $$('[data-issue]').forEach(b=>b.addEventListener('click',()=>{const k=b.dataset.issue;if(data.issues.includes(k))return;data.issues.push(k);renderPilot();modal('Гипотеза для пилота',issueCopy[k]);if(data.issues.length===2)reward('pilot');persist()}));$('#pilot-next').addEventListener('click',()=>{if(data.issues.length===2)go('content')});
-// Mission 4: construct a channel funnel by linking business outcomes
-function renderLinks(){const sources=$('#link-sources'),targets=$('#link-targets');sources.replaceChildren();targets.replaceChildren();linkData.forEach(p=>{const b=document.createElement('button');b.className='link-node'+(data.selected===p.id?' active':'')+(data.links[p.id]?' done':'');b.textContent=p.src;b.dataset.source=p.id;b.disabled=!!data.links[p.id];b.addEventListener('click',()=>{data.selected=p.id;renderLinks()});sources.append(b)});shuffledTargets.forEach(p=>{const b=document.createElement('button');b.className='link-node'+(Object.values(data.links).includes(p.to)?' done':'');b.textContent=p.target;b.dataset.target=p.to;b.disabled=Object.values(data.links).includes(p.to);b.addEventListener('click',()=>{if(!data.selected){$('#content-feedback').textContent='Сначала выбери инструмент слева.';return}const x=linkData.find(y=>y.id===data.selected);if(x.to!==p.to){$('#content-feedback').textContent='Пока не совпало. Подумай, какую именно задачу решает этот канал.';data.selected=null;renderLinks();return}data.links[x.id]=p.to;data.selected=null;const n=Object.keys(data.links).length;$('#content-feedback').textContent=`Связано ${n} из 4. Так собираем единый путь от контента до покупки.`;if(n===4){reward('content');$('#content-feedback').textContent='Каналы собраны! Следующий шаг — измерить CAC, продления и экономику.';$('#content-next').disabled=false;$('#content-next').textContent='Проверить экономику роста'}else $('#content-next').textContent=`Соедини ${n} из 4`;renderLinks();persist()});targets.append(b)});requestAnimationFrame(drawLinks)}
-function drawLinks(){const area=$('#links-area'),svg=$('#link-lines');if(current!=='content'||!area)return;const r=area.getBoundingClientRect();svg.replaceChildren();Object.entries(data.links).forEach(([id,to])=>{const a=$(`[data-source="${id}"]`),b=$(`[data-target="${to}"]`);if(!a||!b)return;const ra=a.getBoundingClientRect(),rb=b.getBoundingClientRect();const x1=ra.right-r.left,x2=rb.left-r.left,y1=ra.top+ra.height/2-r.top,y2=rb.top+rb.height/2-r.top;const path=document.createElementNS('http://www.w3.org/2000/svg','path');path.setAttribute('d',`M ${x1} ${y1} C ${(x1+x2)/2} ${y1} ${(x1+x2)/2} ${y2} ${x2} ${y2}`);path.setAttribute('stroke','#ffdf81');path.setAttribute('stroke-width','4');path.setAttribute('stroke-linecap','round');path.setAttribute('fill','none');svg.append(path)})}
-$('#content-next').addEventListener('click',()=>{if(Object.keys(data.links).length===4)go('scale')});
-// Mission 5: a toy unit-economics simulator, not company performance
-function computeModel(){const conv=+$('#conv').value,ret=+$('#ret').value,budget=+$('#budget').value,ref=+$('#ref').value;const buyers=Math.round(400*conv/100),retained=Math.round(buyers*ret/100);const cac=budget/Math.max(1,buyers);const commission=buyers*10000*ref/100;$('#conval').textContent=conv+'%';$('#retval').textContent=ret+'%';$('#budgetval').textContent=fmt(budget)+' ₸';$('#refval').textContent=ref+'%';$('#buyers').textContent=fmt(buyers);$('#cac').textContent=fmt(cac)+' ₸';$('#retain').textContent=fmt(retained);const won=cac<=6000&&ret>=65&&ref<=20;$('#model-status').classList.toggle('win',won);$('#model-status').textContent=won?'Условные ограничения выполнены — тестировать гипотезы!':'Цель: CAC ≤ 6 000 ₸ · продления ≥ 65% · комиссия ≤ 20%';$('#scale-next').disabled=!won;$('#scale-next').textContent=won?'Открыть план на 90 дней':'Сбалансируй показатели';$('#scale-feedback').textContent=won?'Хорошая игровая комбинация. В реальности подтвердим её экспериментами и реальными затратами.':'Измени параметры. Экономика должна выдерживать и стоимость привлечения, и удержание, и партнёрские выплаты.';return {won,commission}}
-$$('input[type="range"]').forEach(b=>b.addEventListener('input',computeModel));$('#scale-next').addEventListener('click',()=>{if(computeModel().won){reward('scale');go('final')}});
-$('#restart').addEventListener('click',()=>{data.coins=0;data.found=[];data.strategy=Array(5).fill(null);data.chosen=null;data.issues=[];data.links={};data.selected=null;data.completed=[];previewPlayed=false;panEngaged=false;pan.scrollLeft=0;$('#strategy-check').textContent='Проверить стратегию';$('#strategy-feedback').textContent='Начнём с аудитории и позиционирования. Потом спланируем тест и каналы роста.';$('#content-next').textContent='Соедини 0 из 4';$('#content-next').disabled=true;$('#content-feedback').textContent='Вместе строим путь: узнаваемость → доверие → диагностика → первая покупка.';$('#research-status').textContent='Разведка начинается';$('#research-copy').textContent='Осмотри три подсвеченных объекта, чтобы собрать базу для маркетинговой стратегии.';$('#pilot-feedback').textContent='Попросим родителей пройти путь и проведём интервью: на каком шаге им стало сложно и почему?';$$('[data-issue]').forEach(b=>b.classList.remove('discovered'));persist();go('home')});
+// Mission 4: Pipe Flow — touch drawing and tap-by-tap path construction.
+const pipeDefs=[
+ {id:'shorts',name:'TikTok / Shorts',goal:'Охват',color:'#60dfff',from:0,to:1,symbol:'T'},
+ {id:'ugc',name:'UGC-мамы',goal:'Доверие',color:'#ff79b2',from:2,to:3,symbol:'U'},
+ {id:'ai',name:'AI-мультики',goal:'Интерес',color:'#a9f36b',from:4,to:5,symbol:'A'},
+ {id:'referral',name:'Рефералка',goal:'Оплаты',color:'#ffbd54',from:6,to:7,symbol:'R'}
+];
+const pipeRows=8,pipeCols=7;
+const pkey=(r,c)=>`${r},${c}`;
+const sameCell=(a,b)=>a&&b&&a.r===b.r&&a.c===b.c;
+function pipeOccupied(r,c,exclude){return Object.entries(data.pipes).some(([id,path])=>id!==exclude&&path.some(t=>t.r===r&&t.c===c))}
+function pipeSvg(a,b,color){const dirs=[];for(const n of [a,b])if(n){if(n.r<a.r/*not applicable*/){} }
+ const d=[];for(const point of [a,b]){if(!point)continue;const dr=point.r,dc=point.c;
+ if(dr===-1)d.push('M50 50 V0');else if(dr===1)d.push('M50 50 V100');else if(dc===-1)d.push('M50 50 H0');else if(dc===1)d.push('M50 50 H100')}
+ const pipes=d.join(' ');
+ return `<svg viewBox="0 0 100 100" aria-hidden="true"><path d="${pipes}" stroke="#27203e" stroke-width="34" stroke-linecap="square" fill="none"/><path d="${pipes}" stroke="${color}" stroke-width="23" stroke-linecap="square" fill="none"/><path d="${pipes}" stroke="#ffffff91" stroke-width="5" stroke-linecap="square" fill="none"/></svg>`;
+}
+function pipeNeighbors(path,i,def){const t=path[i],pr=i?path[i-1]:{r:def.from,c:-1},nx=i<path.length-1?path[i+1]:null;return [{r:pr.r-t.r,c:pr.c-t.c},nx?{r:nx.r-t.r,c:nx.c-t.c}:null]}
+function drawPipes(){const board=$('#pipe-board'),legend=$('#pipe-legend');board.replaceChildren();legend.replaceChildren();
+ pipeDefs.forEach(d=>{const b=document.createElement('button');b.type='button';b.className='pipe-legend-item'+(data.pipeActive===d.id?' selected':'')+(data.pipes[d.id]?.at(-1)?.c===pipeCols-1?' complete':'');b.style.setProperty('--pipe-color',d.color);b.innerHTML=`<span class="pipe-dot">${d.symbol}</span><span>${d.name} <small>→ ${d.goal}</small></span>`;b.addEventListener('click',()=>startPipe(d.id));legend.append(b)});
+ for(let r=0;r<pipeRows;r++)for(let c=0;c<pipeCols;c++){const tile=document.createElement('button');tile.type='button';tile.className='pipe-cell';tile.dataset.r=r;tile.dataset.c=c;tile.setAttribute('aria-label',`Клетка ${r+1}:${c+1}`);
+  let endpoint=pipeDefs.find(d=>d.from===r&&c===0||d.to===r&&c===pipeCols-1);
+  if(endpoint){tile.classList.add('pipe-endpoint');tile.style.setProperty('--pipe-color',endpoint.color);tile.dataset.endpoint=endpoint.id;tile.innerHTML=`<b>${c===0?endpoint.symbol:'◎'}</b>`}
+  let colored=false;
+  for(const def of pipeDefs){const path=data.pipes[def.id]||[];const i=path.findIndex(z=>z.r===r&&z.c===c);if(i<0)continue;colored=true;tile.classList.add('pipe-used');tile.style.setProperty('--pipe-color',def.color);const [a,b]=pipeNeighbors(path,i,def);const extra=(c===pipeCols-1&&r===def.to)?{r:0,c:1}:b;tile.innerHTML=pipeSvg(a,extra,def.color);break}
+  if(!colored&&endpoint&&c===0)tile.innerHTML=`<span class="endpoint-glyph">${endpoint.symbol}</span>`;
+  if(!colored&&endpoint&&c===pipeCols-1)tile.innerHTML='<span class="endpoint-glyph">◎</span>';
+  tile.addEventListener('click',()=>visitPipe(r,c));board.append(tile)}
+ const n=pipeDefs.filter(d=>isPipeDone(d)).length;
+ $('#pipes-count').textContent=n+' / 4';$('#content-next').disabled=n!==4;$('#content-next').textContent=n===4?'К симулятору роста':`Проложено ${n} из 4`;
+ $('#pipes-tip').textContent=n===4?'Готово: четыре канала соединили спрос, доверие, интерес и продажи.':data.pipeActive?`Проведи ${pipeDefs.find(d=>d.id===data.pipeActive).name} до круглого выхода того же цвета. Для поворота двигайся по соседним клеткам.`:'Выбери цвет слева или нажми на начальную клетку, затем проводи маршрут пальцем или нажимай соседние клетки.';
+}
+function isPipeDone(def){let path=data.pipes[def.id];return Array.isArray(path)&&path.length>1&&sameCell(path[path.length-1],{r:def.to,c:pipeCols-1})}
+function startPipe(id){const def=pipeDefs.find(d=>d.id===id);if(!def||isPipeDone(def))return;data.pipeActive=id;data.pipes[id]=[{r:def.from,c:0}];persist();drawPipes()}
+function visitPipe(r,c){const endpoint=pipeDefs.find(d=>d.from===r&&c===0);if(endpoint){startPipe(endpoint.id);return}
+ const id=data.pipeActive;if(!id)return;const def=pipeDefs.find(d=>d.id===id),path=data.pipes[id]||[],last=path[path.length-1];if(!last||isPipeDone(def))return;
+ if(path.length>1&&sameCell(path[path.length-2],{r,c})){path.pop();persist();drawPipes();return}
+ if(path.some(t=>t.r===r&&t.c===c)||Math.abs(r-last.r)+Math.abs(c-last.c)!==1)return;
+ const other=pipeDefs.find(d=>(d.from===r&&c===0||d.to===r&&c===pipeCols-1)&&d.id!==id);
+ if(other||pipeOccupied(r,c,id))return;
+ path.push({r,c});if(isPipeDone(def)){data.pipeActive=null;const count=pipeDefs.filter(isPipeDone).length;showToast(`Поток ${count}/4 готов!`);if(count===4){reward('content');$('#content-feedback').textContent='Все каналы работают вместе. Но масштабировать будем только те, у которых подтвердится экономика.'}}persist();drawPipes()
+}
+let pipePointerDown=false;
+$('#pipe-board').addEventListener('pointerdown',e=>{if(e.pointerType==='mouse'&&e.button!==0)return;pipePointerDown=true;const cell=e.target.closest('[data-r]');if(cell)visitPipe(+cell.dataset.r,+cell.dataset.c)});
+$('#pipe-board').addEventListener('pointermove',e=>{if(!pipePointerDown||e.buttons===0&&e.pointerType==='mouse')return;const t=document.elementFromPoint(e.clientX,e.clientY)?.closest('#pipe-board [data-r]');if(t)visitPipe(+t.dataset.r,+t.dataset.c)});
+window.addEventListener('pointerup',()=>pipePointerDown=false);window.addEventListener('pointercancel',()=>pipePointerDown=false);
+$('#pipe-undo').addEventListener('click',()=>{const id=data.pipeActive;if(!id)return;const path=data.pipes[id];if(path?.length>1){path.pop();persist();drawPipes()}});
+$('#pipe-reset').addEventListener('click',()=>{data.pipes={};data.pipeActive=null;persist();drawPipes()});
+$('#content-next').addEventListener('click',()=>{if(pipeDefs.every(isPipeDone))go('scale')});
+// Mission 5: illustrative scenario planner with staged audience sizes
+const audienceTiers=[5000,10000,50000,100000,300000,500000,1000000];
+function compact(n){return n>=1000000000?(n/1000000000).toLocaleString('ru-RU',{maximumFractionDigits:1})+' млрд':n>=1000000?(n/1000000).toLocaleString('ru-RU',{maximumFractionDigits:1})+' млн':n>=1000?(n/1000).toLocaleString('ru-RU',{maximumFractionDigits:1})+' тыс.':fmt(n)}
+function buildGrowth(){const t=$('#tier-chips');t.replaceChildren();audienceTiers.forEach(size=>{const b=document.createElement('button');b.type='button';b.className='tier-chip'+(size===data.audience?' active':'');b.textContent=compact(size);b.setAttribute('aria-pressed',String(size===data.audience));b.addEventListener('click',()=>{data.audience=size;if(!data.seenTiers.includes(size))data.seenTiers.push(size);persist();buildGrowth()});t.append(b)});
+ const rate=+$('#payrate').value,renew=+$('#renew').value,payers=Math.round(data.audience*rate/100),renewed=Math.round(payers*renew/100);
+ $('#audience-total').textContent=fmt(data.audience);$('#payrate-value').textContent=rate+'%';$('#renew-value').textContent=renew+'%';$('#payers-total').textContent=fmt(payers);$('#mrr-total').textContent=compact(payers*10000)+' ₸';$('#renewed-total').textContent=fmt(renewed);
+ const chart=$('#growth-chart');chart.replaceChildren();const max=audienceTiers.at(-1)*rate/100;
+ const pick=[10000,100000,1000000];pick.forEach(size=>{const bar=document.createElement('div');bar.className='chart-level';bar.innerHTML=`<span>${compact(size)}</span><div><i style="width:${Math.max(1,size/data.audience*20)}%"></i></div><b>${compact(size*rate/100)}</b>`;bar.querySelector('i').style.width=Math.min(100,size/1000000*100)+'%';chart.append(bar)});
+ const enough=data.seenTiers.length>=3;
+ $('#scale-next').disabled=!enough;$('#scale-next').textContent=enough?'Собрать стратегию из пазла':`Сравни ещё ${3-data.seenTiers.length} масштаба`;
+ $('#scale-feedback').textContent= data.audience>=300000?'Этот уровень — амбициозный сценарий. Прежде чем обсуждать такой масштаб, проверяем спрос, ресурсы и обучение.':'Рост семей — не равно прибыль: считаем CAC, маржу, нагрузку команды и повторные оплаты.';
+}
+$('#payrate').addEventListener('input',buildGrowth);$('#renew').addEventListener('input',buildGrowth);
+$('#scale-next').addEventListener('click',()=>{if(data.seenTiers.length>=3){reward('scale');go('puzzle')}});
+// Mission 6: 3x3 jigsaw; image pieces in separate tray, drag or tap to place.
+const puzzleNames=['Исследование','Сегменты','Позиция','Пилот','Контент','UGC','Рефералы','Аналитика','Масштаб'];
+const puzzleOrder=[4,0,7,2,8,3,5,1,6];
+function puzzlePiece(i,mode){const button=document.createElement(mode==='tray'?'button':'div');if(mode==='tray')button.type='button';button.className='jigsaw-piece '+(mode==='tray'?'tray-piece':'placed-piece');button.dataset.piece=i;
+ button.style.setProperty('--jigsaw-x',(i%3*50)+'%');button.style.setProperty('--jigsaw-y',(Math.floor(i/3)*50)+'%');button.style.backgroundPosition=`${(i%3)*50}% ${Math.floor(i/3)*50}%`;
+ button.setAttribute('aria-label',puzzleNames[i]);button.innerHTML=`<span><em>${i+1}.</em> ${puzzleNames[i]}</span>`;return button}
+function renderPuzzle(){const board=$('#jigsaw-board'),tray=$('#jigsaw-tray');board.replaceChildren();tray.replaceChildren();
+ for(let i=0;i<9;i++){const spot=document.createElement('button');spot.className='jigsaw-slot';spot.type='button';spot.dataset.slot=i;spot.setAttribute('aria-label','Позиция '+(i+1));const placed=data.jigsaw.includes(i);
+ if(placed){spot.classList.add('is-placed');spot.append(puzzlePiece(i,'placed'));spot.disabled=true}else{const grid=document.createElement('span');grid.className='slot-guide';grid.textContent=i+1;spot.append(grid);spot.addEventListener('click',()=>dropPuzzle(i))}board.append(spot)}
+ puzzleOrder.filter(i=>!data.jigsaw.includes(i)).forEach(i=>{const b=puzzlePiece(i,'tray');b.classList.toggle('selected',data.jigsawSelected===i);b.addEventListener('click',()=>{data.jigsawSelected=i;renderPuzzle()});b.draggable=true;b.addEventListener('dragstart',e=>{data.jigsawSelected=i;e.dataTransfer.setData('text/plain',String(i))});tray.append(b)});
+ const n=data.jigsaw.length;tray.style.display=n===9?'none':'grid';$('#puzzle-progress').textContent=n+' / 9';$('#puzzle-next').disabled=n!==9;$('#puzzle-next').textContent=n===9?'Открыть стратегию на 90 дней':`Собрано ${n} из 9`;
+ $('#jigsaw-tip').textContent=n===9?'Картина сложилась! Готовая стратегия — это взаимосвязанная система.':'Нажми фрагмент с номером, затем такую же ячейку на картине. На компьютере можно перетаскивать.';
+}
+function dropPuzzle(index){if(data.jigsaw.includes(index))return;let choice=data.jigsawSelected;if(choice===null){data.jigsawSelected=index;renderPuzzle();return}if(choice!==index){$('#puzzle-feedback').textContent=`Фрагмент «${puzzleNames[choice]}» относится к другой ячейке. Попробуй номер ${choice+1}.`;return}
+ data.jigsaw.push(index);data.jigsawSelected=null;const n=data.jigsaw.length;if(n===9){reward('puzzle');$('#puzzle-feedback').textContent='Картина собрана. Теперь можно показать руководству CAP реальный план действий на 90 дней.'}persist();renderPuzzle();
+}
+$('#jigsaw-board').addEventListener('dragover',e=>e.preventDefault());$('#jigsaw-board').addEventListener('drop',e=>{e.preventDefault();const spot=e.target.closest('[data-slot]');if(!spot)return;const piece=Number(e.dataTransfer.getData('text/plain'));if(Number.isInteger(piece)){data.jigsawSelected=piece;dropPuzzle(+spot.dataset.slot)}});
+$('#puzzle-next').addEventListener('click',()=>{if(data.jigsaw.length===9)go('final')});
+$('#restart').addEventListener('click',()=>{data.coins=0;data.found=[];data.strategy=Array(5).fill(null);data.chosen=null;data.issues=[];data.links={};data.selected=null;data.pipes={};data.pipeActive=null;data.audience=10000;data.seenTiers=[];data.jigsaw=[];data.jigsawSelected=null;data.completed=[];previewPlayed=false;panEngaged=false;pan.scrollLeft=0;$('#strategy-check').textContent='Проверить стратегию';$('#strategy-feedback').textContent='Начнём с аудитории и позиционирования. Потом спланируем тест и каналы роста.';$('#research-status').textContent='Разведка начинается';$('#research-copy').textContent='Осмотри три подсвеченных объекта, чтобы собрать базу для маркетинговой стратегии.';$('#pilot-feedback').textContent='Попросим родителей пройти путь и проведём интервью: на каком шаге им стало сложно и почему?';$('#content-feedback').textContent='TikTok даёт охват, UGC родителей — доверие, обучение — интерес, рекомендации — покупки. Собери все четыре потока.';$('#puzzle-feedback').textContent='Маленькие решения превращаются в большую систему роста. Собери девять частей, чтобы открыть план реализации.';$$('[data-issue]').forEach(b=>b.classList.remove('discovered'));persist();go('home')});
 restore();updateCoins();go('home');
-if(data.completed.includes('strategy'))$('#strategy-check').textContent='К первому продуктовому пилоту';if(Object.keys(data.links).length===4){$('#content-next').disabled=false;$('#content-next').textContent='Проверить экономику роста'}
+if(data.completed.includes('strategy'))$('#strategy-check').textContent='К первому продуктовому пилоту';
 })();
 </script>
 </body>

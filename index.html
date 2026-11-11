@@ -97,6 +97,8 @@
 @media(min-width:800px){#research .explore{width:min(100%,1100px);height:min(65vw,620px);margin-inline:auto}#research .activity{max-width:1100px;margin-inline:auto;width:100%}}
 .jigsaw-piece em{font-style:normal;color:#ffda72}.jigsaw-board .jigsaw-piece{pointer-events:none}
 #puzzle .jigsaw-tray:empty{display:none}
+
+.jigsaw-tray .jigsaw-piece{touch-action:none;user-select:none}.drag-preview{box-shadow:0 6px 14px #100922aa;transform:scale(1.05);opacity:.92}
 </style>
 </head>
 <body>
@@ -330,6 +332,14 @@ function renderPuzzle(){const board=$('#jigsaw-board'),tray=$('#jigsaw-tray');bo
 function dropPuzzle(index){if(data.jigsaw.includes(index))return;let choice=data.jigsawSelected;if(choice===null){data.jigsawSelected=index;renderPuzzle();return}if(choice!==index){$('#puzzle-feedback').textContent=`Фрагмент «${puzzleNames[choice]}» относится к другой ячейке. Попробуй номер ${choice+1}.`;return}
  data.jigsaw.push(index);data.jigsawSelected=null;const n=data.jigsaw.length;if(n===9){reward('puzzle');$('#puzzle-feedback').textContent='Картина собрана. Теперь можно показать руководству CAP реальный план действий на 90 дней.'}persist();renderPuzzle();
 }
+// Mobile-friendly dragging: touch a puzzle piece and release over the matching slot.
+let puzzlePointer=null,puzzleGhost=null;
+$('#jigsaw-tray').addEventListener('pointerdown',e=>{const piece=e.target.closest('.tray-piece');if(!piece)return;puzzlePointer={id:Number(piece.dataset.piece),x:e.clientX,y:e.clientY};});
+window.addEventListener('pointermove',e=>{if(!puzzlePointer)return;const moved=Math.hypot(e.clientX-puzzlePointer.x,e.clientY-puzzlePointer.y)>12;if(!moved&&!puzzleGhost)return;
+ if(!puzzleGhost){puzzleGhost=puzzlePiece(puzzlePointer.id,'tray');puzzleGhost.classList.add('drag-preview');puzzleGhost.style.position='fixed';puzzleGhost.style.pointerEvents='none';puzzleGhost.style.width='96px';puzzleGhost.style.height='96px';puzzleGhost.style.zIndex='9999';document.body.append(puzzleGhost)}
+ puzzleGhost.style.left=(e.clientX-48)+'px';puzzleGhost.style.top=(e.clientY-48)+'px';});
+window.addEventListener('pointerup',e=>{if(!puzzlePointer)return;const id=puzzlePointer.id,wasDragging=!!puzzleGhost;puzzleGhost?.remove();puzzleGhost=null;puzzlePointer=null;if(wasDragging){const slot=document.elementFromPoint(e.clientX,e.clientY)?.closest('#jigsaw-board [data-slot]');if(slot){data.jigsawSelected=id;dropPuzzle(Number(slot.dataset.slot));}}});
+window.addEventListener('pointercancel',()=>{puzzleGhost?.remove();puzzleGhost=null;puzzlePointer=null});
 $('#jigsaw-board').addEventListener('dragover',e=>e.preventDefault());$('#jigsaw-board').addEventListener('drop',e=>{e.preventDefault();const spot=e.target.closest('[data-slot]');if(!spot)return;const piece=Number(e.dataTransfer.getData('text/plain'));if(Number.isInteger(piece)){data.jigsawSelected=piece;dropPuzzle(+spot.dataset.slot)}});
 $('#puzzle-next').addEventListener('click',()=>{if(data.jigsaw.length===9)go('final')});
 $('#restart').addEventListener('click',()=>{data.coins=0;data.found=[];data.strategy=Array(5).fill(null);data.chosen=null;data.issues=[];data.links={};data.selected=null;data.pipes={};data.pipeActive=null;data.audience=10000;data.seenTiers=[];data.jigsaw=[];data.jigsawSelected=null;data.completed=[];previewPlayed=false;panEngaged=false;pan.scrollLeft=0;$('#strategy-check').textContent='Проверить стратегию';$('#strategy-feedback').textContent='Начнём с аудитории и позиционирования. Потом спланируем тест и каналы роста.';$('#research-status').textContent='Разведка начинается';$('#research-copy').textContent='Осмотри три подсвеченных объекта, чтобы собрать базу для маркетинговой стратегии.';$('#pilot-feedback').textContent='Попросим родителей пройти путь и проведём интервью: на каком шаге им стало сложно и почему?';$('#content-feedback').textContent='TikTok даёт охват, UGC родителей — доверие, обучение — интерес, рекомендации — покупки. Собери все четыре потока.';$('#puzzle-feedback').textContent='Маленькие решения превращаются в большую систему роста. Собери девять частей, чтобы открыть план реализации.';$$('[data-issue]').forEach(b=>b.classList.remove('discovered'));persist();go('home')});

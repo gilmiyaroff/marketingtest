@@ -338,14 +338,14 @@
 (()=>{'use strict';
 const $=(s,root=document)=>root.querySelector(s), $$=(s,root=document)=>[...root.querySelectorAll(s)];
 const stages=['home','research','strategy','pilot','content','scale','puzzle','final'];
-const data={coins:0,found:[],strategy:[null,null,null,null,null],chosen:null,issues:[],links:{},selected:null,pipes:{},pipeActive:null,pipeTiles:{},pipeVersion:9,pipeTool:'straight',audience:10000,seenTiers:[],jigsaw:[],jigsawSelected:null,completed:[]};
+const data={coins:0,found:[],strategy:[null,null,null,null,null],chosen:null,issues:[],links:{},selected:null,pipes:{},pipeActive:null,pipeTiles:{},pipeVersion:10,pipeTool:'straight',audience:10000,seenTiers:[],jigsaw:[],jigsawSelected:null,completed:[]};
 let current='home',drag=null,toastTimer=0,previewPlayed=false,panEngaged=false;
 const clueData={parent:['Кто наш клиент?','Проведём кастдевы с родителями: когда ребёнок отстаёт, за что они готовы платить и как ищут помощь.'],market:['Что происходит на рынке?','Изучим конкурентов, цены и разные сегменты семей. Не будем путать интерес к идее с готовностью платить.'],feedback:['Каков первый опыт?','Посмотрим, где семьи бросают диагностику, понятен ли результат, что нравится и что мешает продлить подписку.']};
 const strategyCards=[{id:'audience',text:'Сегменты ЦА'},{id:'value',text:'Позиционирование'},{id:'pilot',text:'Пилот продукта'},{id:'channels',text:'Каналы роста'},{id:'kpi',text:'KPI и экономика'}];
 const linkData=[{id:'shorts',src:'Shorts и AI-мультфильмы',target:'Охват',to:'reach'},{id:'ugc',src:'UGC родителей',target:'Доверие',to:'trust'},{id:'quiz',src:'Бесплатный квиз',target:'Первый опыт',to:'experience'},{id:'referral',src:'Рекомендации',target:'Оплаты',to:'payments'}];const shuffledTargets=[linkData[3],linkData[0],linkData[2],linkData[1]];
 const fmt=n=>new Intl.NumberFormat('ru-RU').format(Math.round(n));
 function persist(){try{sessionStorage.setItem('cap-growth-quest-v7',JSON.stringify(data))}catch(e){}}
-function restore(){try{const saved=JSON.parse(sessionStorage.getItem('cap-growth-quest-v7')||'null');if(saved){data.coins=Number(saved.coins)||0;data.found=Array.isArray(saved.found)?saved.found:[];data.strategy=Array.isArray(saved.strategy)&&saved.strategy.length===5?saved.strategy:[null,null,null,null,null];data.issues=Array.isArray(saved.issues)?saved.issues:[];data.links=saved.links||{};data.pipeTiles=saved.pipeVersion===9&&saved.pipeTiles&&typeof saved.pipeTiles==='object'&&!Array.isArray(saved.pipeTiles)?saved.pipeTiles:{};data.pipeVersion=8;data.pipeTool=['straight','corner','erase'].includes(saved.pipeTool)?saved.pipeTool:'straight';data.audience=audienceTiers.includes(saved.audience)?saved.audience:10000;data.seenTiers=saved.seenTiers||[];data.jigsaw=saved.jigsaw||[];data.jigsawSelected=null;data.completed=saved.completed||[]}}catch(e){}}
+function restore(){try{const saved=JSON.parse(sessionStorage.getItem('cap-growth-quest-v7')||'null');if(saved){data.coins=Number(saved.coins)||0;data.found=Array.isArray(saved.found)?saved.found:[];data.strategy=Array.isArray(saved.strategy)&&saved.strategy.length===5?saved.strategy:[null,null,null,null,null];data.issues=Array.isArray(saved.issues)?saved.issues:[];data.links=saved.links||{};data.pipeTiles=saved.pipeVersion===10&&saved.pipeTiles&&typeof saved.pipeTiles==='object'&&!Array.isArray(saved.pipeTiles)?saved.pipeTiles:{};data.pipeVersion=8;data.pipeTool=['straight','corner','erase'].includes(saved.pipeTool)?saved.pipeTool:'straight';data.audience=audienceTiers.includes(saved.audience)?saved.audience:10000;data.seenTiers=saved.seenTiers||[];data.jigsaw=saved.jigsaw||[];data.jigsawSelected=null;data.completed=saved.completed||[]}}catch(e){}}
 function updateCoins(){$$('[data-coins]').forEach(x=>x.textContent=fmt(data.coins));$$('[data-progress]').forEach(x=>x.replaceChildren(...Array.from({length:6},(_,i)=>{const a=document.createElement('span');a.className=i<Math.max(0,stages.indexOf(current)-1)?'done':'';return a})))}
 function reward(id){if(data.completed.includes(id))return;data.completed.push(id);data.coins+=100;updateCoins();showToast('★ +100 монет за миссию');persist()}
 function showToast(s){const t=$('#toast');t.textContent=s;t.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),2200)}
@@ -394,15 +394,15 @@ $$('[data-issue]').forEach(b=>b.addEventListener('click',()=>{const k=b.dataset.
 // Mission 4: 8x8 compact labyrinth; four disjoint paths are solvable.
 const pipeCols=8,pipeRows=8,pipeCellSize=40,pipeStock={straight:10,corner:16},pipeUndo=[];
 const pipeDefs=[
- {id:'shorts',name:'TikTok / Shorts',goal:'Охват',color:'#60dfff',from:[2,0],to:[0,4],startDir:'E',endDir:'N',symbol:'T'},
- {id:'ugc',name:'UGC-мамы',goal:'Доверие',color:'#ff79b2',from:[0,6],to:[3,7],startDir:'S',endDir:'E',symbol:'U'},
- {id:'ai',name:'AI-мультики',goal:'Интерес',color:'#a9f36b',from:[5,0],to:[7,3],startDir:'E',endDir:'S',symbol:'A'},
- {id:'referral',name:'Рефералка',goal:'Оплаты',color:'#ffbd54',from:[7,5],to:[4,7],startDir:'N',endDir:'E',symbol:'R'}
+ {id:'shorts',name:'TikTok / Shorts',goal:'Охват',color:'#60dfff',from:[2,0],to:[0,3],startDir:'E',endDir:'N',symbol:'T'},
+ {id:'ugc',name:'UGC-мамы',goal:'Доверие',color:'#ff79b2',from:[0,7],to:[3,7],startDir:'S',endDir:'E',symbol:'U'},
+ {id:'ai',name:'AI-мультики',goal:'Интерес',color:'#a9f36b',from:[5,0],to:[7,2],startDir:'E',endDir:'S',symbol:'A'},
+ {id:'referral',name:'Рефералка',goal:'Оплаты',color:'#ffbd54',from:[7,5],to:[5,7],startDir:'N',endDir:'E',symbol:'R'}
 ];
 const pipeIslands=[
- [[3,2],[3,3],[4,2],[4,3]],
+ [[2,2],[2,3],[3,2],[3,3]],
  [[0,1],[0,2]],
- [[1,7],[2,7]],
+ [[1,4],[1,5]],
  [[6,0],[7,0]],
  [[6,7],[7,7]],
  [[5,4],[6,4]]
@@ -592,7 +592,7 @@ window.addEventListener('pointerup',e=>{if(!puzzlePointer)return;const id=puzzle
 window.addEventListener('pointercancel',()=>{puzzleGhost?.remove();puzzleGhost=null;puzzlePointer=null});
 $('#jigsaw-board').addEventListener('dragover',e=>e.preventDefault());$('#jigsaw-board').addEventListener('drop',e=>{e.preventDefault();const spot=e.target.closest('[data-slot]');if(!spot)return;const piece=Number(e.dataTransfer.getData('text/plain'));if(Number.isInteger(piece)){data.jigsawSelected=piece;dropPuzzle(+spot.dataset.slot)}});
 $('#puzzle-next').addEventListener('click',()=>{if(data.jigsaw.length===9)go('final')});
-$('#restart').addEventListener('click',()=>{data.coins=0;data.found=[];data.strategy=Array(5).fill(null);data.chosen=null;data.issues=[];data.links={};data.selected=null;data.pipes={};data.pipeActive=null;data.pipeTiles={};data.pipeVersion=9;data.pipeTool='straight';pipeUndo.length=0;data.audience=10000;data.seenTiers=[];data.jigsaw=[];data.jigsawSelected=null;data.completed=[];previewPlayed=false;panEngaged=false;pan.scrollLeft=0;$('#strategy-check').textContent='Проверить стратегию';$('#strategy-feedback').textContent='Начнём с аудитории и позиционирования. Потом спланируем тест и каналы роста.';$('#research-status').textContent='Разведка начинается';$('#research-copy').textContent='Осмотри три подсвеченных объекта, чтобы собрать базу для маркетинговой стратегии.';$('#pilot-feedback').textContent='Попросим родителей пройти путь и проведём интервью: на каком шаге им стало сложно и почему?';$('#content-feedback').textContent='TikTok даёт охват, UGC родителей — доверие, обучение — интерес, рекомендации — покупки. Собери все четыре потока.';$('#puzzle-feedback').textContent='Маленькие решения превращаются в большую систему роста. Собери девять частей, чтобы открыть план реализации.';$$('[data-issue]').forEach(b=>b.classList.remove('discovered'));persist();go('home')});
+$('#restart').addEventListener('click',()=>{data.coins=0;data.found=[];data.strategy=Array(5).fill(null);data.chosen=null;data.issues=[];data.links={};data.selected=null;data.pipes={};data.pipeActive=null;data.pipeTiles={};data.pipeVersion=10;data.pipeTool='straight';pipeUndo.length=0;data.audience=10000;data.seenTiers=[];data.jigsaw=[];data.jigsawSelected=null;data.completed=[];previewPlayed=false;panEngaged=false;pan.scrollLeft=0;$('#strategy-check').textContent='Проверить стратегию';$('#strategy-feedback').textContent='Начнём с аудитории и позиционирования. Потом спланируем тест и каналы роста.';$('#research-status').textContent='Разведка начинается';$('#research-copy').textContent='Осмотри три подсвеченных объекта, чтобы собрать базу для маркетинговой стратегии.';$('#pilot-feedback').textContent='Попросим родителей пройти путь и проведём интервью: на каком шаге им стало сложно и почему?';$('#content-feedback').textContent='TikTok даёт охват, UGC родителей — доверие, обучение — интерес, рекомендации — покупки. Собери все четыре потока.';$('#puzzle-feedback').textContent='Маленькие решения превращаются в большую систему роста. Собери девять частей, чтобы открыть план реализации.';$$('[data-issue]').forEach(b=>b.classList.remove('discovered'));persist();go('home')});
 restore();updateCoins();go(new URLSearchParams(window.location.search).get('preview')==='pipes'?'content':'home');
 if(data.completed.includes('strategy'))$('#strategy-check').textContent='К первому продуктовому пилоту';
 })();

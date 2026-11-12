@@ -111,6 +111,48 @@
 #strategy .road-slot:focus-visible{outline:3px solid #fff1a6;outline-offset:2px}
 @media(max-width:640px){#strategy .road-slot.validated::after,#strategy .road-slot.needs-review::after{top:-8px;right:-4px;width:19px;height:19px;font-size:13px}}
 
+
+/* FINITE PIPE PUZZLE — selectable inventory, rotation, eraser, and connected flow */
+#content .pipe-board{touch-action:manipulation}
+#content .pipe-cell{touch-action:manipulation;cursor:pointer;border-color:#b9a9bc4f}
+#content .pipe-cell.pipe-used{background:#403957}
+#content .pipe-cell.pipe-lit{background:#40536b;box-shadow:inset 0 0 7px #8be9ff88}
+#content .pipe-cell.pipe-endpoint{cursor:default}
+#content .pipe-cell:disabled{opacity:1}
+#content .pipe-legend-item{min-height:39px;position:relative;padding:5px 7px}
+#content .pipe-legend-item.complete{background:#d1f2d6;border-color:#79dfad}
+#content .pipe-ok{font-size:21px;font-weight:900;color:#216749;margin-left:auto}
+#content .pipe-inventory{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin:3px 0 9px}
+#content .pipe-tool{display:grid;grid-template-columns:36px minmax(0,1fr);grid-template-rows:1fr 1fr;column-gap:6px;align-items:center;min-width:0;min-height:58px;border:3px solid #977a8c;background:#f9eac9;color:#352b4a;box-shadow:0 4px #191629;padding:5px;cursor:grab;touch-action:none}
+#content .pipe-tool.selected{background:#fff9e4;border-color:#78e2b8;box-shadow:0 0 0 2px #459c7d,0 4px #191629}
+#content .pipe-tool:disabled{opacity:.53;cursor:default}
+#content .pipe-tool-image{display:grid;place-items:center;grid-row:1/3;width:36px;height:36px;border:2px solid #796b8c;background:#3a3554}
+#content .pipe-tool-image svg{width:100%;height:100%}
+#content .pipe-tool-title{font-family:var(--body);font-size:clamp(12px,2.55vw,15px);font-weight:900;line-height:1.05;text-align:left}
+#content .pipe-tool-qty{font-family:var(--body);font-size:clamp(12px,2.45vw,15px);font-weight:800;text-align:left;color:#674e78}
+#content .pipe-erase-symbol{font:900 32px/1 var(--body);color:#ffd0aa}
+#content .pipe-terminal{position:absolute;inset:0;pointer-events:none}
+#content .pipe-terminal::before{content:"";position:absolute;top:39%;height:22%;width:50%;background:var(--pipe-color);border-top:2px solid #21192f;border-bottom:2px solid #21192f}
+#content .pipe-terminal.start::before{left:50%}
+#content .pipe-terminal.finish::before{left:0}
+#content .endpoint-glyph{position:relative;z-index:1;background:#332a4b;border:2px solid var(--pipe-color);border-radius:3px;padding:1px 3px}
+.pipe-ghost{position:fixed;width:46px;height:46px;transform:translate(-50%,-50%);background:#35304d;border:3px solid #ffe09a;box-shadow:0 4px #201730;pointer-events:none;z-index:999}
+.pipe-ghost svg{display:block;width:100%;height:100%}
+#content .pipe-actions .soft-btn:disabled{opacity:.46}
+@media(max-width:420px){
+ #content .pipes-panel{padding:7px}
+ #content .pipe-legend{gap:4px;margin-bottom:5px}
+ #content .pipe-legend-item{min-height:32px;padding:3px 5px}
+ #content .pipe-inventory{gap:4px;margin:2px 0 7px}
+ #content .pipe-tool{grid-template-columns:29px minmax(0,1fr);min-height:47px;padding:3px;border-width:2px;column-gap:3px}
+ #content .pipe-tool-image{width:29px;height:29px}
+ #content .pipe-tool-title{font-size:11px}
+ #content .pipe-tool-qty{font-size:12px}
+ #content .pipe-board{width:min(100%,286px)}
+ #content .pipes-instruction{font-size:11px;line-height:1.25;min-height:35px}
+}
+@media(max-height:760px) and (max-width:480px){#content .pipe-board{width:min(100%,260px)}}
+
 </style>
 </head>
 <body>

@@ -153,6 +153,57 @@
 }
 @media(max-height:760px) and (max-width:480px){#content .pipe-board{width:min(100%,260px)}}
 
+
+/* V8 — labyrinth 16×16: native pixel-grid, obstacles and pinchable/pannable camera */
+#content .layout{height:100dvh;min-height:0;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin}
+#content .mission-layout .spacer{display:none}
+#content .pipes-panel{padding:clamp(7px,1.3vw,13px)}
+#content .pipe-board-wrap{position:relative;display:block;width:100%;height:clamp(280px,43dvh,520px);overflow:hidden;background-color:#29223d;background-image:radial-gradient(#b8a5c640 1px,transparent 1px);background-size:13px 13px;border:4px solid #8b6e83;box-shadow:0 5px #150f2c;touch-action:none;overscroll-behavior:contain;cursor:grab}
+#content .pipe-board-wrap:active{cursor:grabbing}
+#content .pipe-board{position:absolute;left:0;top:0;display:grid;grid-template-columns:repeat(16,40px);grid-template-rows:repeat(16,40px);width:640px;height:640px;aspect-ratio:auto;max-width:none;min-width:640px;border:0;box-shadow:none;background:#342b4e;touch-action:none;transform-origin:0 0;will-change:transform}
+#content .pipe-cell{position:relative;width:40px;height:40px;aspect-ratio:auto;touch-action:none;min-width:40px;min-height:40px;overflow:hidden;border:1px solid #987dac66}
+#content .pipe-cell.pipe-wall{background:#765a6b;border:2px solid #c39587;box-shadow:inset -4px -4px #4e405d,inset 3px 3px #d7ab82}
+#content .pipe-wall-shine{position:absolute;left:5px;top:5px;width:18px;height:5px;background:#e6bf90;box-shadow:4px 12px 0 -1px #9e7187,-3px 19px 0 -1px #533d58}
+#content .pipe-cell.pipe-used{background:#403857}
+#content .pipe-cell.pipe-lit{background:#475775;box-shadow:inset 0 0 5px #74eaff88}
+#content .pipe-cell.pipe-endpoint{cursor:default;background:#312946;border:2px solid var(--pipe-color);box-shadow:inset 0 0 6px var(--pipe-color)}
+#content .pipe-terminal{position:absolute;inset:0;pointer-events:none}
+#content .pipe-terminal::before{content:'';position:absolute;background:var(--pipe-color);border:2px solid #22192f}
+#content .pipe-terminal.pipe-t-E::before{left:50%;top:39%;width:50%;height:22%}
+#content .pipe-terminal.pipe-t-W::before{left:0;top:39%;width:50%;height:22%}
+#content .pipe-terminal.pipe-t-N::before{left:39%;top:0;width:22%;height:50%}
+#content .pipe-terminal.pipe-t-S::before{left:39%;top:50%;width:22%;height:50%}
+#content .endpoint-glyph{position:relative;z-index:1;font-size:14px;border:2px solid var(--pipe-color);background:#332a4b;color:#fff5cf;padding:1px 2px}
+#content .pipe-navigation{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:8px}
+#content .pipe-nav-help{font:700 clamp(11px,2.6vw,15px)/1.2 var(--body);color:#f9dfb4}
+#content .pipe-nav-buttons{display:flex;align-items:center;gap:4px;flex-shrink:0}
+#content .pipe-zoom{width:33px;height:33px;padding:0;display:grid;place-items:center;background:#ffedc4;border:2px solid #704e76;box-shadow:0 3px #1e1731;color:#382949;font-weight:900;font-size:22px;line-height:1;touch-action:manipulation}
+#content .pipe-zoom:disabled{opacity:.45}
+#content #pipe-zoom-label{font-size:12px;min-width:38px;text-align:center;color:#ffe6bc}
+#content .pipe-inventory{margin-top:5px}
+#content .pipe-legend-item{min-height:37px}
+#content .pipe-legend-item.complete{background:#d2f0d9;border-color:#89dda5}
+#content .pipe-inventory .pipe-tool{min-height:52px}
+#content .pipes-instruction{font-size:12px;line-height:1.25;margin:7px 0 5px;min-height:0}
+#content .pipe-actions .soft-btn{min-height:33px}
+@media(max-width:420px){
+ #content .chap-head{padding:9px 11px}
+ #content .chap-head p{font-size:13px;line-height:1.3}
+ #content .pipe-board-wrap{height:clamp(265px,39dvh,400px)}
+ #content .pipe-nav-help{font-size:11px;max-width:55%}
+ #content .pipe-zoom{width:29px;height:29px;font-size:19px}
+ #content .pipe-legend-item{min-height:33px}
+ #content .pipe-inventory .pipe-tool{min-height:43px}
+ #content .pipe-legend{gap:4px;margin-bottom:4px}
+ #content .pipes-instruction{font-size:11px}
+ #content .pipe-actions .soft-btn{min-height:30px}
+}
+@media(min-width:900px){
+ #content .pipe-board-wrap{height:min(64dvh,630px)}
+ #content .pipes-panel{max-width:660px;margin:0 auto}
+ #content .mission-layout .activity-pipes{align-self:start}
+}
+
 </style>
 </head>
 <body>
@@ -201,12 +252,12 @@
     <div class="backdrop"><img src="assets/scenes/content.webp" alt=""/><div class="weather"></div></div>
     <div class="layout mission-layout">
       <header class="hud"><button class="hud-btn" data-menu>← Меню</button><span class="hud-title">04 / 06</span><div class="hud-tag">◇ <span data-coins>0</span></div></header>
-      <div class="chap-head"><div class="chapter-kicker">МИССИЯ 04 · ФАБРИКА РОСТА</div><h1 class="chapter-title">Проложи каналы роста</h1><p>Соедини каждый маркетинговый канал с его результатом. Собери трубопровод из ограниченного набора прямых и угловых деталей.</p><div class="progress" data-progress></div></div>
+      <div class="chap-head"><div class="chapter-kicker">МИССИЯ 04 · ФАБРИКА РОСТА</div><h1 class="chapter-title">Проложи каналы роста</h1><p>Четыре канала, четыре результата. Обходи препятствия, соединяя трубы от цветного входа к соответствующему выходу.</p><div class="progress" data-progress></div></div>
       <div class="activity activity-pipes"><div class="pipes-panel">
         <div class="pipes-top"><span class="pipes-heading">МАРКЕТИНГОВЫЙ ТРУБОПРОВОД</span><span id="pipes-count">0 / 4</span></div>
         <div class="pipe-legend" id="pipe-legend"></div><div id="pipe-inventory" class="pipe-inventory" role="group" aria-label="Ограниченный запас труб"></div>
-        <div class="pipe-board-wrap"><div id="pipe-board" class="pipe-board" role="group" aria-label="Поле для размещения деталей труб: выбери деталь и нажми на клетку, повторно нажми для поворота"></div></div>
-        <div class="pipes-instruction" id="pipes-tip" aria-live="polite">Выбери прямую или поворот, поставь на поле. Нажимай на деталь для поворота. Набор ограничен: 16 прямых и 8 поворотов.</div>
+        <div class="pipe-board-wrap" id="pipe-viewport" role="region" aria-label="Лабиринт труб 16 на 16. Перемещай карту пальцем и используй масштабирование"><div id="pipe-board" class="pipe-board" role="group" aria-label="Игровое поле 16 на 16 с препятствиями, входами и выходами"></div></div><div class="pipe-navigation"><span class="pipe-nav-help">Перемещай карту пальцем · 16×16</span><div class="pipe-nav-buttons"><button class="pipe-zoom" id="pipe-zoom-out" type="button" aria-label="Уменьшить лабиринт">−</button><span id="pipe-zoom-label" aria-live="off">100%</span><button class="pipe-zoom" id="pipe-zoom-in" type="button" aria-label="Увеличить лабиринт">+</button><button class="pipe-zoom pipe-home-zoom" id="pipe-zoom-reset" type="button" aria-label="Вернуть карту в начало">⌖</button></div></div>
+        <div class="pipes-instruction" id="pipes-tip" aria-live="polite">Набор ограничен. Поставь трубу на свободную клетку, нажми повторно для поворота. Препятствия нельзя занимать. Передвигай карту пальцем.</div>
         <div class="pipe-actions"><button class="soft-btn" id="pipe-undo" type="button">↶ Отменить ход</button><button class="soft-btn" id="pipe-reset" type="button">Очистить поле</button></div>
       </div></div>
       <div class="spacer"></div>
@@ -272,21 +323,21 @@
 (()=>{'use strict';
 const $=(s,root=document)=>root.querySelector(s), $$=(s,root=document)=>[...root.querySelectorAll(s)];
 const stages=['home','research','strategy','pilot','content','scale','puzzle','final'];
-const data={coins:0,found:[],strategy:[null,null,null,null,null],chosen:null,issues:[],links:{},selected:null,pipes:{},pipeActive:null,pipeTiles:{},pipeTool:'straight',audience:10000,seenTiers:[],jigsaw:[],jigsawSelected:null,completed:[]};
+const data={coins:0,found:[],strategy:[null,null,null,null,null],chosen:null,issues:[],links:{},selected:null,pipes:{},pipeActive:null,pipeTiles:{},pipeVersion:8,pipeTool:'straight',audience:10000,seenTiers:[],jigsaw:[],jigsawSelected:null,completed:[]};
 let current='home',drag=null,toastTimer=0,previewPlayed=false,panEngaged=false;
 const clueData={parent:['Кто наш клиент?','Проведём кастдевы с родителями: когда ребёнок отстаёт, за что они готовы платить и как ищут помощь.'],market:['Что происходит на рынке?','Изучим конкурентов, цены и разные сегменты семей. Не будем путать интерес к идее с готовностью платить.'],feedback:['Каков первый опыт?','Посмотрим, где семьи бросают диагностику, понятен ли результат, что нравится и что мешает продлить подписку.']};
 const strategyCards=[{id:'audience',text:'Сегменты ЦА'},{id:'value',text:'Позиционирование'},{id:'pilot',text:'Пилот продукта'},{id:'channels',text:'Каналы роста'},{id:'kpi',text:'KPI и экономика'}];
 const linkData=[{id:'shorts',src:'Shorts и AI-мультфильмы',target:'Охват',to:'reach'},{id:'ugc',src:'UGC родителей',target:'Доверие',to:'trust'},{id:'quiz',src:'Бесплатный квиз',target:'Первый опыт',to:'experience'},{id:'referral',src:'Рекомендации',target:'Оплаты',to:'payments'}];const shuffledTargets=[linkData[3],linkData[0],linkData[2],linkData[1]];
 const fmt=n=>new Intl.NumberFormat('ru-RU').format(Math.round(n));
 function persist(){try{sessionStorage.setItem('cap-growth-quest-v7',JSON.stringify(data))}catch(e){}}
-function restore(){try{const saved=JSON.parse(sessionStorage.getItem('cap-growth-quest-v7')||'null');if(saved){data.coins=Number(saved.coins)||0;data.found=Array.isArray(saved.found)?saved.found:[];data.strategy=Array.isArray(saved.strategy)&&saved.strategy.length===5?saved.strategy:[null,null,null,null,null];data.issues=Array.isArray(saved.issues)?saved.issues:[];data.links=saved.links||{};data.pipeTiles=saved.pipeTiles&&typeof saved.pipeTiles==='object'&&!Array.isArray(saved.pipeTiles)?saved.pipeTiles:{};data.pipeTool=['straight','corner','erase'].includes(saved.pipeTool)?saved.pipeTool:'straight';data.audience=audienceTiers.includes(saved.audience)?saved.audience:10000;data.seenTiers=saved.seenTiers||[];data.jigsaw=saved.jigsaw||[];data.jigsawSelected=null;data.completed=saved.completed||[]}}catch(e){}}
+function restore(){try{const saved=JSON.parse(sessionStorage.getItem('cap-growth-quest-v7')||'null');if(saved){data.coins=Number(saved.coins)||0;data.found=Array.isArray(saved.found)?saved.found:[];data.strategy=Array.isArray(saved.strategy)&&saved.strategy.length===5?saved.strategy:[null,null,null,null,null];data.issues=Array.isArray(saved.issues)?saved.issues:[];data.links=saved.links||{};data.pipeTiles=saved.pipeVersion===8&&saved.pipeTiles&&typeof saved.pipeTiles==='object'&&!Array.isArray(saved.pipeTiles)?saved.pipeTiles:{};data.pipeVersion=8;data.pipeTool=['straight','corner','erase'].includes(saved.pipeTool)?saved.pipeTool:'straight';data.audience=audienceTiers.includes(saved.audience)?saved.audience:10000;data.seenTiers=saved.seenTiers||[];data.jigsaw=saved.jigsaw||[];data.jigsawSelected=null;data.completed=saved.completed||[]}}catch(e){}}
 function updateCoins(){$$('[data-coins]').forEach(x=>x.textContent=fmt(data.coins));$$('[data-progress]').forEach(x=>x.replaceChildren(...Array.from({length:6},(_,i)=>{const a=document.createElement('span');a.className=i<Math.max(0,stages.indexOf(current)-1)?'done':'';return a})))}
 function reward(id){if(data.completed.includes(id))return;data.completed.push(id);data.coins+=100;updateCoins();showToast('★ +100 монет за миссию');persist()}
 function showToast(s){const t=$('#toast');t.textContent=s;t.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),2200)}
 function modal(title,copy){$('#modal-title').textContent=title;$('#modal-copy').textContent=copy;$('#modal').hidden=false;$('#modal-close').focus()}
 function closeModal(){$('#modal').hidden=true}
 $('#modal-close').addEventListener('click',closeModal);$('#modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal()});window.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
-function go(id){if(!stages.includes(id))return;stages.forEach(x=>$('#'+x).classList.toggle('active',x===id));current=id;updateCoins();if(id==='research'){renderResearch();requestAnimationFrame(()=>{panUpdate();panPreview()})}if(id==='strategy')renderStrategy();if(id==='pilot')renderPilot();if(id==='content')drawPipes();if(id==='scale')buildGrowth();if(id==='puzzle')renderPuzzle();window.scrollTo(0,0)}
+function go(id){if(!stages.includes(id))return;stages.forEach(x=>$('#'+x).classList.toggle('active',x===id));current=id;updateCoins();if(id==='research'){renderResearch();requestAnimationFrame(()=>{panUpdate();panPreview()})}if(id==='strategy')renderStrategy();if(id==='pilot')renderPilot();if(id==='content'){drawPipes();requestAnimationFrame(()=>pipeResetCamera())}if(id==='scale')buildGrowth();if(id==='puzzle')renderPuzzle();window.scrollTo(0,0)}
 $$('[data-menu]').forEach(b=>b.addEventListener('click',()=>go('home')));
 $('#start').addEventListener('click',()=>go('research'));
 $('#home-info').addEventListener('click',()=>modal('CAP Growth Quest','Это не утверждённые данные компании, а интерактивное предложение: от изучения рынка до маркетинговых экспериментов и экономики роста.'));
@@ -325,140 +376,159 @@ $('#strategy-check').addEventListener('click',()=>{
 const issueCopy={long:'Гипотеза: диагностика слишком длинная. Проверяем в интервью и тестируем короткий первый шаг.',value:'Гипотеза: после теста родитель не понимает ценность. Покажем карту пробелов и ближайший полезный шаг.'};
 function renderPilot(){data.issues.forEach(k=>{const b=$(`[data-issue="${k}"]`);if(b)b.classList.add('discovered')});const n=data.issues.length;$('#pilot-next').disabled=n!==2;$('#pilot-next').textContent=n===2?'К каналам привлечения':`Исследовано ${n} из 2`;if(n===2)$('#pilot-feedback').textContent='Две гипотезы зафиксированы. Теперь ставим эксперимент, измеряем активацию и возвращаемся к интервью.'}
 $$('[data-issue]').forEach(b=>b.addEventListener('click',()=>{const k=b.dataset.issue;if(data.issues.includes(k))return;data.issues.push(k);renderPilot();modal('Гипотеза для пилота',issueCopy[k]);if(data.issues.length===2)reward('pilot');persist()}));$('#pilot-next').addEventListener('click',()=>{if(data.issues.length===2)go('content')});
-// Mission 4: limited pipe pieces. Tap to place, tap again to rotate; no freehand drawing.
+// Mission 4: 16×16 labyrinth with blocked islands and four non-overlapping routable color pairs.
+const pipeCols=16,pipeRows=16,pipeCellSize=40,pipeStock={straight:36,corner:24},pipeUndo=[];
 const pipeDefs=[
- {id:'shorts',name:'TikTok / Shorts',goal:'Охват',color:'#60dfff',from:0,to:1,symbol:'T'},
- {id:'ugc',name:'UGC-мамы',goal:'Доверие',color:'#ff79b2',from:2,to:3,symbol:'U'},
- {id:'ai',name:'AI-мультики',goal:'Интерес',color:'#a9f36b',from:4,to:5,symbol:'A'},
- {id:'referral',name:'Рефералка',goal:'Оплаты',color:'#ffbd54',from:6,to:7,symbol:'R'}
+ {id:'shorts',name:'TikTok / Shorts',goal:'Охват',color:'#60dfff',from:[2,0],to:[0,6],startDir:'E',endDir:'N',symbol:'T'},
+ {id:'ugc',name:'UGC-мамы',goal:'Доверие',color:'#ff79b2',from:[0,12],to:[9,15],startDir:'S',endDir:'E',symbol:'U'},
+ {id:'ai',name:'AI-мультики',goal:'Интерес',color:'#a9f36b',from:[12,0],to:[15,4],startDir:'E',endDir:'S',symbol:'A'},
+ {id:'referral',name:'Рефералка',goal:'Оплаты',color:'#ffbd54',from:[15,12],to:[13,15],startDir:'N',endDir:'E',symbol:'R'}
 ];
-const pipeRows=8,pipeCols=7,pipeStock={straight:16,corner:8},pipeUndo=[];
-const pipeSteps={N:[-1,0],E:[0,1],S:[1,0],W:[0,-1]},pipeOpp={N:'S',S:'N',E:'W',W:'E'};
+const pipeIslands=[
+ [[2,3],[2,4],[3,3],[3,4],[4,4],[4,5]],
+ [[2,8],[2,9],[2,10],[3,9],[3,10]],
+ [[5,12],[5,13],[6,12],[6,13],[7,13]],
+ [[7,3],[8,3],[8,4],[9,3],[9,4]],
+ [[7,7],[8,7],[8,8],[9,7],[9,8],[10,7]],
+ [[11,10],[11,11],[12,10],[12,11],[13,11]],
+ [[12,5],[13,5],[13,6],[14,6]]
+];
+const pipeBlocked=new Set(pipeIslands.flat().map(([r,c])=>r+','+c));
+const pipeDirs={N:[-1,0],E:[0,1],S:[1,0],W:[0,-1]},pipeReverse={N:'S',S:'N',E:'W',W:'E'};
 const pipeKey=(r,c)=>r+','+c;
-function pipeEndpoint(r,c){return pipeDefs.some(d=>r===d.from&&c===0||r===d.to&&c===pipeCols-1)}
-function pipePlaceable(r,c){return r>=0&&r<pipeRows&&c>=0&&c<pipeCols&&!pipeEndpoint(r,c)}
+const pipeMatch=(p,r,c)=>p[0]===r&&p[1]===c;
+function pipeTerminal(r,c){return pipeDefs.find(d=>pipeMatch(d.from,r,c)||pipeMatch(d.to,r,c))}
+function pipePlaceable(r,c){return r>=0&&r<pipeRows&&c>=0&&c<pipeCols&&!pipeBlocked.has(pipeKey(r,c))&&!pipeTerminal(r,c)}
 function pipePorts(p){
- if(!p)return [];
+ if(!p)return[];
  if(p.kind==='straight')return p.rot%2?['N','S']:['W','E'];
  return [['N','E'],['E','S'],['S','W'],['W','N']][(p.rot%4+4)%4]||[];
 }
-const pipeUsed=kind=>Object.values(data.pipeTiles).filter(p=>p?.kind===kind).length;
+const pipeUsed=kind=>Object.entries(data.pipeTiles).filter(([k,t])=>!pipeBlocked.has(k)&&t?.kind===kind).length;
 const pipeLeft=kind=>Math.max(0,pipeStock[kind]-pipeUsed(kind));
 function pipeTrace(def){
- let r=def.from,c=0,dir='E';const visited=new Set(),path=[];
- for(let step=0;step<pipeRows*pipeCols+1;step++){
-  const [dy,dx]=pipeSteps[dir],nr=r+dy,nc=c+dx;
-  if(nr===def.to&&nc===pipeCols-1&&dir==='E')return {complete:true,path};
+ let r=def.from[0],c=def.from[1],dir=def.startDir;
+ const visited=new Set(),path=[];
+ for(let step=0;step<pipeRows*pipeCols;step++){
+  const [dr,dc]=pipeDirs[dir],nr=r+dr,nc=c+dc;
+  if(pipeMatch(def.to,nr,nc))return {complete:dir===def.endDir,path};
   if(!pipePlaceable(nr,nc))return {complete:false,path};
-  const key=pipeKey(nr,nc),tile=data.pipeTiles[key],ports=pipePorts(tile),incoming=pipeOpp[dir];
+  const key=pipeKey(nr,nc),tile=data.pipeTiles[key],ports=pipePorts(tile),incoming=pipeReverse[dir];
   if(!tile||visited.has(key)||!ports.includes(incoming))return {complete:false,path};
-  visited.add(key);path.push(key);dir=ports.find(p=>p!==incoming);
+  visited.add(key);path.push(key);
+  dir=ports.find(p=>p!==incoming);
   if(!dir)return {complete:false,path};
   r=nr;c=nc;
  }
  return {complete:false,path};
 }
 function pipeGlyph(tile,color='#bcd8e5'){
- const runs=pipePorts(tile).map(d=>d==='N'?'M50 50 V0':d==='E'?'M50 50 H100':d==='S'?'M50 50 V100':'M50 50 H0').join(' ');
+ const paths=pipePorts(tile).map(x=>x==='N'?'M50 50 V0':x==='E'?'M50 50 H100':x==='S'?'M50 50 V100':'M50 50 H0').join(' ');
  return '<svg viewBox="0 0 100 100" aria-hidden="true" focusable="false">'
- +'<path d="'+runs+'" stroke="#21192c" stroke-width="41" stroke-linecap="square" fill="none"/>'
- +'<path d="'+runs+'" stroke="'+color+'" stroke-width="29" stroke-linecap="square" fill="none"/>'
- +'<path d="'+runs+'" stroke="#fff7df98" stroke-width="5" stroke-linecap="square" fill="none"/>'
+ +'<path d="'+paths+'" stroke="#21192c" stroke-width="40" stroke-linecap="square" fill="none"/>'
+ +'<path d="'+paths+'" stroke="'+color+'" stroke-width="28" stroke-linecap="square" fill="none"/>'
+ +'<path d="'+paths+'" stroke="#fff7df9c" stroke-width="5" stroke-linecap="square" fill="none"/>'
  +'<rect x="39" y="39" width="22" height="22" fill="'+color+'" stroke="#fff1ca" stroke-width="3"/></svg>';
 }
-function pipeBackup(){pipeUndo.push(JSON.stringify(data.pipeTiles));if(pipeUndo.length>45)pipeUndo.shift()}
 let pipeIgnoreTrayClick=false;
+function pipeBackup(){pipeUndo.push(JSON.stringify(data.pipeTiles));if(pipeUndo.length>70)pipeUndo.shift()}
 function pipeDrag(e,kind){
  if(e.button!==0||pipeLeft(kind)===0)return;
- const id=e.pointerId,sx=e.clientX,sy=e.clientY;let ghost=null;
+ const pid=e.pointerId,startX=e.clientX,startY=e.clientY;let ghost=null;
  const move=ev=>{
-  if(ev.pointerId!==id)return;
-  if(!ghost&&Math.hypot(ev.clientX-sx,ev.clientY-sy)>12){
+  if(ev.pointerId!==pid)return;
+  if(!ghost&&Math.hypot(ev.clientX-startX,ev.clientY-startY)>12){
    ghost=document.createElement('div');ghost.className='pipe-ghost';
    ghost.innerHTML=pipeGlyph({kind,rot:0},'#e3f3fa');document.body.append(ghost);
   }
   if(ghost){ghost.style.left=ev.clientX+'px';ghost.style.top=ev.clientY+'px';ev.preventDefault()}
  };
  const finish=ev=>{
-  if(ev.pointerId!==id)return;
-  window.removeEventListener('pointermove',move);
-  window.removeEventListener('pointerup',finish);
-  window.removeEventListener('pointercancel',finish);
-  if(!ghost)return;
-  ghost.remove();pipeIgnoreTrayClick=true;setTimeout(()=>pipeIgnoreTrayClick=false,160);
-  const el=document.elementFromPoint(ev.clientX,ev.clientY)?.closest('#pipe-board [data-r]');
-  if(el)pipeAct(+el.dataset.r,+el.dataset.c,kind);
+  if(ev.pointerId!==pid)return;
+  window.removeEventListener('pointermove',move);window.removeEventListener('pointerup',finish);window.removeEventListener('pointercancel',finish);
+  if(!ghost)return;ghost.remove();pipeIgnoreTrayClick=true;setTimeout(()=>pipeIgnoreTrayClick=false,170);
+  const cell=document.elementFromPoint(ev.clientX,ev.clientY)?.closest('#pipe-board [data-r]');
+  if(cell)pipeAct(+cell.dataset.r,+cell.dataset.c,kind);
  };
  window.addEventListener('pointermove',move,{passive:false});
- window.addEventListener('pointerup',finish);
- window.addEventListener('pointercancel',finish);
+ window.addEventListener('pointerup',finish);window.addEventListener('pointercancel',finish);
 }
 function pipeInventory(){
  const wrap=$('#pipe-inventory');wrap.replaceChildren();
  for(const kind of ['straight','corner','erase']){
   const b=document.createElement('button');b.type='button';b.className='pipe-tool'+(data.pipeTool===kind?' selected':'');
-  const isErase=kind==='erase',n=isErase?0:pipeLeft(kind);
-  b.disabled=!isErase&&n===0;b.setAttribute('aria-pressed',String(data.pipeTool===kind));
-  b.setAttribute('aria-label',isErase?'Ластик: убрать деталь':(kind==='straight'?'Прямая труба':'Поворот')+', осталось '+n);
-  b.innerHTML='<span class="pipe-tool-image">'+(isErase?'<span class="pipe-erase-symbol">×</span>':pipeGlyph({kind,rot:0},'#e5ecf2'))+'</span>'
+  const erase=kind==='erase',left=erase?0:pipeLeft(kind);
+  b.disabled=!erase&&left===0;b.setAttribute('aria-pressed',String(data.pipeTool===kind));
+  b.setAttribute('aria-label',erase?'Убрать установленную трубу':(kind==='straight'?'Прямая труба':'Поворот')+', осталось '+left);
+  b.innerHTML='<span class="pipe-tool-image">'+(erase?'<span class="pipe-erase-symbol">×</span>':pipeGlyph({kind,rot:0},'#e5ecf2'))+'</span>'
    +'<span class="pipe-tool-title">'+(kind==='straight'?'Прямая':kind==='corner'?'Поворот':'Убрать')+'</span>'
-   +'<span class="pipe-tool-qty">'+(isErase?'Ластик':'× '+n)+'</span>';
+   +'<span class="pipe-tool-qty">'+(erase?'Ластик':'× '+left)+'</span>';
   b.addEventListener('click',()=>{if(pipeIgnoreTrayClick)return;data.pipeTool=kind;persist();drawPipes()});
-  if(!isErase)b.addEventListener('pointerdown',e=>pipeDrag(e,kind));
+  if(!erase)b.addEventListener('pointerdown',e=>pipeDrag(e,kind));
   wrap.append(b);
  }
 }
 function pipeAct(r,c,kind=data.pipeTool){
  if(!pipePlaceable(r,c))return;
- const key=pipeKey(r,c),tile=data.pipeTiles[key],before=pipeDefs.filter(d=>pipeTrace(d).complete).length;
- if(tile){pipeBackup();if(kind==='erase')delete data.pipeTiles[key];else tile.rot=(tile.rot+1)%(tile.kind==='straight'?2:4)}
- else {
+ const key=pipeKey(r,c),piece=data.pipeTiles[key],before=pipeDefs.filter(d=>pipeTrace(d).complete).length;
+ if(piece){pipeBackup();if(kind==='erase')delete data.pipeTiles[key];else piece.rot=(piece.rot+1)%(piece.kind==='straight'?2:4)}
+ else{
   if(kind==='erase')return;
-  if(pipeLeft(kind)===0){showToast('Детали закончились. Используй ластик или отмену.');return}
+  if(pipeLeft(kind)===0){showToast('Детали закончились — убери лишнюю или отмени ход');return}
   pipeBackup();data.pipeTiles[key]={kind,rot:0};
  }
  persist();drawPipes();
  const after=pipeDefs.filter(d=>pipeTrace(d).complete).length;
- if(after>before)showToast('Поток соединён! '+after+' из 4');
+ if(after>before)showToast('Маршрут готов! '+after+' / 4');
  if(after===4){
   reward('content');
-  $('#content-feedback').textContent='Все четыре потока работают! Ты связал охват, доверие, интерес и продажи. Дальше проверим экономику каждого канала.';
+  $('#content-feedback').textContent='Четыре маршрута соединены. Мы построили систему роста в условиях ограниченных ресурсов. Теперь проверим её экономику.';
  }
 }
 function drawPipes(){
  const board=$('#pipe-board'),legend=$('#pipe-legend');board.replaceChildren();legend.replaceChildren();
- const tracks=pipeDefs.map(def=>({def,trace:pipeTrace(def)}));const tint=new Map();
- tracks.forEach(({def,trace})=>trace.path.forEach(k=>{if(!tint.has(k)||trace.complete)tint.set(k,def.color)}));
+ const routes=pipeDefs.map(def=>({def,status:pipeTrace(def)})),flows=new Map();
+ routes.forEach(({def,status})=>status.path.forEach(k=>{if(!flows.has(k)||status.complete)flows.set(k,def.color)}));
  pipeDefs.forEach(def=>{
-  const done=tracks.find(x=>x.def.id===def.id).trace.complete;
-  const el=document.createElement('div');el.className='pipe-legend-item'+(done?' complete':'');el.style.setProperty('--pipe-color',def.color);
-  el.innerHTML='<span class="pipe-dot">'+def.symbol+'</span><span>'+def.name+'<small>→ '+def.goal+'</small></span>'+(done?'<strong class="pipe-ok">✓</strong>':'');
-  legend.append(el);
+  const done=routes.find(x=>x.def.id===def.id).status.complete;
+  const chip=document.createElement('div');chip.className='pipe-legend-item'+(done?' complete':'');chip.style.setProperty('--pipe-color',def.color);
+  chip.innerHTML='<span class="pipe-dot">'+def.symbol+'</span><span>'+def.name+'<small>→ '+def.goal+'</small></span>'+(done?'<strong class="pipe-ok">✓</strong>':'');
+  legend.append(chip);
  });
  for(let r=0;r<pipeRows;r++)for(let c=0;c<pipeCols;c++){
-  const b=document.createElement('button');b.type='button';b.className='pipe-cell';b.dataset.r=r;b.dataset.c=c;
-  const endpoint=pipeDefs.find(d=>r===d.from&&c===0||r===d.to&&c===pipeCols-1),tile=data.pipeTiles[pipeKey(r,c)];
-  if(endpoint){
-   const start=c===0;
-   b.classList.add('pipe-endpoint');b.style.setProperty('--pipe-color',endpoint.color);b.disabled=true;
-   b.innerHTML='<span class="pipe-terminal '+(start?'start':'finish')+'"></span><span class="endpoint-glyph">'+(start?endpoint.symbol:'◎')+'</span>';
-   b.setAttribute('aria-label',(start?'Источник ':'Результат ')+endpoint.name+': '+endpoint.goal);
+  const cell=document.createElement('button');cell.type='button';cell.className='pipe-cell';cell.dataset.r=r;cell.dataset.c=c;
+  const key=pipeKey(r,c),endpoint=pipeTerminal(r,c),tile=data.pipeTiles[key];
+  if(pipeBlocked.has(key)){
+   cell.classList.add('pipe-wall');cell.disabled=true;cell.innerHTML='<span class="pipe-wall-shine"></span>';cell.setAttribute('aria-label','Непроходимое препятствие');
+  }else if(endpoint){
+   const source=pipeMatch(endpoint.from,r,c);
+   cell.classList.add('pipe-endpoint');cell.style.setProperty('--pipe-color',endpoint.color);
+   cell.disabled=true;
+   const direction=source?endpoint.startDir:pipeReverse[endpoint.endDir];
+   cell.innerHTML='<span class="pipe-terminal pipe-t-'+direction+'"></span><span class="endpoint-glyph">'+(source?endpoint.symbol:'◆')+'</span>';
+   cell.setAttribute('aria-label',(source?'Начало ':'Финиш ')+endpoint.name+' — '+endpoint.goal);
   }else if(tile){
-   const color=tint.get(pipeKey(r,c));b.classList.add('pipe-used');if(color)b.classList.add('pipe-lit');
-   b.innerHTML=pipeGlyph(tile,color||'#bcd8e5');
-   b.setAttribute('aria-label','Клетка '+(r+1)+','+(c+1)+'. '+(tile.kind==='straight'?'Прямая':'Поворот')+'. Нажми, чтобы '+(data.pipeTool==='erase'?'убрать':'повернуть'));
-  }else b.setAttribute('aria-label','Пустая клетка '+(r+1)+','+(c+1)+': поставить деталь');
-  b.addEventListener('click',()=>pipeAct(r,c));board.append(b);
+   const color=flows.get(key);cell.classList.add('pipe-used');if(color)cell.classList.add('pipe-lit');
+   cell.innerHTML=pipeGlyph(tile,color||'#bcd8e5');
+   cell.setAttribute('aria-label','Клетка '+(r+1)+','+(c+1)+'. '+(tile.kind==='straight'?'Прямая':'Поворот')+'. Нажми, чтобы '+(data.pipeTool==='erase'?'удалить':'повернуть'));
+  }else cell.setAttribute('aria-label','Пустая клетка '+(r+1)+','+(c+1)+'. Разместить деталь');
+  board.append(cell);
  }
  pipeInventory();
- const completed=tracks.filter(x=>x.trace.complete).length;
- $('#pipes-count').textContent=completed+' / 4';
- $('#content-next').disabled=completed!==4;
- $('#content-next').textContent=completed===4?'К симулятору роста':'Соединено '+completed+' из 4';
- $('#pipes-tip').textContent=completed===4?'Готово! Все четыре потока соединены.':
- 'Выбери деталь, нажми пустую клетку. Повторное нажатие поворачивает трубу. Для удаления выбери ластик. Числа показывают остаток деталей.';
+ const done=routes.filter(x=>x.status.complete).length;
+ $('#pipes-count').textContent=done+' / 4';
+ $('#content-next').disabled=done!==4;
+ $('#content-next').textContent=done===4?'К симулятору роста':'Соединено '+done+' из 4';
+ $('#pipes-tip').textContent=done===4?'Все четыре соединения работают! Открой следующую миссию.':
+ 'Выбери деталь, поставь на клетку, нажми для поворота. Перетаскивай лабиринт пальцем; препятствия обходи.';
  $('#pipe-undo').disabled=pipeUndo.length===0;
+ pipeApplyCamera();
 }
+$('#pipe-board').addEventListener('click',e=>{
+ if(Date.now()<pipeIgnoreClickUntil)return;
+ const cell=e.target.closest('[data-r]');if(!cell)return;
+ pipeAct(+cell.dataset.r,+cell.dataset.c);
+});
 $('#pipe-undo').addEventListener('click',()=>{
  if(!pipeUndo.length)return;
  try{data.pipeTiles=JSON.parse(pipeUndo.pop())||{}}catch(e){data.pipeTiles={}}
@@ -467,9 +537,92 @@ $('#pipe-undo').addEventListener('click',()=>{
 $('#pipe-reset').addEventListener('click',()=>{
  if(!Object.keys(data.pipeTiles).length)return;
  pipeBackup();data.pipeTiles={};persist();drawPipes();
- $('#content-feedback').textContent='Поле очищено. Для четырёх маршрутов есть всего 16 прямых и 8 поворотных деталей.';
+ $('#content-feedback').textContent='Поле очищено. Лабиринт решается из ограниченного набора труб — ищи обходы препятствий.';
 });
 $('#content-next').addEventListener('click',()=>{if(pipeDefs.every(d=>pipeTrace(d).complete))go('scale')});
+// Camera: one-finger pan, two-finger pinch, plus accessible zoom buttons.
+let pipeZoom=1,pipeOffset={x:0,y:0},pipeInitialized=false,pipeIgnoreClickUntil=0;
+const pipePointers=new Map();
+let pipeGesture=null;
+function pipeViewSize(){return pipeCols*pipeCellSize*pipeZoom}
+function pipeClampCamera(){
+ const el=$('#pipe-viewport');if(!el)return;
+ const size=pipeViewSize(),w=el.clientWidth,h=el.clientHeight;
+ const lowX=w-size,lowY=h-size;
+ pipeOffset.x=size<=w?(w-size)/2:Math.min(8,Math.max(lowX-8,pipeOffset.x));
+ pipeOffset.y=size<=h?(h-size)/2:Math.min(8,Math.max(lowY-8,pipeOffset.y));
+}
+function pipeApplyCamera(){
+ const board=$('#pipe-board');if(!board)return;
+ pipeClampCamera();board.style.transform='translate('+pipeOffset.x+'px,'+pipeOffset.y+'px) scale('+pipeZoom+')';
+ $('#pipe-zoom-label').textContent=Math.round(pipeZoom*100)+'%';
+ $('#pipe-zoom-out').disabled=pipeZoom<=.56;$('#pipe-zoom-in').disabled=pipeZoom>=1.72;
+}
+function pipeResetCamera(force=false){
+ if(pipeInitialized&&!force){pipeApplyCamera();return}
+ const view=$('#pipe-viewport');
+ if(!view||!view.clientWidth)return;
+ pipeZoom=Math.min(1,Math.max(.62,view.clientWidth/pipeViewSize()*1.35));
+ pipeOffset={x:-24,y:-28};
+ pipeInitialized=true;pipeApplyCamera();
+}
+function pipeSetZoom(v,centerX,centerY){
+ const rect=$('#pipe-viewport').getBoundingClientRect();
+ const x=centerX??rect.width/2,y=centerY??rect.height/2,old=pipeZoom;
+ pipeZoom=Math.max(.55,Math.min(1.8,v));
+ pipeOffset.x=x-(x-pipeOffset.x)*pipeZoom/old;
+ pipeOffset.y=y-(y-pipeOffset.y)*pipeZoom/old;
+ pipeApplyCamera();
+}
+function pipePinchStart(){
+ const pts=[...pipePointers.values()];
+ if(pts.length<2)return;
+ const p=pts[0],q=pts[1];
+ const mid={x:(p.x+q.x)/2,y:(p.y+q.y)/2};
+ pipeGesture={mode:'pinch',distance:Math.hypot(p.x-q.x,p.y-q.y)||1,zoom:pipeZoom,worldX:(mid.x-pipeOffset.x)/pipeZoom,worldY:(mid.y-pipeOffset.y)/pipeZoom};
+}
+const pipeView=$('#pipe-viewport');
+pipeView.addEventListener('pointerdown',e=>{
+ if(e.pointerType==='mouse'&&e.button!==0)return;
+ const rect=pipeView.getBoundingClientRect();
+ pipePointers.set(e.pointerId,{x:e.clientX-rect.left,y:e.clientY-rect.top});
+ if(pipePointers.size===1)pipeGesture={mode:'pan',x:e.clientX,y:e.clientY,ox:pipeOffset.x,oy:pipeOffset.y,moved:false};
+ else pipePinchStart();
+});
+window.addEventListener('pointermove',e=>{
+ if(!pipePointers.has(e.pointerId))return;
+ const rect=pipeView.getBoundingClientRect();
+ pipePointers.set(e.pointerId,{x:e.clientX-rect.left,y:e.clientY-rect.top});
+ if(pipePointers.size>=2){
+  if(pipeGesture?.mode!=='pinch')pipePinchStart();
+  const pts=[...pipePointers.values()],p=pts[0],q=pts[1],mid={x:(p.x+q.x)/2,y:(p.y+q.y)/2};
+  pipeZoom=Math.max(.55,Math.min(1.8,pipeGesture.zoom*Math.hypot(p.x-q.x,p.y-q.y)/pipeGesture.distance));
+  pipeOffset.x=mid.x-pipeGesture.worldX*pipeZoom;pipeOffset.y=mid.y-pipeGesture.worldY*pipeZoom;
+  pipeIgnoreClickUntil=Date.now()+250;pipeApplyCamera();e.preventDefault();return;
+ }
+ if(pipeGesture?.mode==='pan'){
+  const dx=e.clientX-pipeGesture.x,dy=e.clientY-pipeGesture.y;
+  if(Math.hypot(dx,dy)>8)pipeGesture.moved=true;
+  if(pipeGesture.moved){
+   pipeOffset.x=pipeGesture.ox+dx;pipeOffset.y=pipeGesture.oy+dy;
+   pipeIgnoreClickUntil=Date.now()+250;pipeApplyCamera();e.preventDefault();
+  }
+ }
+},{passive:false});
+function pipePointerFinish(e){
+ if(!pipePointers.has(e.pointerId))return;
+ pipePointers.delete(e.pointerId);
+ if(pipeGesture?.moved||pipeGesture?.mode==='pinch')pipeIgnoreClickUntil=Date.now()+250;
+ if(pipePointers.size===1){
+  const p=[...pipePointers.values()][0];pipeGesture={mode:'pan',x:p.x+pipeView.getBoundingClientRect().left,y:p.y+pipeView.getBoundingClientRect().top,ox:pipeOffset.x,oy:pipeOffset.y,moved:true};
+ }else if(!pipePointers.size)pipeGesture=null;
+}
+window.addEventListener('pointerup',pipePointerFinish);
+window.addEventListener('pointercancel',pipePointerFinish);
+$('#pipe-zoom-in').addEventListener('click',()=>pipeSetZoom(pipeZoom*1.2));
+$('#pipe-zoom-out').addEventListener('click',()=>pipeSetZoom(pipeZoom/1.2));
+$('#pipe-zoom-reset').addEventListener('click',()=>pipeResetCamera(true));
+window.addEventListener('resize',()=>{if(current==='content')pipeResetCamera(true)});
 // Mission 5: illustrative scenario planner with staged audience sizes
 const audienceTiers=[5000,10000,50000,100000,300000,500000,1000000];
 function compact(n){return n>=1000000000?(n/1000000000).toLocaleString('ru-RU',{maximumFractionDigits:1})+' млрд':n>=1000000?(n/1000000).toLocaleString('ru-RU',{maximumFractionDigits:1})+' млн':n>=1000?(n/1000).toLocaleString('ru-RU',{maximumFractionDigits:1})+' тыс.':fmt(n)}
@@ -510,7 +663,7 @@ window.addEventListener('pointerup',e=>{if(!puzzlePointer)return;const id=puzzle
 window.addEventListener('pointercancel',()=>{puzzleGhost?.remove();puzzleGhost=null;puzzlePointer=null});
 $('#jigsaw-board').addEventListener('dragover',e=>e.preventDefault());$('#jigsaw-board').addEventListener('drop',e=>{e.preventDefault();const spot=e.target.closest('[data-slot]');if(!spot)return;const piece=Number(e.dataTransfer.getData('text/plain'));if(Number.isInteger(piece)){data.jigsawSelected=piece;dropPuzzle(+spot.dataset.slot)}});
 $('#puzzle-next').addEventListener('click',()=>{if(data.jigsaw.length===9)go('final')});
-$('#restart').addEventListener('click',()=>{data.coins=0;data.found=[];data.strategy=Array(5).fill(null);data.chosen=null;data.issues=[];data.links={};data.selected=null;data.pipes={};data.pipeActive=null;data.pipeTiles={};data.pipeTool='straight';pipeUndo.length=0;data.audience=10000;data.seenTiers=[];data.jigsaw=[];data.jigsawSelected=null;data.completed=[];previewPlayed=false;panEngaged=false;pan.scrollLeft=0;$('#strategy-check').textContent='Проверить стратегию';$('#strategy-feedback').textContent='Начнём с аудитории и позиционирования. Потом спланируем тест и каналы роста.';$('#research-status').textContent='Разведка начинается';$('#research-copy').textContent='Осмотри три подсвеченных объекта, чтобы собрать базу для маркетинговой стратегии.';$('#pilot-feedback').textContent='Попросим родителей пройти путь и проведём интервью: на каком шаге им стало сложно и почему?';$('#content-feedback').textContent='TikTok даёт охват, UGC родителей — доверие, обучение — интерес, рекомендации — покупки. Собери все четыре потока.';$('#puzzle-feedback').textContent='Маленькие решения превращаются в большую систему роста. Собери девять частей, чтобы открыть план реализации.';$$('[data-issue]').forEach(b=>b.classList.remove('discovered'));persist();go('home')});
+$('#restart').addEventListener('click',()=>{data.coins=0;data.found=[];data.strategy=Array(5).fill(null);data.chosen=null;data.issues=[];data.links={};data.selected=null;data.pipes={};data.pipeActive=null;data.pipeTiles={};data.pipeVersion=8;data.pipeTool='straight';pipeUndo.length=0;data.audience=10000;data.seenTiers=[];data.jigsaw=[];data.jigsawSelected=null;data.completed=[];previewPlayed=false;panEngaged=false;pan.scrollLeft=0;$('#strategy-check').textContent='Проверить стратегию';$('#strategy-feedback').textContent='Начнём с аудитории и позиционирования. Потом спланируем тест и каналы роста.';$('#research-status').textContent='Разведка начинается';$('#research-copy').textContent='Осмотри три подсвеченных объекта, чтобы собрать базу для маркетинговой стратегии.';$('#pilot-feedback').textContent='Попросим родителей пройти путь и проведём интервью: на каком шаге им стало сложно и почему?';$('#content-feedback').textContent='TikTok даёт охват, UGC родителей — доверие, обучение — интерес, рекомендации — покупки. Собери все четыре потока.';$('#puzzle-feedback').textContent='Маленькие решения превращаются в большую систему роста. Собери девять частей, чтобы открыть план реализации.';$$('[data-issue]').forEach(b=>b.classList.remove('discovered'));persist();go('home')});
 restore();updateCoins();go(new URLSearchParams(window.location.search).get('preview')==='pipes'?'content':'home');
 if(data.completed.includes('strategy'))$('#strategy-check').textContent='К первому продуктовому пилоту';
 })();

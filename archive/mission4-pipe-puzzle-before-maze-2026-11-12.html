@@ -1,0 +1,519 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<meta name="theme-color" content="#211a39"/>
+<meta name="description" content="CAP Growth Quest — интерактивная маркетинговая стратегия запуска EdTech-продукта в Казахстане."/>
+<title>CAP Growth Quest — интерактивная маркетинговая стратегия</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Tektur:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<style>
+:root{--deep:#291f44;--cream:#fff0cc;--gold:#ffcb54;--ink:#332749;--wood:#9b633d;--sea:#47bba6;--shadow:#120e2b;--title:'Press Start 2P',monospace;--body:'Tektur',system-ui,sans-serif;--top:env(safe-area-inset-top,0px);--bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}html,body{margin:0;min-width:320px;width:100%;min-height:100%;background:#18122e}body{font-family:var(--body);color:#fff2d6;overflow-x:hidden;font-size:16px}button,input{font:inherit}button{cursor:pointer;touch-action:manipulation}button:focus-visible,[tabindex]:focus-visible{outline:3px dashed #ffe6a4;outline-offset:3px}button:disabled{cursor:default}#app{position:relative;min-height:100svh;min-height:100dvh;overflow:hidden;isolation:isolate}.scene{position:absolute;inset:0;display:none;overflow:hidden;min-height:100svh;min-height:100dvh}.scene.active{display:block;animation:scene-in .45s ease-out}@keyframes scene-in{from{opacity:.4}to{opacity:1}}.backdrop{position:absolute;inset:0;overflow:hidden;background:#493b75}.backdrop img{position:absolute;width:100%;height:100%;object-fit:cover;object-position:var(--focus-x,50%) var(--focus-y,65%);pointer-events:none;user-select:none;filter:brightness(.88) saturate(1.06);transform:scale(var(--zoom,1));transform-origin:50% 50%}.backdrop:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,#1b183b9a 0%,transparent 28%,transparent 63%,#21172d99 100%);pointer-events:none}.backdrop .weather{position:absolute;inset:0;pointer-events:none;opacity:.37;background:radial-gradient(ellipse 50% 8% at 50% 44%,#ffe09b55,transparent 100%);animation:glow 8s ease-in-out infinite alternate}@keyframes glow{to{opacity:.72;transform:translateY(-6px)}}
+#home{--focus-x:53%;--focus-y:60%}#research{--focus-x:52%;--focus-y:70%}#strategy{--focus-x:54%;--focus-y:69%}#pilot{--focus-x:52%;--focus-y:66%}#content{--focus-x:51%;--focus-y:74%}#scale{--focus-x:53%;--focus-y:65%}#final{--focus-x:52%;--focus-y:66%}
+@media(min-aspect-ratio: 11/10){#home{--focus-x:53%;--focus-y:73%;--zoom:1.05}#strategy{--focus-x:56%;--focus-y:77%;--zoom:1.02}#pilot{--focus-x:55%;--focus-y:74%;--zoom:1.02}#content{--focus-x:58%;--focus-y:75%;--zoom:1.15}#scale{--focus-x:57%;--focus-y:78%;--zoom:1.08}}
+@media(min-aspect-ratio: 19/10){#content{--focus-x:61%;--focus-y:78%;--zoom:1.2}#home{--focus-y:79%;--zoom:1.1}}
+.layout{position:relative;z-index:2;min-height:100svh;min-height:100dvh;width:min(100%,1320px);margin:auto;padding:calc(12px + var(--top)) clamp(14px,3vw,38px) calc(16px + var(--bottom));display:flex;flex-direction:column;gap:12px}.hud{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:50px;flex-shrink:0}.brand{font-size:clamp(13px,3.5vw,21px);font-weight:900;line-height:1;color:#fff4ce;text-shadow:2px 2px #241a41;white-space:nowrap}.brand small{font-size:.61em;display:block;color:#ffcd69;letter-spacing:.07em;margin-top:5px}.hud-right{display:flex;align-items:center;gap:7px}.hud-tag,.hud-btn{border:3px solid #ba9275;background:#332647eb;box-shadow:0 4px #1f1838;color:#fff0cf;border-radius:6px;min-height:40px;display:inline-flex;align-items:center;justify-content:center;padding:7px 10px;font-weight:800;font-size:clamp(12px,2.6vw,16px);text-decoration:none}.hud-btn{gap:7px}.hud-btn:active,.gold-btn:active,.soft-btn:active{transform:translateY(3px);box-shadow:0 1px #1f1838}.hud-tag{gap:6px}.hud-icon{width:21px;height:21px;image-rendering:pixelated}.hud-title{font-family:var(--title);font-size:clamp(7px,1.5vw,11px);letter-spacing:0;white-space:nowrap}.chap-head{padding:15px 15px 13px;border:4px solid #644461;background:#29243eea;box-shadow:0 6px #1e1832;border-radius:5px;color:#fff1d0}.chapter-kicker{font-weight:900;font-size:12px;color:#ffce72;letter-spacing:.09em}.chapter-title,.dialog-title,.final-title{font-family:var(--title);font-weight:400;font-size:clamp(11px,2.55vw,19px);line-height:1.7;margin:7px 0 8px;color:#ffe9a6;overflow-wrap:break-word}.chap-head p{margin:0;font-weight:600;line-height:1.36;font-size:clamp(14px,3vw,17px)}.spacer{flex:1;min-height:20px}.bottom-stack{display:grid;gap:10px;flex-shrink:0}.panel{background:#fff0ce;border:5px solid #6b4b69;box-shadow:0 6px #251a34,inset 0 0 0 4px #d6b58d;border-radius:6px;color:#362a4a;padding:15px 17px}.panel p{font-weight:600;font-size:clamp(14px,3.5vw,18px);line-height:1.34;margin:4px 0 12px}.panel strong{color:#4e3e62}.dialog-title{font-size:clamp(10px,2.35vw,15px);color:#4e3654;line-height:1.6;margin:0 0 8px}.guide{display:flex;align-items:center;gap:10px}.guide img{width:clamp(64px,13vw,105px);height:auto;align-self:flex-end;image-rendering:pixelated;flex-shrink:0;filter:drop-shadow(0 4px 2px #30223a66)}.guide p{margin:0;font-size:clamp(13px,3vw,17px)}.gold-btn,.soft-btn{border:4px solid #3d2d54;box-shadow:0 6px #211930,inset 0 4px #ffedac,inset 0 -5px #d9832f;background:linear-gradient(#ffdd74,#ffb83d);color:#332649;font-weight:900;font-size:clamp(17px,3.8vw,23px);min-height:55px;line-height:1.04;display:flex;align-items:center;justify-content:center;gap:8px;text-align:center;padding:10px 15px;width:100%;border-radius:7px;text-shadow:0 1px #fff1c0}.gold-btn[disabled]{filter:grayscale(.68) saturate(.5);background:#c0b1a6;box-shadow:0 4px #211930;opacity:.92;font-size:clamp(15px,3vw,19px)}.soft-btn{background:#ffe6b4;box-shadow:0 4px #211930,inset 0 4px #fff7d7,inset 0 -4px #c99d71;font-size:clamp(13px,3vw,17px);min-height:42px}.mini-icon{display:inline-block;font-size:20px;color:#76528a}.pixel-svg{width:22px;height:22px;flex-shrink:0;image-rendering:pixelated}.ui-icon{width:18px;height:18px;flex-shrink:0;image-rendering:pixelated}.progress{display:flex;gap:5px;margin-top:9px}.progress span{flex:1;height:7px;border:1px solid #d9b18a;background:#584464}.progress span.done{background:#69dbb4}
+/* intro */
+#home .layout{justify-content:space-between}.logo-wrap{text-align:center;margin:clamp(10px,2vh,30px) auto 0;width:min(100%,680px)}.logo-hat{display:block;width:52px;margin:0 auto 8px;filter:drop-shadow(0 3px #392343)}.main-logo{font-family:var(--title);font-size:clamp(19px,5.2vw,46px);line-height:1.55;letter-spacing:-.03em;color:#fff2d3;-webkit-text-stroke:1px #392942;filter:drop-shadow(3px 5px 0 #34203c)}.main-logo span{display:block;color:#ffcd61}.ribbon{background:#ffebc1;border:4px solid #6a4566;color:#39284a;margin:9px auto 0;padding:9px 16px;max-width:600px;box-shadow:0 5px #4c2a4d;font-weight:800;font-size:clamp(14px,3vw,20px);line-height:1.2}.home-mid{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:150px}.home-character{width:clamp(162px,28vw,380px);object-fit:contain;image-rendering:pixelated;filter:drop-shadow(0 12px 10px #1c163b88)}.speech{max-width:430px;background:#fff3d9;border:5px solid #624865;color:#342841;border-radius:9px;padding:15px 15px;box-shadow:0 7px #211735;position:relative;font-size:clamp(13px,2.9vw,19px);line-height:1.3;font-weight:700}.speech:before{content:"";position:absolute;left:-18px;top:45%;border:12px solid transparent;border-right-color:#624865}.home-actions{width:min(100%,540px);margin:0 auto}.home-actions .gold-btn{min-height:68px;font-size:clamp(22px,5.2vw,33px)}.home-sub{display:flex;gap:8px;margin-top:10px}.home-sub .soft-btn{width:50%}
+/* research: panoramically explore the illustrated space */
+.explore{position:relative;width:100%;height:clamp(215px,36dvh,440px);border:6px solid #a67c62;box-shadow:0 8px #2a2240;background:#251c45;overflow:hidden}.explore-scroll{height:100%;width:100%;overflow:auto hidden;scrollbar-width:none;touch-action:pan-x;overscroll-behavior-x:contain;scroll-behavior:smooth}.explore-scroll::-webkit-scrollbar{display:none}.explore-world{position:relative;height:100%;width:max(100%,760px);background:url('assets/scenes/research.webp') center center/100% 100% no-repeat}.clue{position:absolute;transform:translate(-50%,-50%);width:clamp(52px,6vw,88px);height:clamp(52px,6vw,88px);border:3px dashed #fff2c0;border-radius:50%;background:#f6bc514a;box-shadow:0 0 0 3px #322348a0,0 0 22px #ffe7ab;animation:pulse 2.4s ease-in-out infinite;color:white;display:grid;place-items:center}.clue.done{opacity:.08;pointer-events:none}.clue[data-clue="parent"]{left:19%;top:69%}.clue[data-clue="market"]{left:54%;top:74%}.clue[data-clue="feedback"]{left:87%;top:47%}@keyframes pulse{50%{box-shadow:0 0 0 4px #322348a0,0 0 9px #ffe7ab;transform:translate(-50%,-50%) scale(.91)}}.pan-arrow{position:absolute;top:38%;width:41px;height:64px;border:3px solid #e2b97f;background:#2c2246dd;color:#fff1d0;box-shadow:0 4px #211830;z-index:4;display:grid;place-items:center;font-size:23px;border-radius:5px}.pan-arrow.left{left:5px}.pan-arrow.right{right:5px}.pan-arrow:disabled{opacity:.28}.pan-bar{position:absolute;top:9px;left:28%;right:28%;height:7px;background:#252040bb;border:1px solid #ffdfaa;pointer-events:none;z-index:4}.pan-bar span{display:block;height:100%;background:#ffcc66;position:relative}.clue-chip-row{display:flex;gap:8px;flex-wrap:wrap}.clue-chip{font-size:clamp(13px,2.75vw,17px);font-weight:800;flex:1;min-width:70px;background:#4a3a5e;color:#e6d8d6;padding:6px;text-align:center;border:2px solid #80647a}.clue-chip.done{background:#316b5f;color:#ffedca;border-color:#71caa7}
+/* strategy dragging */
+.board{background:#28243edb;border:5px solid #a27c67;box-shadow:0 7px #241b35;padding:12px;border-radius:5px}.board-caption{font-weight:800;color:#ffe2a5;font-size:clamp(13px,2.5vw,17px);margin:0 0 8px}.road-slots{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}.road-slot{background:#3f3a58;color:#fff4d2;border:2px dashed #d2b58b;min-height:75px;padding:6px 3px;border-radius:4px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;font-size:clamp(10px,2vw,14px);font-weight:700;line-height:1.1;word-break:break-word}.road-slot:before{content:attr(data-step);font-size:11px;color:#f8d485}.road-slot.filled{background:#357667;border-style:solid;border-color:#a1e5c0}.cards-bank{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}.strategy-card{border:3px solid #754e6a;background:#ffedc6;box-shadow:0 3px #242039;padding:9px 10px;color:#3b2c50;font-weight:900;font-size:clamp(12px,2.8vw,18px);border-radius:3px;touch-action:none;min-height:43px}.strategy-card.selected{border-color:#6decc2;background:#fff8d2;box-shadow:0 0 0 3px #59ccac}.strategy-card:disabled{opacity:.38;cursor:default}.drag-ghost{position:fixed;transform:translate(-50%,-50%);z-index:100;pointer-events:none;background:#ffdf80;border:3px solid #603d67;box-shadow:0 7px #1c1533;padding:12px;color:#302544;font-weight:900;white-space:nowrap}.feedback{font-size:clamp(13px,3vw,18px);line-height:1.3;font-weight:650}.feedback.ok{color:#286b54}
+/* pilot */
+.funnel{background:#25213fe8;border:5px solid #97745e;box-shadow:0 7px #231832;padding:13px;display:grid;gap:9px}.funnel-kicker{font-size:12px;color:#ffe3ae;font-weight:900}.funnel-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.metric{border:3px solid #b18c76;background:#fff0d1;color:#382c4c;padding:10px 4px;text-align:center}.metric b{display:block;font-size:clamp(23px,5vw,38px);line-height:1.15}.metric span{font-size:clamp(12px,2.3vw,15px);font-weight:700}.issue-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}.issue{border:3px solid #997880;background:#413452;color:#ffebd4;padding:11px 7px;min-height:76px;font-size:clamp(12px,2.55vw,17px);font-weight:700;line-height:1.2;text-align:center}.issue.discovered{border-color:#a0e3be;background:#266455;color:#fff8d5}.issue-title{font-weight:900;color:#ffe4aa;margin-bottom:5px}.mini-note{font-size:12px;color:#eddbc4;line-height:1.28}
+/* connections */
+.links-board{background:#202844ed;border:5px solid #94765f;padding:12px;box-shadow:0 7px #231b36}.links-area{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,13vw,140px);min-height:310px}.links-col{display:grid;grid-template-rows:repeat(4,1fr);gap:8px;z-index:2}.link-node{border:3px solid #9b7a91;border-radius:4px;background:#3f5169;color:#fff2d7;min-height:58px;padding:5px 7px;font-size:clamp(12px,2.6vw,18px);font-weight:800;line-height:1.15;display:flex;align-items:center;justify-content:center;text-align:center}.link-node.active{background:#b47a3c;border-color:#ffe4a4;color:#291f43}.link-node.done{background:#2d7b67;border-color:#91dfbd}.link-node:disabled{opacity:.86}.links-svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1;overflow:visible}
+/* economics */
+.economy{background:#fff0cf;border:5px solid #715069;box-shadow:0 7px #231a35;padding:14px 16px;color:#302344}.model-note{font-size:12px;font-weight:750;color:#785f70;margin:0 0 9px}.range-row{margin:10px 0;display:grid;gap:5px}.range-head{display:flex;justify-content:space-between;gap:8px;font-size:clamp(13px,3vw,17px);font-weight:750}.range-head b{white-space:nowrap}.range-row input{width:100%;accent-color:#a86c45;height:20px;touch-action:pan-y}.numbers{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:13px}.numbers .metric{padding:9px 4px;border-color:#b79877}.numbers .metric b{font-size:clamp(16px,4vw,27px)}.numbers .metric span{font-size:11px}.model-warning{font-size:12px;color:#675365;margin:9px 0 0;font-weight:600}.successbar{background:#533a5a;color:#fff2d4;padding:9px;margin-top:10px;font-size:14px;font-weight:750;text-align:center}.successbar.win{background:#287561}
+/* finale */
+.final-scroll{flex:1;min-height:0;overflow:auto;padding-right:3px;scrollbar-width:thin}.final-card{background:#fff1d2;color:#322747;border:5px solid #735069;box-shadow:0 7px #271e35;padding:16px}.final-title{text-align:center;font-size:clamp(14px,3vw,23px);color:#593d64;line-height:1.65}.final-card p{font-weight:600;font-size:clamp(14px,2.65vw,19px);line-height:1.4}.phase{border:3px solid #c79d75;background:#fff8e8;margin:10px 0;padding:12px 13px;color:#3a2c4b}.phase strong{font-family:var(--title);font-size:clamp(9px,1.6vw,12px);line-height:1.65;display:block;margin-bottom:6px;color:#386758}.phase p{margin:0;font-size:clamp(13px,2.3vw,17px)}.pill-row{display:flex;gap:6px;flex-wrap:wrap}.pill-row span{padding:5px 9px;background:#e3c99e;color:#463450;font-size:clamp(11px,2vw,14px);font-weight:800;border:2px solid #b18d73}
+/* responsive refinements */
+@media(max-width:640px){.layout{gap:9px}.chap-head{padding:11px 12px}.chapter-title{font-size:clamp(10px,2.65vw,13px);line-height:1.65}.chap-head p{font-size:13px}.panel{padding:11px 12px}.panel p{font-size:13px}.bottom-stack{gap:7px}.guide img{width:56px}.guide p{font-size:12px}.home-mid{flex-direction:column;align-items:stretch;justify-content:center;gap:0}.home-character{width:clamp(130px,38vw,210px);margin:auto 0 auto 0}.speech{max-width:100%;font-size:clamp(13px,3.15vw,16px);padding:12px 14px}.speech:before{top:-17px;left:30px;border:9px solid transparent;border-bottom-color:#624865}.logo-wrap{margin-top:4px}.main-logo{font-size:clamp(18px,5.5vw,26px)}.ribbon{font-size:14px;padding:8px}.home-actions .gold-btn{min-height:62px}.funnel{padding:10px;gap:7px}.explore{height:clamp(190px,33dvh,320px)}.road-slots{gap:3px}.road-slot{min-height:66px;font-size:10px;padding:5px 2px}.board{padding:10px}.cards-bank{gap:6px}.strategy-card{font-size:13px;min-height:40px;padding:6px}.links-area{min-height:265px;gap:32px}.link-node{min-height:47px;padding:3px;font-size:12px}.economy{padding:9px 12px}.range-row{margin:7px 0}.range-head{font-size:13px}.numbers .metric b{font-size:19px}}
+@media(max-height:730px) and (max-width:640px){.layout{padding-top:calc(8px + var(--top));padding-bottom:calc(9px + var(--bottom));gap:6px}.hud{min-height:40px}.hud-btn,.hud-tag{min-height:33px;padding:5px 7px}.chap-head{padding:8px 10px}.chapter-title{margin:4px 0}.chapter-kicker{font-size:10px}.explore{height:27dvh;min-height:140px}.guide img{width:42px}.panel p{margin:3px 0 6px}.gold-btn{min-height:45px;padding:7px}.home-character{width:28vw}.home-mid{flex-direction:row}.speech{font-size:12px}.road-slot{min-height:53px}.links-area{min-height:215px}.link-node{min-height:38px}.economy .range-row{margin:3px 0}.model-note,.model-warning{font-size:10px}}
+@media(min-width:900px){.layout{padding-inline:clamp(25px,5vw,70px)}.mission-layout{display:grid;grid-template-columns:minmax(340px,1fr) minmax(360px,1fr);grid-template-rows:auto auto 1fr;gap:22px;align-items:start}.mission-layout .hud{grid-column:1/-1}.mission-layout .chap-head{grid-column:1;grid-row:2}.mission-layout .activity{grid-column:2;grid-row:2/4;align-self:center}.mission-layout .bottom-stack{grid-column:1;grid-row:3;align-self:end}.mission-layout .spacer{display:none}.home-mid{justify-content:center}.home-character{width:320px}.speech{max-width:460px}.explore{height:min(64dvh,520px)}.road-slot{min-height:90px}.links-area{min-height:370px}.final-layout{max-width:1100px}.final-card{padding:22px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+
+/* CAP Growth Quest v7 — 16-bit illustrated responsive gameplay */
+.scene{overflow-y:auto;overscroll-behavior-y:contain}.scene.active{display:block}
+.layout{min-height:100dvh}.activity{position:relative;flex:0 1 auto;min-height:0}
+.hud{gap:6px}.chap-head{border:4px solid #7b5170;background:linear-gradient(155deg,#302443f5,#2a2745f5);box-shadow:0 6px 0 #1c1935, inset 0 0 0 2px #c38c9a3d}
+.chapter-kicker{font-weight:800;letter-spacing:.035em;color:#ffd582}.chapter-title{font-size:clamp(10px,2.7vw,17px);line-height:1.62}
+.panel{background:#fff1d2;box-shadow:0 6px #241a35,inset 0 0 0 4px #e0b68a;border-color:#755071}
+.dialog-title{line-height:1.7}.gold-btn{border-color:#674058;box-shadow:0 6px #28172f,inset 0 3px #fff2bb,inset 0 -5px #cf762f;background:linear-gradient(#ffe27e,#ffb638)}
+/* Mission 1: preserve the photographic pixel-art composition without distortion */
+.explore{height:clamp(215px,34dvh,430px);border:5px solid #a77a68;box-shadow:0 6px #291e3d;background:#251c45;flex-shrink:0}
+.explore-world{position:relative;height:100%;width:auto;min-width:100%;background:url('assets/scenes/research.webp') center center / cover no-repeat}
+.explore-scroll{touch-action:pan-x;overflow:auto hidden;scrollbar-width:none}
+.explore-scroll:focus-visible{outline:2px solid #ffdc83;outline-offset:-3px}
+.clue{width:clamp(33px,9vw,46px);height:clamp(33px,9vw,46px);border:2px solid #ffe39c;background:#f6c4533d;box-shadow:0 0 0 4px #ffcf5d55,0 0 16px #fff1a4;backdrop-filter:blur(1px);border-radius:50%;z-index:3;animation:clue-pulse 1.9s ease-in-out infinite}
+.clue:before{content:"";width:9px;height:9px;background:#fff4a8;border-radius:50%;box-shadow:0 0 8px #fff1bd}
+.clue.done{opacity:.08}
+.clue[data-clue="parent"]{left:11.4%;top:67.5%}.clue[data-clue="market"]{left:35%;top:87%}.clue[data-clue="feedback"]{left:83.3%;top:65.7%}
+@keyframes clue-pulse{50%{transform:translate(-50%,-50%) scale(.88);box-shadow:0 0 0 2px #ffcf5d55,0 0 7px #fff1a4}}
+.pan-arrow{display:none!important}.pan-bar{top:10px;z-index:5;height:6px}
+/* Pipes mission */
+.pipes-panel,.jigsaw-panel{background:#2a2345ed;border:5px solid #b98c72;box-shadow:0 7px #1d1934,inset 0 0 0 2px #e6b58a55;border-radius:7px;padding:12px;color:#fff2d7}
+.pipes-top,.jigsaw-top{display:flex;align-items:center;justify-content:space-between;gap:10px;font-weight:900;font-size:clamp(13px,3.2vw,18px);margin-bottom:9px;color:#ffe2a0}
+.pipes-heading{font-family:var(--title);font-size:clamp(7px,2vw,11px);line-height:1.5}
+.pipe-legend{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px;margin:0 0 8px}
+.pipe-legend-item{background:#fff0ce;border:3px solid #705271;color:#332846;display:flex;gap:7px;align-items:center;min-width:0;text-align:left;padding:6px;min-height:42px;font-size:clamp(11px,2.9vw,15px);font-weight:850;line-height:1.12;border-radius:3px}
+.pipe-legend-item small{display:block;font-size:.85em;opacity:.8}.pipe-legend-item.selected{box-shadow:0 0 0 3px var(--pipe-color);background:#fff9e4}.pipe-legend-item.complete{border-color:#7de6aa}
+.pipe-dot{width:28px;height:28px;display:grid;place-items:center;background:var(--pipe-color);border:3px solid #403252;color:#2d2441;flex-shrink:0;font-family:var(--title);font-size:10px}
+.pipe-board-wrap{display:flex;justify-content:center;overflow:hidden;padding:4px 0}
+.pipe-board{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));width:min(100%,360px);aspect-ratio:7 / 8;background:#3b3159;border:4px solid #856680;box-shadow:0 4px #160f2c;touch-action:none}
+.pipe-cell{position:relative;min-width:0;min-height:0;aspect-ratio:1;border:1px solid #8b78915c;background:#322949;display:grid;place-items:center;cursor:crosshair;padding:0;overflow:hidden;color:#fff}
+.pipe-cell:nth-child(2n){background:#362d50}.pipe-cell:focus-visible{z-index:5}
+.pipe-cell svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.pipe-cell.pipe-endpoint{background:#3c3555;box-shadow:inset 0 0 0 2px var(--pipe-color);color:#fff;}
+.pipe-cell .endpoint-glyph{font-family:var(--title);font-size:clamp(10px,2.9vw,17px);color:var(--pipe-color);text-shadow:1px 1px #171229}
+.pipes-instruction,.jigsaw-instructions{font-size:clamp(12px,3vw,15px);color:#ffe8c1;line-height:1.3;margin:11px 0 8px;min-height:35px}
+.pipe-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}.pipe-actions .soft-btn{min-height:37px;white-space:nowrap;font-size:clamp(12px,3vw,15px);border-width:3px;padding:7px 3px}
+/* Growth laboratory */
+.growth-economy{padding:12px}.growth-caption{display:flex;justify-content:space-between;align-items:center;gap:8px;font-family:var(--title);font-size:clamp(8px,2.1vw,11px);line-height:1.5;color:#ffe2a0}
+.growth-caption small{font-family:var(--body);font-size:12px;font-weight:700;text-align:right;color:#f7e1c6}
+.audience-value{text-align:center;background:#fff1d1;color:#3b2b53;padding:9px 7px;margin:10px 0;border:3px solid #c79d78;box-shadow:0 4px #211932}.audience-value span{display:block;font-size:13px;font-weight:800}.audience-value strong{font-family:var(--title);font-weight:400;font-size:clamp(13px,3.8vw,22px);line-height:1.75}
+.tier-chips{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;margin:10px 0 15px}.tier-chip{border:2px solid #99748d;background:#fff1cf;color:#473251;font-family:var(--body);font-size:clamp(12px,2.9vw,16px);font-weight:800;padding:6px 1px;min-height:35px}.tier-chip.active{background:#ffcd58;border-color:#fff1aa;box-shadow:0 0 0 2px #5d3e69}
+.growth-economy .range-row{margin:10px 0}.growth-economy .range-head{font-size:clamp(13px,3.2vw,16px)}.growth-economy .growth-metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin:13px 0}
+.growth-metrics .metric{padding:10px 5px;min-width:0}.growth-metrics .metric b{font-size:clamp(14px,3.45vw,23px);overflow-wrap:anywhere;line-height:1.2}.growth-metrics .metric span{font-size:clamp(10px,2.65vw,14px)}
+.growth-chart{background:#28223e;border:2px solid #755673;padding:10px;display:grid;gap:7px}.chart-level{display:grid;grid-template-columns:52px 1fr 55px;gap:7px;align-items:center;font-size:clamp(11px,2.9vw,15px);font-weight:800}.chart-level>div{height:12px;background:#48365e;border:1px solid #9976a0}.chart-level i{display:block;background:linear-gradient(90deg,#50e7c0,#ffcb4e);height:100%}.chart-level b{text-align:right;font-size:12px}.growth-economy .model-warning{margin:10px 0 0;font-size:clamp(11px,2.75vw,14px);line-height:1.35}
+/* Puzzle mission */
+.jigsaw-panel{padding:12px}.jigsaw-top{font-family:var(--title);font-size:clamp(8px,2.1vw,12px)}
+.jigsaw-board{position:relative;width:min(100%,350px);aspect-ratio:1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:repeat(3,minmax(0,1fr));margin:auto;background:linear-gradient(#2d254aca,#2d254aca),url('assets/scenes/scale.webp') center 67% / cover;border:4px solid #c69c76;box-shadow:0 5px #1b1532;overflow:hidden}
+.jigsaw-slot{position:relative;min-width:0;min-height:0;overflow:hidden;background:#28213a94;border:1px dashed #e6c99d8b;display:grid;place-items:center;color:#f8dfad}
+.jigsaw-slot:disabled{opacity:1}.slot-guide{font-family:var(--title);font-size:15px;opacity:.35}.jigsaw-slot.is-placed{border:1px solid #d5a671}
+.jigsaw-piece{position:relative;width:100%;height:100%;border:2px solid #fff1be;box-shadow:inset 0 0 0 2px #634765;min-width:0;min-height:0;background-image:linear-gradient(#16112e35,#16112e35),url('assets/scenes/scale.webp');background-size:300% 300%;background-repeat:no-repeat;image-rendering:pixelated;display:grid;place-items:end center;text-align:center;padding:3px;cursor:grab}
+.jigsaw-piece span{background:#271d42d9;color:#fff4d6;font-size:clamp(8px,2.35vw,12px);font-weight:850;line-height:1.05;width:100%;padding:3px 1px;text-shadow:1px 1px #21162b}
+.jigsaw-tray{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;min-height:84px;margin-top:7px}.jigsaw-tray .jigsaw-piece{height:clamp(53px,14vw,78px);border-width:3px}.jigsaw-tray .jigsaw-piece.selected{outline:3px solid #ffd668;outline-offset:0;filter:brightness(1.15)}
+#puzzle .bottom-stack .guide img{width:clamp(58px,13vw,95px)}
+@media(max-width:420px){.layout{gap:9px;padding:calc(10px + var(--top)) 12px calc(13px + var(--bottom))}.chap-head{padding:10px 12px}.chapter-title{font-size:clamp(10px,2.65vw,12px);margin:5px 0}.chap-head p{font-size:clamp(13px,3.6vw,15px)}.panel{padding:10px 12px}.panel p{font-size:13px}.dialog-title{font-size:10px}.gold-btn{min-height:49px}.explore{height:clamp(213px,32dvh,330px)}.clue-chip{font-size:clamp(12px,3vw,14px)}.pipes-panel{padding:8px}.pipe-board{width:min(100%,310px)}.pipes-instruction{margin:6px 0;font-size:12px}.pipe-legend-item{min-height:34px;padding:3px 4px}.pipe-dot{width:22px;height:22px;font-size:8px}.jigsaw-board{width:min(100%,300px)}.jigsaw-panel{padding:8px}.jigsaw-instructions{font-size:12px}.jigsaw-tray .jigsaw-piece{height:55px}.growth-economy{padding:8px}.growth-chart{padding:5px}}
+@media(max-height:760px) and (max-width:480px){.explore{height:clamp(185px,29dvh,270px)}.pipes-panel{padding:6px}.pipe-board{width:min(100%,282px)}.pipe-legend-item{min-height:30px}.jigsaw-board{width:min(100%,258px)}.jigsaw-tray .jigsaw-piece{height:45px}}
+@media(prefers-reduced-motion:reduce){.clue{animation:none}}
+
+
+/* Finishing touches: keep exact aspect ratio on desktop, crop-free puzzle success */
+@media(min-width:800px){#research .explore{width:min(100%,1100px);height:min(65vw,620px);margin-inline:auto}#research .activity{max-width:1100px;margin-inline:auto;width:100%}}
+.jigsaw-piece em{font-style:normal;color:#ffda72}.jigsaw-board .jigsaw-piece{pointer-events:none}
+#puzzle .jigsaw-tray:empty{display:none}
+
+.jigsaw-tray .jigsaw-piece{touch-action:none;user-select:none}.drag-preview{box-shadow:0 6px 14px #100922aa;transform:scale(1.05);opacity:.92}
+
+/* Mission 2: validated stage feedback; filled does not imply correct. */
+#strategy .road-slot{position:relative;transition:background-color .18s,border-color .18s,box-shadow .18s}
+#strategy .road-slot.filled{background:#4c425f;border-color:#c4a77f;border-style:solid;color:#fff5dd}
+#strategy .road-slot.validated{background:#276b57;border:3px solid #9ae8b7;box-shadow:inset 0 0 0 2px #205b4b,0 0 9px #76e8ae55;color:#f5ffdc;opacity:1;cursor:default}
+#strategy .road-slot.needs-review{background:#624054;border:3px solid #ffba67;box-shadow:inset 0 0 0 2px #78465a;color:#fff4dc}
+#strategy .road-slot.validated::after,#strategy .road-slot.needs-review::after{position:absolute;top:-9px;right:-6px;width:22px;height:22px;display:grid;place-items:center;border:2px solid #322a4b;border-radius:3px;font:900 16px/1 'Tektur',sans-serif;text-shadow:none}
+#strategy .road-slot.validated::after{content:'✓';background:#a2edac;color:#164d38}
+#strategy .road-slot.needs-review::after{content:'!';background:#ffbd67;color:#683c28}
+#strategy .road-slot:focus-visible{outline:3px solid #fff1a6;outline-offset:2px}
+@media(max-width:640px){#strategy .road-slot.validated::after,#strategy .road-slot.needs-review::after{top:-8px;right:-4px;width:19px;height:19px;font-size:13px}}
+
+
+/* FINITE PIPE PUZZLE — selectable inventory, rotation, eraser, and connected flow */
+#content .pipe-board{touch-action:manipulation}
+#content .pipe-cell{touch-action:manipulation;cursor:pointer;border-color:#b9a9bc4f}
+#content .pipe-cell.pipe-used{background:#403957}
+#content .pipe-cell.pipe-lit{background:#40536b;box-shadow:inset 0 0 7px #8be9ff88}
+#content .pipe-cell.pipe-endpoint{cursor:default}
+#content .pipe-cell:disabled{opacity:1}
+#content .pipe-legend-item{min-height:39px;position:relative;padding:5px 7px}
+#content .pipe-legend-item.complete{background:#d1f2d6;border-color:#79dfad}
+#content .pipe-ok{font-size:21px;font-weight:900;color:#216749;margin-left:auto}
+#content .pipe-inventory{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin:3px 0 9px}
+#content .pipe-tool{display:grid;grid-template-columns:36px minmax(0,1fr);grid-template-rows:1fr 1fr;column-gap:6px;align-items:center;min-width:0;min-height:58px;border:3px solid #977a8c;background:#f9eac9;color:#352b4a;box-shadow:0 4px #191629;padding:5px;cursor:grab;touch-action:none}
+#content .pipe-tool.selected{background:#fff9e4;border-color:#78e2b8;box-shadow:0 0 0 2px #459c7d,0 4px #191629}
+#content .pipe-tool:disabled{opacity:.53;cursor:default}
+#content .pipe-tool-image{display:grid;place-items:center;grid-row:1/3;width:36px;height:36px;border:2px solid #796b8c;background:#3a3554}
+#content .pipe-tool-image svg{width:100%;height:100%}
+#content .pipe-tool-title{font-family:var(--body);font-size:clamp(12px,2.55vw,15px);font-weight:900;line-height:1.05;text-align:left}
+#content .pipe-tool-qty{font-family:var(--body);font-size:clamp(12px,2.45vw,15px);font-weight:800;text-align:left;color:#674e78}
+#content .pipe-erase-symbol{font:900 32px/1 var(--body);color:#ffd0aa}
+#content .pipe-terminal{position:absolute;inset:0;pointer-events:none}
+#content .pipe-terminal::before{content:"";position:absolute;top:39%;height:22%;width:50%;background:var(--pipe-color);border-top:2px solid #21192f;border-bottom:2px solid #21192f}
+#content .pipe-terminal.start::before{left:50%}
+#content .pipe-terminal.finish::before{left:0}
+#content .endpoint-glyph{position:relative;z-index:1;background:#332a4b;border:2px solid var(--pipe-color);border-radius:3px;padding:1px 3px}
+.pipe-ghost{position:fixed;width:46px;height:46px;transform:translate(-50%,-50%);background:#35304d;border:3px solid #ffe09a;box-shadow:0 4px #201730;pointer-events:none;z-index:999}
+.pipe-ghost svg{display:block;width:100%;height:100%}
+#content .pipe-actions .soft-btn:disabled{opacity:.46}
+@media(max-width:420px){
+ #content .pipes-panel{padding:7px}
+ #content .pipe-legend{gap:4px;margin-bottom:5px}
+ #content .pipe-legend-item{min-height:32px;padding:3px 5px}
+ #content .pipe-inventory{gap:4px;margin:2px 0 7px}
+ #content .pipe-tool{grid-template-columns:29px minmax(0,1fr);min-height:47px;padding:3px;border-width:2px;column-gap:3px}
+ #content .pipe-tool-image{width:29px;height:29px}
+ #content .pipe-tool-title{font-size:11px}
+ #content .pipe-tool-qty{font-size:12px}
+ #content .pipe-board{width:min(100%,286px)}
+ #content .pipes-instruction{font-size:11px;line-height:1.25;min-height:35px}
+}
+@media(max-height:760px) and (max-width:480px){#content .pipe-board{width:min(100%,260px)}}
+
+</style>
+</head>
+<body>
+<main id="app" aria-label="CAP Growth Quest — интерактивная маркетинговая стратегия">
+  <section class="scene active" id="home" aria-label="Главная страница">
+    <div class="backdrop"><img src="assets/scenes/home.webp" alt=""/><div class="weather"></div></div>
+    <div class="layout">
+      <div class="hud"><div class="brand">CAP <small>EDUCATION</small></div><div class="hud-right"><span class="hud-tag">MARKETING QUEST</span><button class="hud-btn" id="home-info" aria-label="Об игре">?</button></div></div>
+      <div class="logo-wrap"><div class="main-logo">CAP <span>GROWTH</span> QUEST</div><div class="ribbon">От идеи к устойчивому росту EdTech-продукта</div></div>
+      <div class="spacer"></div>
+      <div class="home-mid"><picture><source srcset="assets/characters/hero-petting.webp" type="image/webp"><img class="home-character" src="assets/characters/hero-petting.gif" alt="Мальчик в очках и рыжий кот спокойно сидят и смотрят на закат; мальчик гладит кота"/></picture><div class="speech">Новый школьный продукт почти готов. А как нам найти первых пользователей, заслужить доверие родителей и выстроить маркетинг?</div></div>
+      <div class="home-actions"><button class="gold-btn" id="start">▶ Начать приключение</button><div class="home-sub"><button class="soft-btn" id="about">О проекте</button><button class="soft-btn" id="how">Как играть</button></div></div>
+    </div>
+  </section>
+
+  <section class="scene" id="research" aria-label="Миссия 1: разведка рынка">
+    <div class="backdrop"><img src="assets/scenes/research.webp" alt=""/><div class="weather"></div></div>
+    <div class="layout mission-layout">
+      <header class="hud"><button class="hud-btn" data-menu>← Меню</button><span class="hud-title">01 / 06</span><div class="hud-tag">◈ <span data-coins>0</span></div></header>
+      <div class="chap-head"><div class="chapter-kicker">МИССИЯ 01 · ИССЛЕДОВАНИЕ</div><h1 class="chapter-title">Найти реальную проблему</h1><p>Прежде чем покупать трафик, изучаем родителей, конкурентов и опыт первых пользователей.</p><div class="progress" data-progress></div></div>
+      <div class="activity"><div class="explore"><div class="explore-scroll" id="explore-scroll" tabindex="0" aria-label="Широкая исследовательская комната. Проведи пальцем влево или вправо, чтобы осмотреть её"><div class="explore-world" id="explore-world"><button class="clue" data-clue="parent" aria-label="Изучить аудиторию: глобус"></button><button class="clue" data-clue="market" aria-label="Изучить рынок: тетрадь с графиками"></button><button class="clue" data-clue="feedback" aria-label="Изучить кастдев: ноутбук"></button></div></div><div class="pan-bar" aria-hidden="true"><span id="pan-thumb"></span></div></div></div>
+      <div class="spacer"></div>
+      <div class="bottom-stack"><div class="panel"><div class="dialog-title" id="research-status">Разведка начинается</div><p id="research-copy">Осмотри три подсвеченных объекта, чтобы собрать базу для маркетинговой стратегии.</p><div class="clue-chip-row"><span class="clue-chip" data-chip="parent">Родители</span><span class="clue-chip" data-chip="market">Рынок</span><span class="clue-chip" data-chip="feedback">Кастдев</span></div></div><button class="gold-btn" id="research-next" disabled>Найдено 0 из 3</button></div>
+    </div>
+  </section>
+
+  <section class="scene" id="strategy" aria-label="Миссия 2: маркетинговая стратегия">
+    <div class="backdrop"><img src="assets/scenes/strategy.webp" alt=""/><div class="weather"></div></div>
+    <div class="layout mission-layout"><header class="hud"><button class="hud-btn" data-menu>← Меню</button><span class="hud-title">02 / 06</span><div class="hud-tag">◈ <span data-coins>0</span></div></header>
+      <div class="chap-head"><div class="chapter-kicker">МИССИЯ 02 · СТРАТЕГИЯ</div><h1 class="chapter-title">Собери план выхода на рынок</h1><p>Изучили аудиторию — теперь определяем сегменты, позиционирование, последовательность экспериментов и метрики.</p><div class="progress" data-progress></div></div>
+      <div class="activity"><div class="board"><p class="board-caption">Перетащи или нажми карточку, затем нужное место на карте.</p><div class="road-slots" id="road-slots" aria-label="Пять этапов стратегии"></div><div class="cards-bank" id="strategy-cards" aria-label="Карточки стратегических задач"></div></div></div>
+      <div class="spacer"></div><div class="bottom-stack"><div class="panel"><div class="guide"><picture><source srcset="assets/characters/hero-petting.webp" type="image/webp"><img src="assets/characters/hero-petting.gif" alt=""/></picture><p id="strategy-feedback">Начнём с аудитории и позиционирования. Потом спланируем тест и каналы роста.</p></div></div><button class="gold-btn" id="strategy-check">Проверить стратегию</button></div>
+    </div>
+  </section>
+
+  <section class="scene" id="pilot" aria-label="Миссия 3: продуктовый пилот">
+    <div class="backdrop"><img src="assets/scenes/pilot.webp" alt=""/><div class="weather"></div></div>
+    <div class="layout mission-layout"><header class="hud"><button class="hud-btn" data-menu>← Меню</button><span class="hud-title">03 / 06</span><div class="hud-tag">◈ <span data-coins>0</span></div></header>
+      <div class="chap-head"><div class="chapter-kicker">МИССИЯ 03 · ПРОДУКТОВЫЙ ПИЛОТ</div><h1 class="chapter-title">Первые пользователи и UX</h1><p>Тестируем диагностику, первый опыт и готовность платить — прежде чем масштабировать маркетинг.</p><div class="progress" data-progress></div></div>
+      <div class="activity"><div class="funnel"><div class="funnel-kicker">ИГРОВАЯ СИТУАЦИЯ · ЦИФРЫ УСЛОВНЫЕ</div><div class="funnel-row"><div class="metric"><b>100</b><span>Начали тест</span></div><div class="metric"><b>42</b><span>Завершили</span></div><div class="metric"><b>8</b><span>Оплатили</span></div></div><div class="issue-title">Найди две точки потери пользователей</div><div class="issue-row"><button class="issue" data-issue="long">Анкета слишком длинная</button><button class="issue" data-issue="value">Не показан результат диагностики</button></div><div class="mini-note">Нажми на проблемы, чтобы увидеть гипотезы улучшения. Не делаем вывод о причине только по конверсиям.</div></div></div>
+      <div class="spacer"></div><div class="bottom-stack"><div class="panel"><div class="guide"><picture><source srcset="assets/characters/hero-petting.webp" type="image/webp"><img src="assets/characters/hero-petting.gif" alt=""/></picture><p id="pilot-feedback">Попросим родителей пройти путь и проведём интервью: на каком шаге им стало сложно и почему?</p></div></div><button class="gold-btn" id="pilot-next" disabled>Исследуй 2 проблемы</button></div>
+    </div>
+  </section>
+
+  <section class="scene" id="content" aria-label="Миссия 4: соедини каналы роста трубами">
+    <div class="backdrop"><img src="assets/scenes/content.webp" alt=""/><div class="weather"></div></div>
+    <div class="layout mission-layout">
+      <header class="hud"><button class="hud-btn" data-menu>← Меню</button><span class="hud-title">04 / 06</span><div class="hud-tag">◇ <span data-coins>0</span></div></header>
+      <div class="chap-head"><div class="chapter-kicker">МИССИЯ 04 · ФАБРИКА РОСТА</div><h1 class="chapter-title">Проложи каналы роста</h1><p>Соедини каждый маркетинговый канал с его результатом. Собери трубопровод из ограниченного набора прямых и угловых деталей.</p><div class="progress" data-progress></div></div>
+      <div class="activity activity-pipes"><div class="pipes-panel">
+        <div class="pipes-top"><span class="pipes-heading">МАРКЕТИНГОВЫЙ ТРУБОПРОВОД</span><span id="pipes-count">0 / 4</span></div>
+        <div class="pipe-legend" id="pipe-legend"></div><div id="pipe-inventory" class="pipe-inventory" role="group" aria-label="Ограниченный запас труб"></div>
+        <div class="pipe-board-wrap"><div id="pipe-board" class="pipe-board" role="group" aria-label="Поле для размещения деталей труб: выбери деталь и нажми на клетку, повторно нажми для поворота"></div></div>
+        <div class="pipes-instruction" id="pipes-tip" aria-live="polite">Выбери прямую или поворот, поставь на поле. Нажимай на деталь для поворота. Набор ограничен: 16 прямых и 8 поворотов.</div>
+        <div class="pipe-actions"><button class="soft-btn" id="pipe-undo" type="button">↶ Отменить ход</button><button class="soft-btn" id="pipe-reset" type="button">Очистить поле</button></div>
+      </div></div>
+      <div class="spacer"></div>
+      <div class="bottom-stack"><div class="panel"><div class="guide"><picture><source srcset="assets/characters/hero-petting.webp" type="image/webp"><img src="assets/characters/hero-petting.gif" alt="Мальчик гладит кота"/></picture><p id="content-feedback">TikTok даёт охват, UGC родителей — доверие, обучение — интерес, рекомендации — покупки. Собери все четыре потока.</p></div></div><button class="gold-btn" id="content-next" disabled>Проложено 0 из 4</button></div>
+    </div>
+  </section>
+  <section class="scene" id="scale" aria-label="Миссия 5: симулятор масштабирования">
+    <div class="backdrop"><img src="assets/scenes/scale.webp" alt=""/><div class="weather"></div></div>
+    <div class="layout mission-layout">
+      <header class="hud"><button class="hud-btn" data-menu>← Меню</button><span class="hud-title">05 / 06</span><div class="hud-tag">◇ <span data-coins>0</span></div></header>
+      <div class="chap-head"><div class="chapter-kicker">МИССИЯ 05 · МАСШТАБИРОВАНИЕ</div><h1 class="chapter-title">Посчитай потенциал роста</h1><p>От первых 5 000 пользователей до большой аудитории. Меняй масштаб и оценивай, как он повлияет на экономику и нагрузку.</p><div class="progress" data-progress></div></div>
+      <div class="activity"><div class="economy growth-economy">
+        <div class="growth-caption">СИМУЛЯТОР РОСТА <small>Иллюстративная модель, не прогноз CAP</small></div>
+        <div class="audience-value"><span>Потенциальная аудитория</span><strong id="audience-total">10 000</strong></div>
+        <div class="tier-chips" id="tier-chips" role="group" aria-label="Выбери масштаб аудитории"></div>
+        <div class="range-row"><div class="range-head"><span>Станут платящими</span><b id="payrate-value">10%</b></div><input id="payrate" type="range" min="1" max="20" step="1" value="10"/></div>
+        <div class="range-row"><div class="range-head"><span>Продлят на второй месяц</span><b id="renew-value">70%</b></div><input id="renew" type="range" min="40" max="90" step="5" value="70"/></div>
+        <div class="growth-metrics"><div class="metric"><b id="payers-total">1 000</b><span>Платящих семей</span></div><div class="metric"><b id="mrr-total">10 млн ₸</b><span>Первая месячная выручка</span></div><div class="metric"><b id="renewed-total">700</b><span>Продлят*</span></div></div>
+        <div class="growth-chart" id="growth-chart" aria-label="Сравнение сценариев по платящей аудитории"></div>
+        <p class="model-warning">*При условном чеке 10 000 ₸ за один предмет и выбранной конверсии. Без учёта налогов, расходов, возвратов и скидок. Уровни 300 тыс.–1 млн — сценарии для оценки масштаба, не обязательство по привлечению.</p>
+      </div></div>
+      <div class="spacer"></div><div class="bottom-stack"><div class="panel"><div class="guide"><picture><source srcset="assets/characters/hero-petting.webp" type="image/webp"><img src="assets/characters/hero-petting.gif" alt="Мальчик гладит кота"/></picture><p id="scale-feedback">Показатели выручки — только верхняя часть экономики. Для решения нужны CAC, себестоимость обслуживания и фактическое удержание.</p></div></div><button class="gold-btn" id="scale-next" disabled>Изучи 3 сценария масштаба</button></div>
+    </div>
+  </section>
+  <section class="scene" id="puzzle" aria-label="Миссия 6: собери карту стратегии">
+    <div class="backdrop"><img src="assets/scenes/strategy.webp" alt=""/><div class="weather"></div></div>
+    <div class="layout mission-layout">
+      <header class="hud"><button class="hud-btn" data-menu>← Меню</button><span class="hud-title">06 / 06</span><div class="hud-tag">◇ <span data-coins>0</span></div></header>
+      <div class="chap-head"><div class="chapter-kicker">МИССИЯ 06 · ФИНАЛЬНАЯ СТРАТЕГИЯ</div><h1 class="chapter-title">Собери общую картину</h1><p>Всё, что мы изучили, должно сложиться в единую систему. Вставь недостающие фрагменты, чтобы увидеть перспективу.</p><div class="progress" data-progress></div></div>
+      <div class="activity"><div class="jigsaw-panel"><div class="jigsaw-top"><span>КАРТА СТРАТЕГИИ</span><strong id="puzzle-progress">0 / 9</strong></div>
+        <div class="jigsaw-board" id="jigsaw-board" role="group" aria-label="Девять ячеек стратегического пазла"></div>
+        <div class="jigsaw-instructions" id="jigsaw-tip">Выбери фрагмент внизу, затем нажми на его место на картине. Или перетащи его.</div>
+        <div class="jigsaw-tray" id="jigsaw-tray" role="group" aria-label="Доступные фрагменты пазла"></div>
+      </div></div>
+      <div class="spacer"></div><div class="bottom-stack"><div class="panel"><div class="guide"><picture><source srcset="assets/characters/hero-petting.webp" type="image/webp"><img src="assets/characters/hero-petting.gif" alt="Мальчик гладит кота"/></picture><p id="puzzle-feedback">Маленькие решения превращаются в большую систему роста. Собери девять частей, чтобы открыть план реализации.</p></div></div><button class="gold-btn" id="puzzle-next" disabled>Собрано 0 из 9</button></div>
+    </div>
+  </section>
+  <section class="scene" id="final" aria-label="Финал — план развития на 90 дней">
+    <div class="backdrop"><img src="assets/scenes/home.webp" alt=""/><div class="weather"></div></div>
+    <div class="layout final-layout"><header class="hud"><button class="hud-btn" data-menu>← Меню</button><span class="hud-title">ПЛАН ГОТОВ</span><div class="hud-tag">◈ <span data-coins>0</span></div></header>
+      <div class="final-scroll"><article class="final-card"><h1 class="final-title">Стратегия собрана. Теперь — реализация.</h1><p>Ты прошёл с нашими героями путь от исследования потребностей и маркетингового трубопровода до расчётов и финального пазла стратегии. Ниже — предварительный план работы Head of Marketing для CAP Education и нового школьного продукта.</p>
+        <div class="phase"><strong>ДНИ 01–30 · ОСНОВА</strong><p>Аудит действующих каналов CAP Education и ALFA Z, интервью родителей, анализ конкурентов и CRM, сегментация, позиционирование, KPI и запуск продуктового пилота.</p></div>
+        <div class="phase"><strong>ДНИ 31–60 · ЭКСПЕРИМЕНТЫ</strong><p>Диагностика как лид-магнит, тесты онбординга, образовательные Shorts и AI-мультфильмы, пилот 15–20 UGC-авторов среди родителей, реферальная механика и аналитика конверсий.</p></div>
+        <div class="phase"><strong>ДНИ 61–90 · СИСТЕМНЫЙ РОСТ</strong><p>Усиление окупаемых каналов, партнёрства со школами, стандартизация контент-производства, отчёты родителям о прогрессе, работа с retention/churn и масштабирование проверенных связок.</p></div>
+        <div class="pill-row"><span>Head of Marketing / Growth</span><span>Продукт + маркетинг + продажи</span><span>CAC · LTV · Retention</span></div>
+        <p><strong>Важно:</strong> сроки и показатели — предварительные гипотезы. Бюджет, цели и состав команды нужно подтвердить после аудита, а детские рефералы и выплаты родителям — согласовать с юристом и бухгалтерией.</p>
+        <p><strong>Предложение:</strong> выстроить не разовую рекламную кампанию, а воспроизводимую систему привлечения, активации и удержания платящих семей.</p>
+      </article></div>
+      <div class="bottom-stack"><div class="guide panel"><picture><source srcset="assets/characters/hero-petting.webp" type="image/webp"><img src="assets/characters/hero-petting.gif" alt=""/></picture><p>Мальчик и кот уже нашли дорогу. Осталось сделать стратегию реальностью.</p></div><button class="gold-btn" id="restart">Пройти заново ↺</button></div>
+    </div>
+  </section>
+
+  <div id="modal" class="overlay-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" hidden>
+    <div class="modal-card panel"><h2 id="modal-title" class="dialog-title">Информация</h2><p id="modal-copy"></p><button class="gold-btn" id="modal-close">Понятно</button></div>
+  </div>
+  <div id="toast" role="status" aria-live="polite" class="toast" aria-atomic="true"></div>
+  <svg class="sprite-defs" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><symbol id="i-people" viewBox="0 0 24 24"><path fill="#ffe7b1" d="M7 4h5v5H7zm8 2h4v4h-4zM4 12h12v7H4zm13 1h5v6h-5z"/></symbol><symbol id="i-chart" viewBox="0 0 24 24"><path fill="#ffe7b1" d="M3 18h18v2H3zm2-6h4v5H5zm6-6h4v11h-4zm6-3h4v14h-4z"/></symbol><symbol id="i-search" viewBox="0 0 24 24"><path fill="#ffe7b1" d="M7 2h9v2h3v3h2v7h-2v3h-3v2H7v-2H4v-3H2V7h2V4h3zm0 5v7h9V7zm12 11h3v3h-3zm-3-3h3v3h-3z"/></symbol></svg>
+</main>
+<style>
+.overlay-modal{position:absolute;inset:0;z-index:30;background:#15132bca;display:grid;place-items:center;padding:18px;backdrop-filter:blur(5px)}.overlay-modal[hidden]{display:none}.modal-card{max-width:500px;width:100%;padding:20px}.modal-card p{font-size:16px;line-height:1.45}.toast{pointer-events:none;opacity:0;position:absolute;top:calc(75px + var(--top));left:50%;transform:translateX(-50%) translateY(-12px);z-index:40;background:#fff0c9;border:4px solid #664764;box-shadow:0 5px #1e1831;color:#352748;font-weight:900;padding:12px 15px;text-align:center;max-width:90%;transition:.25s}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}.sprite-defs{position:absolute;width:0;height:0;overflow:hidden}.stage-help{font-size:12px;color:#fff1d7}.stage-help button{background:transparent;border:0;color:inherit;text-decoration:underline;font-size:inherit}
+</style>
+<script>
+(()=>{'use strict';
+const $=(s,root=document)=>root.querySelector(s), $$=(s,root=document)=>[...root.querySelectorAll(s)];
+const stages=['home','research','strategy','pilot','content','scale','puzzle','final'];
+const data={coins:0,found:[],strategy:[null,null,null,null,null],chosen:null,issues:[],links:{},selected:null,pipes:{},pipeActive:null,pipeTiles:{},pipeTool:'straight',audience:10000,seenTiers:[],jigsaw:[],jigsawSelected:null,completed:[]};
+let current='home',drag=null,toastTimer=0,previewPlayed=false,panEngaged=false;
+const clueData={parent:['Кто наш клиент?','Проведём кастдевы с родителями: когда ребёнок отстаёт, за что они готовы платить и как ищут помощь.'],market:['Что происходит на рынке?','Изучим конкурентов, цены и разные сегменты семей. Не будем путать интерес к идее с готовностью платить.'],feedback:['Каков первый опыт?','Посмотрим, где семьи бросают диагностику, понятен ли результат, что нравится и что мешает продлить подписку.']};
+const strategyCards=[{id:'audience',text:'Сегменты ЦА'},{id:'value',text:'Позиционирование'},{id:'pilot',text:'Пилот продукта'},{id:'channels',text:'Каналы роста'},{id:'kpi',text:'KPI и экономика'}];
+const linkData=[{id:'shorts',src:'Shorts и AI-мультфильмы',target:'Охват',to:'reach'},{id:'ugc',src:'UGC родителей',target:'Доверие',to:'trust'},{id:'quiz',src:'Бесплатный квиз',target:'Первый опыт',to:'experience'},{id:'referral',src:'Рекомендации',target:'Оплаты',to:'payments'}];const shuffledTargets=[linkData[3],linkData[0],linkData[2],linkData[1]];
+const fmt=n=>new Intl.NumberFormat('ru-RU').format(Math.round(n));
+function persist(){try{sessionStorage.setItem('cap-growth-quest-v7',JSON.stringify(data))}catch(e){}}
+function restore(){try{const saved=JSON.parse(sessionStorage.getItem('cap-growth-quest-v7')||'null');if(saved){data.coins=Number(saved.coins)||0;data.found=Array.isArray(saved.found)?saved.found:[];data.strategy=Array.isArray(saved.strategy)&&saved.strategy.length===5?saved.strategy:[null,null,null,null,null];data.issues=Array.isArray(saved.issues)?saved.issues:[];data.links=saved.links||{};data.pipeTiles=saved.pipeTiles&&typeof saved.pipeTiles==='object'&&!Array.isArray(saved.pipeTiles)?saved.pipeTiles:{};data.pipeTool=['straight','corner','erase'].includes(saved.pipeTool)?saved.pipeTool:'straight';data.audience=audienceTiers.includes(saved.audience)?saved.audience:10000;data.seenTiers=saved.seenTiers||[];data.jigsaw=saved.jigsaw||[];data.jigsawSelected=null;data.completed=saved.completed||[]}}catch(e){}}
+function updateCoins(){$$('[data-coins]').forEach(x=>x.textContent=fmt(data.coins));$$('[data-progress]').forEach(x=>x.replaceChildren(...Array.from({length:6},(_,i)=>{const a=document.createElement('span');a.className=i<Math.max(0,stages.indexOf(current)-1)?'done':'';return a})))}
+function reward(id){if(data.completed.includes(id))return;data.completed.push(id);data.coins+=100;updateCoins();showToast('★ +100 монет за миссию');persist()}
+function showToast(s){const t=$('#toast');t.textContent=s;t.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),2200)}
+function modal(title,copy){$('#modal-title').textContent=title;$('#modal-copy').textContent=copy;$('#modal').hidden=false;$('#modal-close').focus()}
+function closeModal(){$('#modal').hidden=true}
+$('#modal-close').addEventListener('click',closeModal);$('#modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal()});window.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
+function go(id){if(!stages.includes(id))return;stages.forEach(x=>$('#'+x).classList.toggle('active',x===id));current=id;updateCoins();if(id==='research'){renderResearch();requestAnimationFrame(()=>{panUpdate();panPreview()})}if(id==='strategy')renderStrategy();if(id==='pilot')renderPilot();if(id==='content')drawPipes();if(id==='scale')buildGrowth();if(id==='puzzle')renderPuzzle();window.scrollTo(0,0)}
+$$('[data-menu]').forEach(b=>b.addEventListener('click',()=>go('home')));
+$('#start').addEventListener('click',()=>go('research'));
+$('#home-info').addEventListener('click',()=>modal('CAP Growth Quest','Это не утверждённые данные компании, а интерактивное предложение: от изучения рынка до маркетинговых экспериментов и экономики роста.'));
+$('#about').addEventListener('click',()=>modal('О проекте','Шесть игровых миссий показывают, как руководитель маркетинга исследует рынок, строит стратегию, тестирует продукт, запускает контентные каналы и работает с удержанием.'));
+$('#how').addEventListener('click',()=>modal('Как играть','Осмотри панораму, собери стратегию, найди точки потерь, собери трубы из ограниченного набора деталей, сравни масштаб и закончи пазл. Все миссии доступны с телефона.'));
+// Mission 1: Pan and clue search
+const pan=$('#explore-scroll');function panSize(){const world=$('#explore-world');world.style.width=Math.max(pan.clientWidth,Math.round(pan.clientHeight*1439/810))+'px'}function panUpdate(){panSize();const max=Math.max(1,pan.scrollWidth-pan.clientWidth),ratio=Math.min(1,pan.clientWidth/Math.max(1,pan.scrollWidth));$('#pan-thumb').style.width=Math.max(12,ratio*100)+'%';$('#pan-thumb').style.left=((100-ratio*100)*pan.scrollLeft/max)+'%'}
+pan.addEventListener('scroll',panUpdate,{passive:true});pan.addEventListener('keydown',e=>{if(e.key==='ArrowLeft'||e.key==='ArrowRight'){panEngaged=true;pan.scrollBy({left:(e.key==='ArrowRight'?1:-1)*120,behavior:'smooth'})}});pan.addEventListener('pointerdown',()=>panEngaged=true,{passive:true});pan.addEventListener('touchstart',()=>panEngaged=true,{passive:true});window.addEventListener('resize',()=>{panUpdate()});
+function panPreview(){if(previewPlayed)return;previewPlayed=true;setTimeout(()=>{if(current!=='research'||panEngaged)return;pan.scrollTo({left:90,behavior:'smooth'});setTimeout(()=>{if(!panEngaged&&current==='research')pan.scrollTo({left:0,behavior:'smooth'})},850)},650)}
+function renderResearch(){const n=data.found.length;$$('[data-clue]').forEach(b=>b.classList.toggle('done',data.found.includes(b.dataset.clue)));$$('[data-chip]').forEach(x=>x.classList.toggle('done',data.found.includes(x.dataset.chip)));$('#research-next').disabled=n!==3;$('#research-next').textContent=n===3?'Собрать маркетинговую стратегию':`Найдено ${n} из 3`;if(n===3){$('#research-status').textContent='Исследование завершено';$('#research-copy').textContent='Мы собрали гипотезы о потребностях, рынке и первом опыте. Пора строить план.'}}
+$$('[data-clue]').forEach(btn=>btn.addEventListener('click',()=>{const k=btn.dataset.clue;if(data.found.includes(k))return;data.found.push(k);renderResearch();modal(...clueData[k]);if(data.found.length===3)reward('research');persist()}));$('#research-next').addEventListener('click',()=>{if(data.found.length===3)go('strategy')});
+// Mission 2: sortable roadmap by touch or drag
+let suppressClick=false;
+// The check button validates each position independently.
+const strategyConfirmed=new Set(),strategyNeedsReview=new Set();
+function renderStrategy(){const bank=$('#strategy-cards'),slots=$('#road-slots');bank.replaceChildren();slots.replaceChildren();data.strategy.forEach((id,i)=>{const b=document.createElement('button');const isCorrect=id===strategyCards[i].id&&(strategyConfirmed.has(i)||data.completed.includes('strategy'));const needsReview=!!id&&strategyNeedsReview.has(i)&&!isCorrect;b.className='road-slot'+(id?' filled':'')+(isCorrect?' validated':'')+(needsReview?' needs-review':'');b.dataset.step=i+1;b.dataset.slot=i;b.textContent=id?strategyCards.find(x=>x.id===id).text:'+';b.disabled=isCorrect;b.setAttribute('aria-label',isCorrect?'Правильно: '+b.textContent+'. Этап закреплён':needsReview?'Нужно переставить: '+b.textContent:id?'Убрать '+b.textContent:'Поместить карточку на позицию '+(i+1));b.addEventListener('click',()=>{if(isCorrect)return;if(id){data.strategy[i]=null;data.chosen=null;strategyNeedsReview.delete(i);renderStrategy();persist();return}if(data.chosen){putCard(data.chosen,i)}});slots.append(b)});[strategyCards[3],strategyCards[2],strategyCards[0],strategyCards[4],strategyCards[1]].forEach(a=>{const b=document.createElement('button');b.className='strategy-card'+(data.chosen===a.id?' selected':'');b.textContent=a.text;b.dataset.card=a.id;b.disabled=data.strategy.includes(a.id);b.addEventListener('click',()=>{if(suppressClick){suppressClick=false;return}data.chosen=data.chosen===a.id?null:a.id;renderStrategy()});b.addEventListener('pointerdown',e=>dragStart(e,a.id));bank.append(b)})}
+function putCard(id,index){if(!id||data.strategy.includes(id))return;data.strategy[index]=id;data.chosen=null;strategyNeedsReview.delete(index);renderStrategy();persist()}
+function dragStart(e,id){if(data.strategy.includes(id)||e.button>0)return;const startX=e.clientX,startY=e.clientY;const pointer=e.pointerId;let ghost=null;const move=ev=>{if(ev.pointerId!==pointer)return;if(!ghost&&Math.hypot(ev.clientX-startX,ev.clientY-startY)>10){ghost=document.createElement('div');ghost.className='drag-ghost';ghost.textContent=strategyCards.find(x=>x.id===id).text;document.body.append(ghost)}if(ghost){ghost.style.left=ev.clientX+'px';ghost.style.top=ev.clientY+'px';ev.preventDefault()}};const end=ev=>{if(ev.pointerId!==pointer)return;ghost?.remove();window.removeEventListener('pointermove',move);window.removeEventListener('pointerup',end);window.removeEventListener('pointercancel',end);if(ghost){suppressClick=true;const b=document.elementFromPoint(ev.clientX,ev.clientY)?.closest('[data-slot]');if(b&&!data.strategy[+b.dataset.slot])putCard(id,+b.dataset.slot);setTimeout(()=>suppressClick=false,120)}};window.addEventListener('pointermove',move,{passive:false});window.addEventListener('pointerup',end);window.addEventListener('pointercancel',end)}
+$('#strategy-check').addEventListener('click',()=>{
+ if(data.completed.includes('strategy')){go('pilot');return}
+ strategyConfirmed.clear();strategyNeedsReview.clear();
+ data.strategy.forEach((id,i)=>{if(!id)return;if(id===strategyCards[i].id)strategyConfirmed.add(i);else strategyNeedsReview.add(i)});
+ renderStrategy();
+ const correct=strategyConfirmed.size,empty=data.strategy.filter(x=>!x).length;
+ if(correct<5){
+   $('#strategy-feedback').textContent='✓ Правильно стоят '+correct+' из 5. Зелёные карточки закреплены. '+(empty?'Заполни пустые места ('+empty+'). ':'')+'Отмеченные оранжевым нужно переставить, затем проверить снова.';
+   $('#strategy-check').textContent='Проверить ещё раз';
+   return;
+ }
+ reward('strategy');
+ $('#strategy-feedback').textContent='✓ Все пять этапов на месте! Теперь проверим стратегию на первых семьях.';
+ $('#strategy-check').textContent='К первому продуктовому пилоту';
+ modal('Стратегия готова','План: сегменты → позиционирование → пилот → каналы → экономика. После аудита превращаем его в дорожную карту с ответственными, сроками и бюджетами.');
+});
+// Mission 3: customer development interpretation
+const issueCopy={long:'Гипотеза: диагностика слишком длинная. Проверяем в интервью и тестируем короткий первый шаг.',value:'Гипотеза: после теста родитель не понимает ценность. Покажем карту пробелов и ближайший полезный шаг.'};
+function renderPilot(){data.issues.forEach(k=>{const b=$(`[data-issue="${k}"]`);if(b)b.classList.add('discovered')});const n=data.issues.length;$('#pilot-next').disabled=n!==2;$('#pilot-next').textContent=n===2?'К каналам привлечения':`Исследовано ${n} из 2`;if(n===2)$('#pilot-feedback').textContent='Две гипотезы зафиксированы. Теперь ставим эксперимент, измеряем активацию и возвращаемся к интервью.'}
+$$('[data-issue]').forEach(b=>b.addEventListener('click',()=>{const k=b.dataset.issue;if(data.issues.includes(k))return;data.issues.push(k);renderPilot();modal('Гипотеза для пилота',issueCopy[k]);if(data.issues.length===2)reward('pilot');persist()}));$('#pilot-next').addEventListener('click',()=>{if(data.issues.length===2)go('content')});
+// Mission 4: limited pipe pieces. Tap to place, tap again to rotate; no freehand drawing.
+const pipeDefs=[
+ {id:'shorts',name:'TikTok / Shorts',goal:'Охват',color:'#60dfff',from:0,to:1,symbol:'T'},
+ {id:'ugc',name:'UGC-мамы',goal:'Доверие',color:'#ff79b2',from:2,to:3,symbol:'U'},
+ {id:'ai',name:'AI-мультики',goal:'Интерес',color:'#a9f36b',from:4,to:5,symbol:'A'},
+ {id:'referral',name:'Рефералка',goal:'Оплаты',color:'#ffbd54',from:6,to:7,symbol:'R'}
+];
+const pipeRows=8,pipeCols=7,pipeStock={straight:16,corner:8},pipeUndo=[];
+const pipeSteps={N:[-1,0],E:[0,1],S:[1,0],W:[0,-1]},pipeOpp={N:'S',S:'N',E:'W',W:'E'};
+const pipeKey=(r,c)=>r+','+c;
+function pipeEndpoint(r,c){return pipeDefs.some(d=>r===d.from&&c===0||r===d.to&&c===pipeCols-1)}
+function pipePlaceable(r,c){return r>=0&&r<pipeRows&&c>=0&&c<pipeCols&&!pipeEndpoint(r,c)}
+function pipePorts(p){
+ if(!p)return [];
+ if(p.kind==='straight')return p.rot%2?['N','S']:['W','E'];
+ return [['N','E'],['E','S'],['S','W'],['W','N']][(p.rot%4+4)%4]||[];
+}
+const pipeUsed=kind=>Object.values(data.pipeTiles).filter(p=>p?.kind===kind).length;
+const pipeLeft=kind=>Math.max(0,pipeStock[kind]-pipeUsed(kind));
+function pipeTrace(def){
+ let r=def.from,c=0,dir='E';const visited=new Set(),path=[];
+ for(let step=0;step<pipeRows*pipeCols+1;step++){
+  const [dy,dx]=pipeSteps[dir],nr=r+dy,nc=c+dx;
+  if(nr===def.to&&nc===pipeCols-1&&dir==='E')return {complete:true,path};
+  if(!pipePlaceable(nr,nc))return {complete:false,path};
+  const key=pipeKey(nr,nc),tile=data.pipeTiles[key],ports=pipePorts(tile),incoming=pipeOpp[dir];
+  if(!tile||visited.has(key)||!ports.includes(incoming))return {complete:false,path};
+  visited.add(key);path.push(key);dir=ports.find(p=>p!==incoming);
+  if(!dir)return {complete:false,path};
+  r=nr;c=nc;
+ }
+ return {complete:false,path};
+}
+function pipeGlyph(tile,color='#bcd8e5'){
+ const runs=pipePorts(tile).map(d=>d==='N'?'M50 50 V0':d==='E'?'M50 50 H100':d==='S'?'M50 50 V100':'M50 50 H0').join(' ');
+ return '<svg viewBox="0 0 100 100" aria-hidden="true" focusable="false">'
+ +'<path d="'+runs+'" stroke="#21192c" stroke-width="41" stroke-linecap="square" fill="none"/>'
+ +'<path d="'+runs+'" stroke="'+color+'" stroke-width="29" stroke-linecap="square" fill="none"/>'
+ +'<path d="'+runs+'" stroke="#fff7df98" stroke-width="5" stroke-linecap="square" fill="none"/>'
+ +'<rect x="39" y="39" width="22" height="22" fill="'+color+'" stroke="#fff1ca" stroke-width="3"/></svg>';
+}
+function pipeBackup(){pipeUndo.push(JSON.stringify(data.pipeTiles));if(pipeUndo.length>45)pipeUndo.shift()}
+let pipeIgnoreTrayClick=false;
+function pipeDrag(e,kind){
+ if(e.button!==0||pipeLeft(kind)===0)return;
+ const id=e.pointerId,sx=e.clientX,sy=e.clientY;let ghost=null;
+ const move=ev=>{
+  if(ev.pointerId!==id)return;
+  if(!ghost&&Math.hypot(ev.clientX-sx,ev.clientY-sy)>12){
+   ghost=document.createElement('div');ghost.className='pipe-ghost';
+   ghost.innerHTML=pipeGlyph({kind,rot:0},'#e3f3fa');document.body.append(ghost);
+  }
+  if(ghost){ghost.style.left=ev.clientX+'px';ghost.style.top=ev.clientY+'px';ev.preventDefault()}
+ };
+ const finish=ev=>{
+  if(ev.pointerId!==id)return;
+  window.removeEventListener('pointermove',move);
+  window.removeEventListener('pointerup',finish);
+  window.removeEventListener('pointercancel',finish);
+  if(!ghost)return;
+  ghost.remove();pipeIgnoreTrayClick=true;setTimeout(()=>pipeIgnoreTrayClick=false,160);
+  const el=document.elementFromPoint(ev.clientX,ev.clientY)?.closest('#pipe-board [data-r]');
+  if(el)pipeAct(+el.dataset.r,+el.dataset.c,kind);
+ };
+ window.addEventListener('pointermove',move,{passive:false});
+ window.addEventListener('pointerup',finish);
+ window.addEventListener('pointercancel',finish);
+}
+function pipeInventory(){
+ const wrap=$('#pipe-inventory');wrap.replaceChildren();
+ for(const kind of ['straight','corner','erase']){
+  const b=document.createElement('button');b.type='button';b.className='pipe-tool'+(data.pipeTool===kind?' selected':'');
+  const isErase=kind==='erase',n=isErase?0:pipeLeft(kind);
+  b.disabled=!isErase&&n===0;b.setAttribute('aria-pressed',String(data.pipeTool===kind));
+  b.setAttribute('aria-label',isErase?'Ластик: убрать деталь':(kind==='straight'?'Прямая труба':'Поворот')+', осталось '+n);
+  b.innerHTML='<span class="pipe-tool-image">'+(isErase?'<span class="pipe-erase-symbol">×</span>':pipeGlyph({kind,rot:0},'#e5ecf2'))+'</span>'
+   +'<span class="pipe-tool-title">'+(kind==='straight'?'Прямая':kind==='corner'?'Поворот':'Убрать')+'</span>'
+   +'<span class="pipe-tool-qty">'+(isErase?'Ластик':'× '+n)+'</span>';
+  b.addEventListener('click',()=>{if(pipeIgnoreTrayClick)return;data.pipeTool=kind;persist();drawPipes()});
+  if(!isErase)b.addEventListener('pointerdown',e=>pipeDrag(e,kind));
+  wrap.append(b);
+ }
+}
+function pipeAct(r,c,kind=data.pipeTool){
+ if(!pipePlaceable(r,c))return;
+ const key=pipeKey(r,c),tile=data.pipeTiles[key],before=pipeDefs.filter(d=>pipeTrace(d).complete).length;
+ if(tile){pipeBackup();if(kind==='erase')delete data.pipeTiles[key];else tile.rot=(tile.rot+1)%(tile.kind==='straight'?2:4)}
+ else {
+  if(kind==='erase')return;
+  if(pipeLeft(kind)===0){showToast('Детали закончились. Используй ластик или отмену.');return}
+  pipeBackup();data.pipeTiles[key]={kind,rot:0};
+ }
+ persist();drawPipes();
+ const after=pipeDefs.filter(d=>pipeTrace(d).complete).length;
+ if(after>before)showToast('Поток соединён! '+after+' из 4');
+ if(after===4){
+  reward('content');
+  $('#content-feedback').textContent='Все четыре потока работают! Ты связал охват, доверие, интерес и продажи. Дальше проверим экономику каждого канала.';
+ }
+}
+function drawPipes(){
+ const board=$('#pipe-board'),legend=$('#pipe-legend');board.replaceChildren();legend.replaceChildren();
+ const tracks=pipeDefs.map(def=>({def,trace:pipeTrace(def)}));const tint=new Map();
+ tracks.forEach(({def,trace})=>trace.path.forEach(k=>{if(!tint.has(k)||trace.complete)tint.set(k,def.color)}));
+ pipeDefs.forEach(def=>{
+  const done=tracks.find(x=>x.def.id===def.id).trace.complete;
+  const el=document.createElement('div');el.className='pipe-legend-item'+(done?' complete':'');el.style.setProperty('--pipe-color',def.color);
+  el.innerHTML='<span class="pipe-dot">'+def.symbol+'</span><span>'+def.name+'<small>→ '+def.goal+'</small></span>'+(done?'<strong class="pipe-ok">✓</strong>':'');
+  legend.append(el);
+ });
+ for(let r=0;r<pipeRows;r++)for(let c=0;c<pipeCols;c++){
+  const b=document.createElement('button');b.type='button';b.className='pipe-cell';b.dataset.r=r;b.dataset.c=c;
+  const endpoint=pipeDefs.find(d=>r===d.from&&c===0||r===d.to&&c===pipeCols-1),tile=data.pipeTiles[pipeKey(r,c)];
+  if(endpoint){
+   const start=c===0;
+   b.classList.add('pipe-endpoint');b.style.setProperty('--pipe-color',endpoint.color);b.disabled=true;
+   b.innerHTML='<span class="pipe-terminal '+(start?'start':'finish')+'"></span><span class="endpoint-glyph">'+(start?endpoint.symbol:'◎')+'</span>';
+   b.setAttribute('aria-label',(start?'Источник ':'Результат ')+endpoint.name+': '+endpoint.goal);
+  }else if(tile){
+   const color=tint.get(pipeKey(r,c));b.classList.add('pipe-used');if(color)b.classList.add('pipe-lit');
+   b.innerHTML=pipeGlyph(tile,color||'#bcd8e5');
+   b.setAttribute('aria-label','Клетка '+(r+1)+','+(c+1)+'. '+(tile.kind==='straight'?'Прямая':'Поворот')+'. Нажми, чтобы '+(data.pipeTool==='erase'?'убрать':'повернуть'));
+  }else b.setAttribute('aria-label','Пустая клетка '+(r+1)+','+(c+1)+': поставить деталь');
+  b.addEventListener('click',()=>pipeAct(r,c));board.append(b);
+ }
+ pipeInventory();
+ const completed=tracks.filter(x=>x.trace.complete).length;
+ $('#pipes-count').textContent=completed+' / 4';
+ $('#content-next').disabled=completed!==4;
+ $('#content-next').textContent=completed===4?'К симулятору роста':'Соединено '+completed+' из 4';
+ $('#pipes-tip').textContent=completed===4?'Готово! Все четыре потока соединены.':
+ 'Выбери деталь, нажми пустую клетку. Повторное нажатие поворачивает трубу. Для удаления выбери ластик. Числа показывают остаток деталей.';
+ $('#pipe-undo').disabled=pipeUndo.length===0;
+}
+$('#pipe-undo').addEventListener('click',()=>{
+ if(!pipeUndo.length)return;
+ try{data.pipeTiles=JSON.parse(pipeUndo.pop())||{}}catch(e){data.pipeTiles={}}
+ persist();drawPipes();
+});
+$('#pipe-reset').addEventListener('click',()=>{
+ if(!Object.keys(data.pipeTiles).length)return;
+ pipeBackup();data.pipeTiles={};persist();drawPipes();
+ $('#content-feedback').textContent='Поле очищено. Для четырёх маршрутов есть всего 16 прямых и 8 поворотных деталей.';
+});
+$('#content-next').addEventListener('click',()=>{if(pipeDefs.every(d=>pipeTrace(d).complete))go('scale')});
+// Mission 5: illustrative scenario planner with staged audience sizes
+const audienceTiers=[5000,10000,50000,100000,300000,500000,1000000];
+function compact(n){return n>=1000000000?(n/1000000000).toLocaleString('ru-RU',{maximumFractionDigits:1})+' млрд':n>=1000000?(n/1000000).toLocaleString('ru-RU',{maximumFractionDigits:1})+' млн':n>=1000?(n/1000).toLocaleString('ru-RU',{maximumFractionDigits:1})+' тыс.':fmt(n)}
+function buildGrowth(){const t=$('#tier-chips');t.replaceChildren();audienceTiers.forEach(size=>{const b=document.createElement('button');b.type='button';b.className='tier-chip'+(size===data.audience?' active':'');b.textContent=compact(size);b.setAttribute('aria-pressed',String(size===data.audience));b.addEventListener('click',()=>{data.audience=size;if(!data.seenTiers.includes(size))data.seenTiers.push(size);persist();buildGrowth()});t.append(b)});
+ const rate=+$('#payrate').value,renew=+$('#renew').value,payers=Math.round(data.audience*rate/100),renewed=Math.round(payers*renew/100);
+ $('#audience-total').textContent=fmt(data.audience);$('#payrate-value').textContent=rate+'%';$('#renew-value').textContent=renew+'%';$('#payers-total').textContent=fmt(payers);$('#mrr-total').textContent=compact(payers*10000)+' ₸';$('#renewed-total').textContent=fmt(renewed);
+ const chart=$('#growth-chart');chart.replaceChildren();const max=audienceTiers.at(-1)*rate/100;
+ const pick=[10000,100000,1000000];pick.forEach(size=>{const bar=document.createElement('div');bar.className='chart-level';bar.innerHTML=`<span>${compact(size)}</span><div><i style="width:${Math.max(1,size/data.audience*20)}%"></i></div><b>${compact(size*rate/100)}</b>`;bar.querySelector('i').style.width=Math.min(100,size/1000000*100)+'%';chart.append(bar)});
+ const enough=data.seenTiers.length>=3;
+ $('#scale-next').disabled=!enough;$('#scale-next').textContent=enough?'Собрать стратегию из пазла':`Сравни ещё ${3-data.seenTiers.length} масштаба`;
+ $('#scale-feedback').textContent= data.audience>=300000?'Этот уровень — амбициозный сценарий. Прежде чем обсуждать такой масштаб, проверяем спрос, ресурсы и обучение.':'Рост семей — не равно прибыль: считаем CAC, маржу, нагрузку команды и повторные оплаты.';
+}
+$('#payrate').addEventListener('input',buildGrowth);$('#renew').addEventListener('input',buildGrowth);
+$('#scale-next').addEventListener('click',()=>{if(data.seenTiers.length>=3){reward('scale');go('puzzle')}});
+// Mission 6: 3x3 jigsaw; image pieces in separate tray, drag or tap to place.
+const puzzleNames=['Исследование','Сегменты','Позиция','Пилот','Контент','UGC','Рефералы','Аналитика','Масштаб'];
+const puzzleOrder=[4,0,7,2,8,3,5,1,6];
+function puzzlePiece(i,mode){const button=document.createElement(mode==='tray'?'button':'div');if(mode==='tray')button.type='button';button.className='jigsaw-piece '+(mode==='tray'?'tray-piece':'placed-piece');button.dataset.piece=i;
+ button.style.setProperty('--jigsaw-x',(i%3*50)+'%');button.style.setProperty('--jigsaw-y',(Math.floor(i/3)*50)+'%');button.style.backgroundPosition=`${(i%3)*50}% ${Math.floor(i/3)*50}%`;
+ button.setAttribute('aria-label',puzzleNames[i]);button.innerHTML=`<span><em>${i+1}.</em> ${puzzleNames[i]}</span>`;return button}
+function renderPuzzle(){const board=$('#jigsaw-board'),tray=$('#jigsaw-tray');board.replaceChildren();tray.replaceChildren();
+ for(let i=0;i<9;i++){const spot=document.createElement('button');spot.className='jigsaw-slot';spot.type='button';spot.dataset.slot=i;spot.setAttribute('aria-label','Позиция '+(i+1));const placed=data.jigsaw.includes(i);
+ if(placed){spot.classList.add('is-placed');spot.append(puzzlePiece(i,'placed'));spot.disabled=true}else{const grid=document.createElement('span');grid.className='slot-guide';grid.textContent=i+1;spot.append(grid);spot.addEventListener('click',()=>dropPuzzle(i))}board.append(spot)}
+ puzzleOrder.filter(i=>!data.jigsaw.includes(i)).forEach(i=>{const b=puzzlePiece(i,'tray');b.classList.toggle('selected',data.jigsawSelected===i);b.addEventListener('click',()=>{data.jigsawSelected=i;renderPuzzle()});b.draggable=true;b.addEventListener('dragstart',e=>{data.jigsawSelected=i;e.dataTransfer.setData('text/plain',String(i))});tray.append(b)});
+ const n=data.jigsaw.length;tray.style.display=n===9?'none':'grid';$('#puzzle-progress').textContent=n+' / 9';$('#puzzle-next').disabled=n!==9;$('#puzzle-next').textContent=n===9?'Открыть стратегию на 90 дней':`Собрано ${n} из 9`;
+ $('#jigsaw-tip').textContent=n===9?'Картина сложилась! Готовая стратегия — это взаимосвязанная система.':'Нажми фрагмент с номером, затем такую же ячейку на картине. На компьютере можно перетаскивать.';
+}
+function dropPuzzle(index){if(data.jigsaw.includes(index))return;let choice=data.jigsawSelected;if(choice===null){data.jigsawSelected=index;renderPuzzle();return}if(choice!==index){$('#puzzle-feedback').textContent=`Фрагмент «${puzzleNames[choice]}» относится к другой ячейке. Попробуй номер ${choice+1}.`;return}
+ data.jigsaw.push(index);data.jigsawSelected=null;const n=data.jigsaw.length;if(n===9){reward('puzzle');$('#puzzle-feedback').textContent='Картина собрана. Теперь можно показать руководству CAP реальный план действий на 90 дней.'}persist();renderPuzzle();
+}
+// Mobile-friendly dragging: touch a puzzle piece and release over the matching slot.
+let puzzlePointer=null,puzzleGhost=null;
+$('#jigsaw-tray').addEventListener('pointerdown',e=>{const piece=e.target.closest('.tray-piece');if(!piece)return;puzzlePointer={id:Number(piece.dataset.piece),x:e.clientX,y:e.clientY};});
+window.addEventListener('pointermove',e=>{if(!puzzlePointer)return;const moved=Math.hypot(e.clientX-puzzlePointer.x,e.clientY-puzzlePointer.y)>12;if(!moved&&!puzzleGhost)return;
+ if(!puzzleGhost){puzzleGhost=puzzlePiece(puzzlePointer.id,'tray');puzzleGhost.classList.add('drag-preview');puzzleGhost.style.position='fixed';puzzleGhost.style.pointerEvents='none';puzzleGhost.style.width='96px';puzzleGhost.style.height='96px';puzzleGhost.style.zIndex='9999';document.body.append(puzzleGhost)}
+ puzzleGhost.style.left=(e.clientX-48)+'px';puzzleGhost.style.top=(e.clientY-48)+'px';});
+window.addEventListener('pointerup',e=>{if(!puzzlePointer)return;const id=puzzlePointer.id,wasDragging=!!puzzleGhost;puzzleGhost?.remove();puzzleGhost=null;puzzlePointer=null;if(wasDragging){const slot=document.elementFromPoint(e.clientX,e.clientY)?.closest('#jigsaw-board [data-slot]');if(slot){data.jigsawSelected=id;dropPuzzle(Number(slot.dataset.slot));}}});
+window.addEventListener('pointercancel',()=>{puzzleGhost?.remove();puzzleGhost=null;puzzlePointer=null});
+$('#jigsaw-board').addEventListener('dragover',e=>e.preventDefault());$('#jigsaw-board').addEventListener('drop',e=>{e.preventDefault();const spot=e.target.closest('[data-slot]');if(!spot)return;const piece=Number(e.dataTransfer.getData('text/plain'));if(Number.isInteger(piece)){data.jigsawSelected=piece;dropPuzzle(+spot.dataset.slot)}});
+$('#puzzle-next').addEventListener('click',()=>{if(data.jigsaw.length===9)go('final')});
+$('#restart').addEventListener('click',()=>{data.coins=0;data.found=[];data.strategy=Array(5).fill(null);data.chosen=null;data.issues=[];data.links={};data.selected=null;data.pipes={};data.pipeActive=null;data.pipeTiles={};data.pipeTool='straight';pipeUndo.length=0;data.audience=10000;data.seenTiers=[];data.jigsaw=[];data.jigsawSelected=null;data.completed=[];previewPlayed=false;panEngaged=false;pan.scrollLeft=0;$('#strategy-check').textContent='Проверить стратегию';$('#strategy-feedback').textContent='Начнём с аудитории и позиционирования. Потом спланируем тест и каналы роста.';$('#research-status').textContent='Разведка начинается';$('#research-copy').textContent='Осмотри три подсвеченных объекта, чтобы собрать базу для маркетинговой стратегии.';$('#pilot-feedback').textContent='Попросим родителей пройти путь и проведём интервью: на каком шаге им стало сложно и почему?';$('#content-feedback').textContent='TikTok даёт охват, UGC родителей — доверие, обучение — интерес, рекомендации — покупки. Собери все четыре потока.';$('#puzzle-feedback').textContent='Маленькие решения превращаются в большую систему роста. Собери девять частей, чтобы открыть план реализации.';$$('[data-issue]').forEach(b=>b.classList.remove('discovered'));persist();go('home')});
+restore();updateCoins();go(new URLSearchParams(window.location.search).get('preview')==='pipes'?'content':'home');
+if(data.completed.includes('strategy'))$('#strategy-check').textContent='К первому продуктовому пилоту';
+})();
+</script>
+</body>
+</html>

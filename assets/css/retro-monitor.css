@@ -1,0 +1,76 @@
+/* CAP Growth Quest — retro monitor shell for every mini-game */
+.scene .activity{min-width:0}
+.scene .retro-monitor{width:100%;max-width:940px;margin:auto;min-width:0;position:relative;padding-bottom:clamp(0px,1.7vw,18px)}
+.scene .retro-monitor-chassis{position:relative;z-index:1;border:8px solid #7b5367;border-bottom-width:12px;border-radius:13px 13px 8px 8px;background:#49314e;box-shadow:0 8px 0 #32223e,0 15px 16px #17112888,inset 0 0 0 3px #ba8a7d;overflow:hidden;min-width:0}
+.scene .retro-monitor-header{min-height:33px;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:6px 11px;background:linear-gradient(90deg,#8c5c66,#614562 55%,#593d5a);border-bottom:4px solid #30233f;color:#fff0be}
+.scene .retro-monitor-logo{font-family:var(--title);font-size:clamp(7px,1.05vw,10px);letter-spacing:-.3px;white-space:nowrap;text-shadow:1px 1px #392b4b}
+.scene .retro-monitor-logo em{color:#7ff1d5;font-style:normal}
+.scene .retro-monitor-id{font-family:var(--title);font-size:clamp(6px,.9vw,8px);color:#eccee2;white-space:nowrap}
+.scene .retro-monitor-screen{position:relative;isolation:isolate;min-width:0;padding:clamp(7px,1.2vw,13px);background:linear-gradient(#26203f,#292444);box-shadow:inset 0 0 0 4px #171529,inset 0 0 25px #10102588;overflow:hidden}
+.scene .retro-monitor-screen>*{position:relative;z-index:1;min-width:0}
+.scene .retro-monitor-screen:after{content:"";position:absolute;inset:0;pointer-events:none;z-index:4;background:repeating-linear-gradient(0deg,transparent 0 4px,#a3deff04 4px 6px);mix-blend-mode:screen}
+.scene .retro-monitor-footer{min-height:28px;background:linear-gradient(#9b6d73,#78546a);display:flex;align-items:center;gap:8px;padding:5px 10px;color:#fce7b9;font-family:var(--title);font-size:clamp(6px,.82vw,8px);line-height:1.3}
+.scene .retro-monitor-led{background:#8af5c4;border:2px solid #284b4a;width:11px;height:11px;box-shadow:0 0 7px #72edb3;flex-shrink:0}
+.scene .retro-monitor-slits{margin-left:auto;color:#442e4e;letter-spacing:2px;font-size:11px}
+.scene .retro-monitor-stand{position:absolute;bottom:0;left:39%;width:22%;height:24px;background:linear-gradient(90deg,#44314d,#957087 45%,#44314d);border:4px solid #3d2e49;border-bottom:0}
+.scene .retro-monitor-stand:after{content:"";position:absolute;left:-32%;right:-32%;bottom:-6px;height:7px;background:#79586d;border:2px solid #3d2e49}
+#research .retro-monitor-screen{padding:6px}
+#research .retro-monitor-screen .explore{margin:0;width:100%;box-shadow:none;border-width:3px}
+#strategy .retro-monitor-screen>.board{margin:0}
+#content .retro-monitor{max-width:720px}
+#content .retro-monitor-screen{padding:6px}
+#content .retro-monitor-screen>.pipes-panel{margin:0}
+#scale .retro-monitor-screen>.economy,#puzzle .retro-monitor-screen>.jigsaw-panel{margin:0}
+@media(max-width:640px){
+ .scene .retro-monitor{padding-bottom:0}
+ .scene .retro-monitor-chassis{border-width:5px;border-bottom-width:8px;border-radius:7px}
+ .scene .retro-monitor-header{min-height:27px;padding:6px 7px;border-bottom-width:3px}
+ .scene .retro-monitor-footer{min-height:21px;padding:3px 7px}
+ .scene .retro-monitor-screen{padding:6px}
+ .scene .retro-monitor-stand{display:none}
+}
+/* Founder interview mission */
+#pilot .owner-dialog{width:100%;min-width:0;display:grid;gap:11px;border:3px solid #624b71;background:#292440;box-shadow:inset 0 0 0 3px #3e3158;color:#fff2d9;padding:clamp(9px,1.8vw,15px)}
+#pilot .owner-status{display:flex;align-items:center;gap:8px;font-family:var(--title);font-size:clamp(7px,1.2vw,10px);color:#ffe09e}
+#pilot #owner-counter{margin-left:auto;white-space:nowrap}
+#pilot .owner-pulse{width:10px;height:10px;background:#68e7bd;box-shadow:0 0 0 3px #2d8370;flex-shrink:0}
+#pilot .owner-host{display:flex;gap:9px;align-items:center}
+#pilot .owner-avatar{width:clamp(61px,11vw,91px);min-width:clamp(61px,11vw,91px);height:clamp(68px,11vw,94px);display:grid;place-items:center;overflow:hidden;border:3px solid #ad8292;background:#5e466e}
+#pilot .owner-avatar img{width:110%;height:110%;object-fit:contain;image-rendering:pixelated}
+#pilot .owner-bubble{flex:1;min-width:0;background:#fff0d2;color:#362b4c;border:3px solid #c39a7d;box-shadow:3px 4px #181329;padding:8px 10px}
+#pilot .owner-bubble strong{display:block;font-family:var(--title);font-size:clamp(7px,1.1vw,10px);color:#77547b;line-height:1.5}
+#pilot .owner-bubble p{font-size:clamp(12px,2.3vw,15px);line-height:1.4;margin:5px 0 0;font-weight:750}
+#pilot #owner-question-panel,#pilot .owner-summary{display:grid;gap:10px;min-width:0}
+#pilot #owner-question-panel[hidden],#pilot .owner-summary[hidden],#pilot #owner-response[hidden],#final #owner-final-block[hidden]{display:none!important}
+#pilot .owner-question-id{font-family:var(--title);font-size:clamp(7px,1.2vw,10px);color:#75f0c5;line-height:1.5}
+#pilot #owner-question,#pilot .owner-summary h2{font-family:var(--body);font-size:clamp(17px,3vw,24px);line-height:1.25;color:#ffe19c;font-weight:900;margin:0}
+#pilot .owner-options{display:grid;gap:7px}
+#pilot .owner-choice{display:flex;width:100%;min-height:55px;align-items:center;gap:9px;padding:8px 10px;text-align:left;background:#ffedcf;border:3px solid #b48f83;color:#332642;font-family:var(--body);font-size:clamp(13px,2.25vw,16px);font-weight:800;line-height:1.22;box-shadow:0 3px #17132c;touch-action:manipulation}
+#pilot .owner-choice.selected{background:#ddffe3;border-color:#62d8a7;box-shadow:inset 0 0 0 2px #91d7a9,0 3px #17132c}
+#pilot .owner-choice-index{display:grid;place-items:center;min-width:27px;min-height:27px;background:#57436f;color:#ffe0aa;font-family:var(--title);font-size:10px}
+#pilot .owner-choice-label{flex:1}
+#pilot .owner-choice>strong{font-size:19px;color:#47826e}
+#pilot .owner-response{background:#2e554e;color:#e5fff0;border:2px solid #60c7a8;padding:10px 12px;font-size:clamp(12px,2vw,14px);font-weight:700;line-height:1.35}
+#pilot .owner-nav{display:flex;justify-content:space-between;align-items:center;gap:8px;color:#e8d4c1;font-size:clamp(10px,1.6vw,12px)}
+#pilot .owner-back,#owner-final-edit{min-height:34px;padding:6px 10px;background:#584266;border:2px solid #b89ba7;color:#fff6df;font-size:clamp(11px,2vw,14px);font-weight:750}
+#pilot .owner-back:disabled{opacity:.35}
+#pilot .owner-recap{display:grid;gap:6px}
+#pilot .owner-recap-item{display:grid;gap:4px;border-left:4px solid #6cddbe;background:#3e3357;padding:8px 10px}
+#pilot .owner-recap-item strong{color:#ffe3a2;font-size:clamp(10px,1.5vw,12px)}
+#pilot .owner-recap-item span{font-size:clamp(12px,2.1vw,15px);line-height:1.3}
+#pilot .owner-summary p{margin:2px 0;color:#e9dfe5;font-size:12px;line-height:1.4}
+#final .owner-final-block{background:#3f3057;color:#fff2e1;border:4px solid #9c788f;box-shadow:0 5px #241b31;padding:clamp(12px,2vw,20px);margin:14px 0 19px}
+#final .owner-final-block h2{font-size:clamp(17px,3vw,23px);color:#ffe0a0;margin:0 0 8px}
+#final .owner-final-block>p{font-size:14px;line-height:1.4}
+#final .owner-final-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:11px 0}
+#final .owner-final-item{background:#55446c;border:2px solid #9c7c9c;padding:10px;min-width:0}
+#final .owner-final-item strong{font-size:clamp(8px,1.25vw,10px);line-height:1.5;font-family:var(--title);color:#ffdf99}
+#final .owner-final-item p{font-size:14px;margin:6px 0;font-weight:800;line-height:1.3;color:#fff3df}
+#final .owner-final-item small{font-size:12px;line-height:1.3;color:#def1e0}
+#final .owner-final-caveat{opacity:.82;font-size:12px!important;margin:11px 0 0}
+@media(max-width:650px){
+ #pilot .owner-dialog{gap:9px;padding:8px}
+ #pilot .owner-choice{min-height:49px;padding:7px}
+ #pilot .owner-avatar{width:61px;min-width:61px;height:69px}
+ #final .owner-final-cards{grid-template-columns:1fr}
+}

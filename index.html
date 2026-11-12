@@ -204,6 +204,74 @@
  #content .mission-layout .activity-pipes{align-self:start}
 }
 
+
+/* 16x16 maze layout fix (tablet/webview/phone/desktop):
+   keep the lower feedback and next button in normal flow, never over the grid.
+   The scene owns vertical scrolling; the map viewport owns touch panning. */
+#content{overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior-y:contain}
+#content .layout.mission-layout{
+ display:flex!important;
+ flex-direction:column;
+ justify-content:flex-start;
+ align-items:stretch;
+ gap:clamp(9px,1.5dvh,15px);
+ width:min(100%,760px);
+ height:auto!important;
+ min-height:100dvh!important;
+ max-height:none!important;
+ overflow:visible!important;
+ padding-top:calc(12px + var(--top));
+ padding-bottom:calc(28px + var(--bottom));
+}
+#content .mission-layout>.hud,
+#content .mission-layout>.chap-head,
+#content .mission-layout>.activity-pipes,
+#content .mission-layout>.bottom-stack{
+ position:relative;
+ display:block;
+ width:100%;
+ max-width:100%;
+ flex:none;
+ min-width:0;
+ grid-area:auto!important;
+ grid-column:auto!important;
+ grid-row:auto!important;
+ align-self:stretch!important;
+ inset:auto;
+}
+#content .mission-layout>.hud{display:flex;min-height:42px}
+#content .mission-layout>.spacer{display:none!important}
+#content .mission-layout>.activity-pipes{z-index:2}
+#content .mission-layout>.bottom-stack{
+ z-index:1;
+ display:grid;
+ gap:10px;
+ margin-top:8px;
+ margin-bottom:2px;
+}
+#content .bottom-stack .panel,
+#content .bottom-stack .gold-btn{position:relative;inset:auto;transform:none;width:100%}
+#content .pipes-panel{width:100%;max-width:none!important;margin:0!important}
+#content .pipe-board-wrap{height:clamp(305px,52dvh,550px)}
+#content .pipe-legend{width:100%}
+#content .pipe-inventory{width:100%}
+#content .pipe-navigation{width:100%}
+#content .pipe-actions{width:100%}
+@media(min-width:900px){
+ #content .layout.mission-layout{width:min(100%,900px);padding-inline:clamp(22px,3vw,40px)}
+ #content .pipe-board-wrap{height:clamp(425px,70dvh,680px)}
+ #content .bottom-stack .panel{max-width:none}
+}
+@media(max-width:640px){
+ #content .layout.mission-layout{gap:9px}
+ #content .pipe-board-wrap{height:clamp(300px,50dvh,480px)}
+ #content .bottom-stack .guide img{width:58px}
+ #content .bottom-stack .guide p{font-size:13px}
+}
+@media(max-height:670px){
+ #content .pipe-board-wrap{height:clamp(280px,49dvh,390px)}
+}
+
 </style>
 </head>
 <body>

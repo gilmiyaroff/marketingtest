@@ -290,7 +290,7 @@
 #strategy .crystal-port .crystal-gem-art,
 #strategy #crystal-held-gem .crystal-gem-art,
 #strategy .crystal-drag-ghost .crystal-gem-art{
-  mix-blend-mode:normal!important;
+  mix-blend-mode:screen!important;
   filter:drop-shadow(0 0 6px var(--gem)) drop-shadow(0 0 5px var(--gem))!important;
   background:transparent!important;
 }

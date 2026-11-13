@@ -37,7 +37,7 @@ function render(){
  els.count.textContent=n+' / 5';els.charge.style.width=n*20+'%';
  els.next.disabled=n!==5;
  els.next.textContent=n===5?'К диалогу с собственником →':'Заряжено '+n+' из 5';
- els.core.textContent=n===5?'ПОЗИЦИОНИРОВАНИЕ: СИСТЕМА АКТИВИРОВАНА':'CAP · СТРАТЕГИЯ / ОЖИДАНИЕ ЭНЕРГИИ';
+ els.core.textContent=n===5?'ВСЕ ПЯТЬ ЭКРАНОВ АКТИВИРОВАНЫ':'CAP · СТРАТЕГИЯ / ОЖИДАНИЕ ЭНЕРГИИ';
  els.core.classList.toggle('is-on',n===5);
  els.feedback.textContent=n===5
   ?'✓ Все пять экранов работают! Каждый цвет активировал отдельную часть маркетинговой стратегии CAP Education.'
@@ -82,6 +82,13 @@ function spawn(){
  el.style.setProperty('--fall-distance',travel+'px');
  el.style.animationDuration=(3.2+Math.random()*1.25)+'s';
  falling.push({node:el,id:i});els.rain.append(el);
+ // Also catch ordinary click/keyboard activation (some mobile browsers and
+ // automation drivers do not deliver pointerdown to fast-moving elements).
+ el.addEventListener('click',()=>{
+  const at=falling.find(g=>g.node===el);
+  if(!at)return;
+  falling=falling.filter(g=>g!==at);el.remove();choose(i);
+ });
  el.addEventListener('animationend',()=>{
   const at=falling.findIndex(g=>g.node===el);if(at!==-1)falling.splice(at,1);el.remove();
  });

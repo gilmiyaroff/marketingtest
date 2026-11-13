@@ -186,3 +186,97 @@
   #strategy .crystal-mini-screen{min-height:106px}
   #strategy .crystal-socket small{font-size:5px}
 }
+
+
+/* Mission 02 polish: the game communicates through color, motion and illumination.
+   Instructions/status remain accessible via aria labels, not visual text plates. */
+#strategy .crystal-game{gap:11px;padding:clamp(9px,1.8vw,16px);overflow:hidden}
+#strategy .crystal-game-top,#strategy .crystal-charge-track,#strategy #crystal-core-text,
+#strategy .crystal-panel-label,#strategy .crystal-catch-hint,
+#strategy .crystal-mini-screen small,#strategy .crystal-socket small{
+  display:none!important;
+}
+#strategy #crystal-help{
+  position:absolute!important;width:1px!important;height:1px!important;
+  padding:0!important;margin:-1px!important;overflow:hidden!important;
+  clip:rect(0 0 0 0)!important;white-space:nowrap!important;border:0!important;
+}
+#strategy .crystal-mini-screen{min-height:76px;gap:0;padding:9px 4px 10px}
+#strategy .crystal-mini-screen strong{min-height:26px;display:grid;place-items:center}
+#strategy .crystal-socket{min-height:66px!important}
+#strategy .crystal-port{height:47px!important;width:46px!important}
+#strategy #crystal-held{justify-content:center;max-width:170px;margin:auto;padding:3px 8px;min-height:50px}
+#strategy #crystal-held-label{display:none!important}
+#strategy #crystal-drop{
+  display:grid;place-items:center;padding:0;width:40px;height:40px;
+  background:#382946;border:2px solid #b9a0b5;color:#fff1d7;
+  font:900 22px/1 var(--body);
+}
+#strategy .crystal-rain-zone{
+  margin-top:3px;height:clamp(255px,37dvh,365px);
+  background:radial-gradient(ellipse at 40% 10%,#534d87,#28223f 55%,#191d37 100%);
+  box-shadow:inset 0 0 20px #181327;
+}
+#strategy .falling-crystal{
+  overflow:visible;background:none!important;box-shadow:none!important;
+  filter:none!important;z-index:5;will-change:transform;
+  animation-name:crystal-fall-wiggle!important;
+  animation-timing-function:linear!important;
+  animation-fill-mode:forwards!important;
+}
+#strategy .crystal-gem-art{
+  /* The source GIFs have a dark palette matte. Screen blend removes the square
+     against the game background while retaining colored facets and glitter. */
+  mix-blend-mode:screen!important;filter:none!important;
+  image-rendering:pixelated;
+  transform-origin:50% 50%;
+  animation:crystal-breathe 1.6s ease-in-out infinite alternate;
+}
+#strategy .falling-crystal .crystal-gem-art{
+  width:clamp(56px,7vw,80px)!important;
+  height:clamp(72px,8.3vw,98px)!important;
+}
+#strategy .falling-crystal{
+  width:clamp(62px,8vw,88px)!important;
+  height:clamp(78px,9vw,108px)!important;
+}
+#strategy .falling-crystal::before{
+  content:"";pointer-events:none;position:absolute;
+  width:26%;height:19%;top:17%;left:56%;z-index:5;
+  clip-path:polygon(50% 0,61% 36%,100% 50%,61% 62%,50% 100%,38% 62%,0 50%,38% 36%);
+  background:#fffbea;opacity:0;
+  animation:crystal-twinkle 2.7s ease-in-out infinite;
+  animation-delay:var(--spark-delay,0s);
+}
+#strategy .crystal-port .crystal-gem-art,
+#strategy #crystal-held-gem .crystal-gem-art,
+#strategy .crystal-drag-ghost .crystal-gem-art{filter:none!important;mix-blend-mode:screen!important}
+#strategy .falling-crystal:focus-visible{outline:3px dashed #fff8d0;outline-offset:3px}
+@keyframes crystal-fall-wiggle{
+  0%{transform:translate3d(0,0,0) rotate(-5deg)}
+  22%{transform:translate3d(calc(var(--drift)*.17 + 9px),calc(var(--fall-distance)*.22),0) rotate(4deg)}
+  48%{transform:translate3d(calc(var(--drift)*.46 - 10px),calc(var(--fall-distance)*.48),0) rotate(-4deg)}
+  75%{transform:translate3d(calc(var(--drift)*.75 + 8px),calc(var(--fall-distance)*.75),0) rotate(3deg)}
+  100%{transform:translate3d(var(--drift),var(--fall-distance),0) rotate(-3deg)}
+}
+@keyframes crystal-breathe{
+  from{transform:scale(.96);opacity:.91}
+  to{transform:scale(1.04);opacity:1}
+}
+@keyframes crystal-twinkle{
+  0%,14%,35%,100%{opacity:0;transform:scale(.4)}
+  22%{opacity:.9;transform:scale(1.05)}
+  26%{opacity:.45;transform:scale(.7)}
+}
+@media(max-width:700px){
+  #strategy .crystal-game{gap:8px;padding:7px}
+  #strategy .crystal-mini-screen{min-height:84px}
+  #strategy .crystal-socket{min-height:68px!important}
+  #strategy .crystal-port{width:34px!important;height:41px!important}
+  #strategy .crystal-rain-zone{height:clamp(260px,39dvh,380px)}
+  #strategy .falling-crystal .crystal-gem-art{width:60px!important;height:79px!important}
+}
+@media(prefers-reduced-motion:reduce){
+  #strategy .crystal-gem-art,#strategy .falling-crystal::before{animation:none}
+  #strategy .falling-crystal{animation-name:crystal-rain-fall!important;animation-duration:9s!important}
+}

@@ -238,8 +238,9 @@
   left:64%!important;top:3%!important;width:36%!important;height:94%!important;z-index:5;
 }
 #research #explore-world .clue.done{
-  opacity:0!important;
-  pointer-events:none!important;
+  /* Keep discovered hotspots tappable to reopen their explanation. */
+  opacity:1!important;
+  pointer-events:auto!important;
   animation:none!important;
 }
 #research #explore-world .clue:focus-visible{

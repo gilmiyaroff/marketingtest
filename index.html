@@ -244,6 +244,38 @@
  #research .research-pan-help{font-size:9px;bottom:5px;max-width:80%;overflow:hidden;text-overflow:ellipsis}
 }
 
+
+/* Four marketing achievements: hidden until the matching flow is connected. */
+#content .pipe-achievement-chip{position:relative;min-width:0;gap:6px;transition:background .2s,border-color .2s}
+#content .pipe-achievement-chip.locked{background:#40354f;border-color:#776478;color:#dbcce2;box-shadow:inset 0 0 0 2px #261e38}
+#content .pipe-achievement-chip.locked .pipe-dot{filter:saturate(.72);opacity:.9}
+#content .pipe-achievement-chip.locked .pipe-secret-name{opacity:.73}
+#content .pipe-achievement-chip.unlocked{background:#fff0cf;color:#36294a;border-color:var(--pipe-color)}
+#content .pipe-achievement-chip.complete{background:#dcf8e1;border-color:#7adca2;box-shadow:inset 0 0 0 2px #84dca53d}
+#content .pipe-secret-name{display:block;flex:1;min-width:0;overflow-wrap:anywhere;font-size:clamp(9px,1.65vw,13px);font-weight:900;line-height:1.15}
+#content .pipe-secret-name>span{display:block}
+#content .pipe-secret-name small{font-family:var(--body);font-size:clamp(10px,1.6vw,12px);letter-spacing:0;font-weight:800;margin-top:4px;opacity:1}
+#content .pipe-secret-state{flex-shrink:0;margin-left:auto;font-size:14px}
+#content .pipe-achievement-chip.unlocked .pipe-secret-state{color:#357664}
+#content .pipe-achievement{width:100%;display:flex;gap:10px;align-items:center;background:linear-gradient(120deg,#274d47,#314755);border:3px solid var(--pipe-color,#9deacb);box-shadow:inset 0 0 0 2px #17313e,0 4px #16152b;padding:10px 12px;margin:4px 0 12px;color:#fff9de}
+#content .pipe-achievement[hidden]{display:none!important}
+#content .pipe-achievement-icon{width:36px;height:36px;flex-shrink:0;display:grid;place-items:center;color:var(--pipe-color);font-size:29px;text-shadow:0 0 12px var(--pipe-color)}
+#content .pipe-achievement>div{flex:1;min-width:0;display:grid;gap:3px}
+#content .pipe-achievement strong{font-family:var(--title);font-size:clamp(8px,1.3vw,10px);color:#ffe1a1;line-height:1.45}
+#content .pipe-achievement b{font-size:clamp(14px,2.35vw,19px);color:var(--pipe-color);line-height:1.2}
+#content .pipe-achievement small{font-size:clamp(11px,1.8vw,13px);line-height:1.25;color:#ecf9e9}
+@keyframes pipe-achievement-reveal{0%{opacity:.1;transform:translateY(-7px) scale(.97)}60%{opacity:1;transform:translateY(2px) scale(1.01)}100%{opacity:1;transform:none}}
+#content .pipe-just-unlocked{animation:pipe-achievement-reveal .48s steps(5,end)}
+@media(max-width:430px){
+ #content .pipe-achievement-chip{min-height:40px;gap:4px;padding:5px 4px}
+ #content .pipe-secret-name{font-size:10px}
+ #content .pipe-secret-name small{font-size:10px}
+ #content .pipe-secret-state{font-size:11px}
+ #content .pipe-achievement{padding:7px;gap:6px}
+ #content .pipe-achievement-icon{width:27px;height:27px;font-size:22px}
+}
+@media(prefers-reduced-motion:reduce){#content .pipe-just-unlocked{animation:none}}
+
 </style>
 </head>
 <body>
@@ -298,16 +330,16 @@
     <div class="backdrop"><img src="assets/scenes/content.webp" alt=""/><div class="weather"></div></div>
     <div class="layout mission-layout">
       <header class="hud"><button class="hud-btn" data-menu>← Меню</button><span class="hud-title">04 / 06</span><div class="hud-tag">◇ <span data-coins>0</span></div></header>
-      <div class="chap-head"><div class="chapter-kicker">МИССИЯ 04 · ФАБРИКА РОСТА</div><h1 class="chapter-title">Проложи каналы роста</h1><p>Четыре канала, четыре результата. Найди пути в компактном лабиринте 8×8 и обойди препятствия.</p><div class="progress" data-progress></div></div>
+      <div class="chap-head"><div class="chapter-kicker">МИССИЯ 04 · ФАБРИКА РОСТА</div><h1 class="chapter-title">Открой формулу роста</h1><p>Соедини входы и выходы одинакового цвета. Каждый маршрут открывает секретную маркетинговую ачивку.</p><div class="progress" data-progress></div></div>
       <div class="activity activity-pipes"><div class="pipes-panel">
-        <div class="pipes-top"><span class="pipes-heading">МАРКЕТИНГОВЫЙ ТРУБОПРОВОД</span><span id="pipes-count">0 / 4</span></div>
-        <div class="pipe-legend" id="pipe-legend"></div><div id="pipe-inventory" class="pipe-inventory" role="group" aria-label="Ограниченный запас труб"></div>
+        <div class="pipes-top"><span class="pipes-heading">ЧЕТЫРЕ СКРЫТЫХ ПОТОКА</span><span id="pipes-count">0 / 4</span></div>
+        <div class="pipe-legend" id="pipe-legend" role="group" aria-label="Четыре скрытых маркетинговых достижения"></div><div class="pipe-achievement" id="pipe-achievement" role="status" aria-live="polite" hidden><span class="pipe-achievement-icon" aria-hidden="true">✦</span><div><strong>АЧИВКА ОТКРЫТА!</strong><b id="pipe-achievement-title"></b><small id="pipe-achievement-desc"></small></div></div><div id="pipe-inventory" class="pipe-inventory" role="group" aria-label="Ограниченный запас труб"></div>
         <div class="pipe-board-wrap" id="pipe-viewport" role="region" aria-label="Лабиринт труб 8 на 8, четыре пары соединений"><div id="pipe-board" class="pipe-board" role="group" aria-label="Игровое поле 8 на 8 с препятствиями, входами и выходами"></div></div>
-        <div class="pipes-instruction" id="pipes-tip" aria-live="polite">Выбери трубу и поставь на свободную клетку. Повторное нажатие её повернёт. Запас деталей ограничен.</div>
+        <div class="pipes-instruction" id="pipes-tip" aria-live="polite">Соедини одинаковые цвета, чтобы открыть ачивки. Выбери трубу, поставь её на поле и поворачивай нажатием.</div>
         <div class="pipe-actions"><button class="soft-btn" id="pipe-undo" type="button">↶ Отменить ход</button><button class="soft-btn" id="pipe-reset" type="button">Очистить поле</button></div>
       </div></div>
       <div class="spacer"></div>
-      <div class="bottom-stack"><div class="panel"><div class="guide"><picture><source srcset="assets/characters/hero-petting.webp" type="image/webp"><img src="assets/characters/hero-petting.gif" alt="Мальчик гладит кота"/></picture><p id="content-feedback">TikTok даёт охват, UGC родителей — доверие, обучение — интерес, рекомендации — покупки. Собери все четыре потока.</p></div></div><button class="gold-btn" id="content-next" disabled>Проложено 0 из 4</button></div>
+      <div class="bottom-stack"><div class="panel"><div class="guide"><picture><source srcset="assets/characters/hero-petting.webp" type="image/webp"><img src="assets/characters/hero-petting.gif" alt="Мальчик гладит кота"/></picture><p id="content-feedback">Четыре цвета скрывают четыре маркетинговых потока. Соедини пары и открой все достижения!</p></div></div><button class="gold-btn" id="content-next" disabled>Проложено 0 из 4</button></div>
     </div>
   </section>
   <section class="scene" id="scale" aria-label="Миссия 5: симулятор масштабирования">
@@ -371,14 +403,14 @@
 (()=>{'use strict';
 const $=(s,root=document)=>root.querySelector(s), $$=(s,root=document)=>[...root.querySelectorAll(s)];
 const stages=['home','research','strategy','pilot','content','scale','puzzle','final'];
-const data={coins:0,found:[],strategy:[null,null,null,null,null],chosen:null,issues:[],ownerAnswers:[null,null,null,null],links:{},selected:null,pipes:{},pipeActive:null,pipeTiles:{},pipeVersion:10,pipeTool:'straight',audience:10000,seenTiers:[],jigsaw:[],jigsawSelected:null,completed:[]};
+const data={coins:0,found:[],strategy:[null,null,null,null,null],chosen:null,issues:[],ownerAnswers:[null,null,null,null],links:{},selected:null,pipes:{},pipeActive:null,pipeTiles:{},pipeVersion:10,pipeTool:'straight',pipeUnlocks:[],audience:10000,seenTiers:[],jigsaw:[],jigsawSelected:null,completed:[]};
 let current='home',drag=null,toastTimer=0,previewPlayed=false,panEngaged=false;
 const clueData={parent:['Кто наш клиент?','Проведём кастдевы с родителями: когда ребёнок отстаёт, за что они готовы платить и как ищут помощь.'],market:['Что происходит на рынке?','Изучим конкурентов, цены и разные сегменты семей. Не будем путать интерес к идее с готовностью платить.'],feedback:['Каков первый опыт?','Посмотрим, где семьи бросают диагностику, понятен ли результат, что нравится и что мешает продлить подписку.']};
 const strategyCards=[{id:'audience',text:'Сегменты ЦА'},{id:'value',text:'Позиционирование'},{id:'pilot',text:'Пилот продукта'},{id:'channels',text:'Каналы роста'},{id:'kpi',text:'KPI и экономика'}];
 const linkData=[{id:'shorts',src:'Shorts и AI-мультфильмы',target:'Охват',to:'reach'},{id:'ugc',src:'UGC родителей',target:'Доверие',to:'trust'},{id:'quiz',src:'Бесплатный квиз',target:'Первый опыт',to:'experience'},{id:'referral',src:'Рекомендации',target:'Оплаты',to:'payments'}];const shuffledTargets=[linkData[3],linkData[0],linkData[2],linkData[1]];
 const fmt=n=>new Intl.NumberFormat('ru-RU').format(Math.round(n));
 function persist(){try{sessionStorage.setItem('cap-growth-quest-v7',JSON.stringify(data))}catch(e){}}
-function restore(){try{const saved=JSON.parse(sessionStorage.getItem('cap-growth-quest-v7')||'null');if(saved){data.coins=Number(saved.coins)||0;data.found=Array.isArray(saved.found)?saved.found:[];data.strategy=Array.isArray(saved.strategy)&&saved.strategy.length===5?saved.strategy:[null,null,null,null,null];data.issues=Array.isArray(saved.issues)?saved.issues:[];data.ownerAnswers=Array.isArray(saved.ownerAnswers)&&saved.ownerAnswers.length===4?saved.ownerAnswers.map(x=>Number.isInteger(x)&&x>=0&&x<=2?x:null):[null,null,null,null];data.links=saved.links||{};data.pipeTiles=saved.pipeVersion===10&&saved.pipeTiles&&typeof saved.pipeTiles==='object'&&!Array.isArray(saved.pipeTiles)?saved.pipeTiles:{};data.pipeVersion=10;data.pipeTool=['straight','corner','erase'].includes(saved.pipeTool)?saved.pipeTool:'straight';data.audience=audienceTiers.includes(saved.audience)?saved.audience:10000;data.seenTiers=saved.seenTiers||[];data.jigsaw=saved.jigsaw||[];data.jigsawSelected=null;data.completed=saved.completed||[]}}catch(e){}}
+function restore(){try{const saved=JSON.parse(sessionStorage.getItem('cap-growth-quest-v7')||'null');if(saved){data.coins=Number(saved.coins)||0;data.found=Array.isArray(saved.found)?saved.found:[];data.strategy=Array.isArray(saved.strategy)&&saved.strategy.length===5?saved.strategy:[null,null,null,null,null];data.issues=Array.isArray(saved.issues)?saved.issues:[];data.ownerAnswers=Array.isArray(saved.ownerAnswers)&&saved.ownerAnswers.length===4?saved.ownerAnswers.map(x=>Number.isInteger(x)&&x>=0&&x<=2?x:null):[null,null,null,null];data.links=saved.links||{};data.pipeTiles=saved.pipeVersion===10&&saved.pipeTiles&&typeof saved.pipeTiles==='object'&&!Array.isArray(saved.pipeTiles)?saved.pipeTiles:{};data.pipeVersion=10;data.pipeTool=['straight','corner','erase'].includes(saved.pipeTool)?saved.pipeTool:'straight';data.pipeUnlocks=Array.isArray(saved.pipeUnlocks)?[...new Set(saved.pipeUnlocks.filter(id=>['shorts','ugc','ai','referral'].includes(id)))]:[];data.audience=audienceTiers.includes(saved.audience)?saved.audience:10000;data.seenTiers=saved.seenTiers||[];data.jigsaw=saved.jigsaw||[];data.jigsawSelected=null;data.completed=saved.completed||[]}}catch(e){}}
 function updateCoins(){$$('[data-coins]').forEach(x=>x.textContent=fmt(data.coins));$$('[data-progress]').forEach(x=>x.replaceChildren(...Array.from({length:6},(_,i)=>{const a=document.createElement('span');a.className=i<Math.max(0,stages.indexOf(current)-1)?'done':'';return a})))}
 function reward(id){if(data.completed.includes(id))return;data.completed.push(id);data.coins+=100;updateCoins();showToast('★ +100 монет за миссию');persist()}
 function showToast(s){const t=$('#toast');t.textContent=s;t.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),2200)}
@@ -480,10 +512,10 @@ $('#strategy-check').addEventListener('click',()=>{
 // Mission 4: 8x8 compact labyrinth; four disjoint paths are solvable.
 const pipeCols=8,pipeRows=8,pipeCellSize=40,pipeStock={straight:10,corner:16},pipeUndo=[];
 const pipeDefs=[
- {id:'shorts',name:'TikTok / Shorts',goal:'Охват',color:'#60dfff',from:[2,0],to:[0,3],startDir:'E',endDir:'N',symbol:'T'},
- {id:'ugc',name:'UGC-мамы',goal:'Доверие',color:'#ff79b2',from:[0,7],to:[3,7],startDir:'S',endDir:'E',symbol:'U'},
- {id:'ai',name:'AI-мультики',goal:'Интерес',color:'#a9f36b',from:[5,0],to:[7,2],startDir:'E',endDir:'S',symbol:'A'},
- {id:'referral',name:'Рефералка',goal:'Оплаты',color:'#ffbd54',from:[7,5],to:[5,7],startDir:'N',endDir:'E',symbol:'R'}
+ {id:'shorts',name:'МЕДИА',goal:'ОХВАТ',color:'#60dfff',colorName:'голубого',from:[2,0],to:[0,3],startDir:'E',endDir:'N',symbol:'М',insight:'Медийный контент помогает повышать узнаваемость CAP Education.'},
+ {id:'ugc',name:'UGC',goal:'ДОВЕРИЕ',color:'#ff79b2',colorName:'розового',from:[0,7],to:[3,7],startDir:'S',endDir:'E',symbol:'U',insight:'Истории родителей и реальные отзывы помогают формировать доверие.'},
+ {id:'ai',name:'ОБУЧАЮЩИЙ КОНТЕНТ',goal:'ИНТЕРЕС',color:'#a9f36b',colorName:'зелёного',from:[5,0],to:[7,2],startDir:'E',endDir:'S',symbol:'К',insight:'Полезные видео и AI-мультфильмы помогают привлечь внимание детей и семей.'},
+ {id:'referral',name:'РЕКОМЕНДАЦИИ',goal:'ОПЛАТЫ',color:'#ffbd54',colorName:'жёлтого',from:[7,5],to:[5,7],startDir:'N',endDir:'E',symbol:'Р',insight:'Рекомендации семей могут приводить новых клиентов и поддерживать продажи.'}
 ];
 const pipeIslands=[
  [[2,2],[2,3],[3,2],[3,3]],
@@ -568,6 +600,16 @@ function pipeInventory(){
   wrap.append(b);
  }
 }
+function pipeShowAchievement(def){
+ const banner=$('#pipe-achievement');
+ banner.style.setProperty('--pipe-color',def.color);
+ $('#pipe-achievement-title').textContent=def.name+' → '+def.goal;
+ $('#pipe-achievement-desc').textContent=def.insight;
+ banner.hidden=false;
+ banner.classList.remove('pipe-just-unlocked');
+ void banner.offsetWidth;
+ banner.classList.add('pipe-just-unlocked');
+}
 function pipeAct(r,c,kind=data.pipeTool){
  if(!pipePlaceable(r,c))return;
  const key=pipeKey(r,c),piece=data.pipeTiles[key],before=pipeDefs.filter(d=>pipeTrace(d).complete).length;
@@ -577,22 +619,39 @@ function pipeAct(r,c,kind=data.pipeTool){
   if(pipeLeft(kind)===0){showToast('Детали закончились — убери лишнюю или отмени ход');return}
   pipeBackup();data.pipeTiles[key]={kind,rot:0};
  }
+ const solved=pipeDefs.filter(d=>pipeTrace(d).complete),after=solved.length;
+ const newly=solved.filter(d=>!data.pipeUnlocks.includes(d.id));
+ if(newly.length)data.pipeUnlocks.push(...newly.map(d=>d.id));
  persist();drawPipes();
- const after=pipeDefs.filter(d=>pipeTrace(d).complete).length;
- if(after>before)showToast('Маршрут готов! '+after+' / 4');
+ if(newly.length){
+  pipeShowAchievement(newly[newly.length-1]);
+  showToast('✦ ОТКРЫТО: '+newly.map(d=>d.name+' → '+d.goal).join(' · '));
+  $('#content-feedback').textContent='Открыта ачивка: '+newly[newly.length-1].name+' → '+newly[newly.length-1].goal+'. '+newly[newly.length-1].insight;
+ }else if(after>before)showToast('Соединено '+after+' из 4');
  if(after===4){
   reward('content');
-  $('#content-feedback').textContent='Четыре маршрута соединены. Мы построили систему роста в условиях ограниченных ресурсов. Теперь проверим её экономику.';
+  $('#content-feedback').textContent='Все четыре ачивки открыты! Медиа, UGC, контент и рекомендации соединяются в систему роста. Теперь проверим экономику.';
  }
 }
 function drawPipes(){
  const board=$('#pipe-board'),legend=$('#pipe-legend');board.replaceChildren();legend.replaceChildren();
  const routes=pipeDefs.map(def=>({def,status:pipeTrace(def)})),flows=new Map();
+ const recovered=routes.filter(x=>x.status.complete&&!data.pipeUnlocks.includes(x.def.id));
+ if(recovered.length){data.pipeUnlocks.push(...recovered.map(x=>x.def.id));persist()}
  routes.forEach(({def,status})=>status.path.forEach(k=>{if(!flows.has(k)||status.complete)flows.set(k,def.color)}));
- pipeDefs.forEach(def=>{
-  const done=routes.find(x=>x.def.id===def.id).status.complete;
-  const chip=document.createElement('div');chip.className='pipe-legend-item'+(done?' complete':'');chip.style.setProperty('--pipe-color',def.color);
-  chip.innerHTML='<span class="pipe-dot">'+def.symbol+'</span><span>'+def.name+'<small>→ '+def.goal+'</small></span>'+(done?'<strong class="pipe-ok">✓</strong>':'');
+ pipeDefs.forEach((def,i)=>{
+  const done=routes.find(x=>x.def.id===def.id).status.complete,revealed=data.pipeUnlocks.includes(def.id);
+  const chip=document.createElement('div');
+  chip.className='pipe-legend-item pipe-achievement-chip'+(revealed?' unlocked':' locked')+(done?' complete':'');
+  chip.style.setProperty('--pipe-color',def.color);
+  const dot=document.createElement('span');dot.className='pipe-dot';dot.textContent=revealed?def.symbol:'?';
+  const label=document.createElement('span');label.className='pipe-secret-name';
+  const title=document.createElement('span');title.textContent=revealed?def.name:'ПОТОК 0'+(i+1);
+  const sub=document.createElement('small');sub.textContent=revealed?'→ '+def.goal:'??? → ???';
+  label.append(title,sub);
+  const state=document.createElement('strong');state.className='pipe-secret-state';state.textContent=done?'✓':revealed?'★':'🔒';
+  chip.append(dot,label,state);
+  chip.setAttribute('aria-label',revealed?'Достижение открыто: '+def.name+' — '+def.goal:(i+1)+'-й скрытый поток, соедини '+def.colorName+' цвета');
   legend.append(chip);
  });
  for(let r=0;r<pipeRows;r++)for(let c=0;c<pipeCols;c++){
@@ -605,8 +664,9 @@ function drawPipes(){
    cell.classList.add('pipe-endpoint');cell.style.setProperty('--pipe-color',endpoint.color);
    cell.disabled=true;
    const direction=source?endpoint.startDir:pipeReverse[endpoint.endDir];
-   cell.innerHTML='<span class="pipe-terminal pipe-t-'+direction+'"></span><span class="endpoint-glyph">'+(source?endpoint.symbol:'◆')+'</span>';
-   cell.setAttribute('aria-label',(source?'Начало ':'Финиш ')+endpoint.name+' — '+endpoint.goal);
+   const revealed=data.pipeUnlocks.includes(endpoint.id);
+   cell.innerHTML='<span class="pipe-terminal pipe-t-'+direction+'"></span><span class="endpoint-glyph">'+(source?(revealed?endpoint.symbol:'?'):'◆')+'</span>';
+   cell.setAttribute('aria-label',(source?'Начало ':'Финиш ')+(revealed?endpoint.name+' — '+endpoint.goal:endpoint.colorName+' скрытого потока'));
   }else if(tile){
    const color=flows.get(key);cell.classList.add('pipe-used');if(color)cell.classList.add('pipe-lit');
    cell.innerHTML=pipeGlyph(tile,color||'#bcd8e5');
@@ -619,8 +679,8 @@ function drawPipes(){
  $('#pipes-count').textContent=done+' / 4';
  $('#content-next').disabled=done!==4;
  $('#content-next').textContent=done===4?'К симулятору роста':'Соединено '+done+' из 4';
- $('#pipes-tip').textContent=done===4?'Все четыре соединения работают! Открой следующую миссию.':
- 'Выбери деталь и поставь на свободную клетку. Повторное нажатие поворачивает трубу; препятствия обходи.';
+ $('#pipes-tip').textContent=done===4?'Все четыре ачивки открыты! Переходи к экономике роста.':
+ 'Соединяй вход и выход одного цвета, чтобы раскрыть секрет. Поставь трубу, повторным нажатием поверни её.';
  $('#pipe-undo').disabled=pipeUndo.length===0;
 }
 $('#pipe-board').addEventListener('click',e=>{
@@ -678,7 +738,7 @@ window.addEventListener('pointerup',e=>{if(!puzzlePointer)return;const id=puzzle
 window.addEventListener('pointercancel',()=>{puzzleGhost?.remove();puzzleGhost=null;puzzlePointer=null});
 $('#jigsaw-board').addEventListener('dragover',e=>e.preventDefault());$('#jigsaw-board').addEventListener('drop',e=>{e.preventDefault();const spot=e.target.closest('[data-slot]');if(!spot)return;const piece=Number(e.dataTransfer.getData('text/plain'));if(Number.isInteger(piece)){data.jigsawSelected=piece;dropPuzzle(+spot.dataset.slot)}});
 $('#puzzle-next').addEventListener('click',()=>{if(data.jigsaw.length===9)go('final')});
-$('#restart').addEventListener('click',()=>{data.coins=0;data.found=[];data.strategy=Array(5).fill(null);data.chosen=null;data.issues=[];data.ownerAnswers=[null,null,null,null];window.CAPFounder.reset();data.links={};data.selected=null;data.pipes={};data.pipeActive=null;data.pipeTiles={};data.pipeVersion=10;data.pipeTool='straight';pipeUndo.length=0;data.audience=10000;data.seenTiers=[];data.jigsaw=[];data.jigsawSelected=null;data.completed=[];previewPlayed=false;panEngaged=false;pan.scrollLeft=0;$('#strategy-check').textContent='Проверить стратегию';$('#strategy-feedback').textContent='Начнём с аудитории и позиционирования. Потом спланируем тест и каналы роста.';$('#research-status').textContent='Разведка начинается';$('#research-copy').textContent='Осмотри три подсвеченных объекта, чтобы собрать базу для маркетинговой стратегии.';$('#pilot-feedback').textContent='Выберите приоритеты, которые ближе всего вашему видению. Это короткое стратегическое интервью, не экзамен.';$('#content-feedback').textContent='TikTok даёт охват, UGC родителей — доверие, обучение — интерес, рекомендации — покупки. Собери все четыре потока.';$('#puzzle-feedback').textContent='Маленькие решения превращаются в большую систему роста. Собери девять частей, чтобы открыть план реализации.';persist();go('home')});
+$('#restart').addEventListener('click',()=>{data.coins=0;data.found=[];data.strategy=Array(5).fill(null);data.chosen=null;data.issues=[];data.ownerAnswers=[null,null,null,null];window.CAPFounder.reset();data.links={};data.selected=null;data.pipes={};data.pipeActive=null;data.pipeTiles={};data.pipeVersion=10;data.pipeTool='straight';data.pipeUnlocks=[];$('#pipe-achievement').hidden=true;pipeUndo.length=0;data.audience=10000;data.seenTiers=[];data.jigsaw=[];data.jigsawSelected=null;data.completed=[];previewPlayed=false;panEngaged=false;pan.scrollLeft=0;$('#strategy-check').textContent='Проверить стратегию';$('#strategy-feedback').textContent='Начнём с аудитории и позиционирования. Потом спланируем тест и каналы роста.';$('#research-status').textContent='Разведка начинается';$('#research-copy').textContent='Осмотри три подсвеченных объекта, чтобы собрать базу для маркетинговой стратегии.';$('#pilot-feedback').textContent='Выберите приоритеты, которые ближе всего вашему видению. Это короткое стратегическое интервью, не экзамен.';$('#content-feedback').textContent='Четыре цвета скрывают четыре маркетинговых потока. Соедини пары и открой все достижения!';$('#puzzle-feedback').textContent='Маленькие решения превращаются в большую систему роста. Собери девять частей, чтобы открыть план реализации.';persist();go('home')});
 window.CAPFounder.init({data,reward,go,persist});restore();updateCoins();go(({pipes:'content',interview:'pilot',final:'final'})[new URLSearchParams(window.location.search).get('preview')]||'home');
 if(data.completed.includes('strategy'))$('#strategy-check').textContent='К диалогу с собственником';
 })();

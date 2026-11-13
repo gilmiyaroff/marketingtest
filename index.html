@@ -414,7 +414,7 @@
     <div class="layout mission-layout">
       <header class="hud"><button class="hud-btn" data-menu>← Меню</button><span class="hud-title">01 / 06</span><div class="hud-tag">◈ <span data-coins>0</span></div></header>
       <div class="chap-head"><div class="chapter-kicker">МИССИЯ 01 · ПОТЕНЦИАЛ CAP EDUCATION</div><h1 class="chapter-title">Открой потенциал CAP Education</h1><p>Большая стратегия начинается с трёх опор: данных для решений, возможностей масштабирования и пользы для Казахстана.</p><div class="progress" data-progress></div></div>
-      <div class="activity"><div class="explore"><div class="explore-scroll" id="explore-scroll" tabindex="0" aria-label="Панорама исследовательской комнаты. На компьютере зажми левую кнопку мыши и тащи картинку; можно также использовать колесо мыши и стрелки. На телефоне проведи пальцем."><div class="explore-world" id="explore-world"><button class="clue" data-clue="parent" aria-label="Открыть масштабирование: глобус" title="Открыть находку"></button><button class="clue" data-clue="market" aria-label="Открыть данные: аналитика" title="Открыть находку"></button><button class="clue" data-clue="feedback" aria-label="Открыть влияние: город за окном" title="Открыть находку"></button></div></div><button class="pan-arrow left" id="pan-left" type="button" aria-label="Прокрутить панораму влево" title="Листать влево">❮</button><button class="pan-arrow right" id="pan-right" type="button" aria-label="Прокрутить панораму вправо" title="Листать вправо">❯</button><div class="pan-bar" aria-hidden="true"><span id="pan-thumb"></span></div><div class="research-pan-help">↔ Зажми мышь и тяни · колесо · свайп</div></div></div>
+      <div class="activity"><div class="explore"><div class="explore-scroll" id="explore-scroll" tabindex="0" aria-label="Панорама исследовательской комнаты. На компьютере зажми левую кнопку мыши и тащи картинку; можно также использовать колесо мыши и стрелки. На телефоне проведи пальцем."><div class="explore-world" id="explore-world"><button class="clue" data-clue="parent" aria-label="Открыть масштабирование: глобус"></button><button class="clue" data-clue="market" aria-label="Открыть данные: аналитика"></button><button class="clue" data-clue="feedback" aria-label="Открыть влияние: город за окном"></button></div></div><button class="pan-arrow left" id="pan-left" type="button" aria-label="Прокрутить панораму влево" title="Листать влево">❮</button><button class="pan-arrow right" id="pan-right" type="button" aria-label="Прокрутить панораму вправо" title="Листать вправо">❯</button><div class="pan-bar" aria-hidden="true"><span id="pan-thumb"></span></div><div class="research-pan-help">↔ Листай панораму · нажимай на объекты</div></div></div>
       <div class="spacer"></div>
       <div class="bottom-stack"><div class="panel"><div class="dialog-title" id="research-status">Три опоры роста</div><p id="research-copy">Найди аналитическую доску, глобус и город за окном. Каждая находка раскроет часть будущего CAP.</p><div class="clue-chip-row" role="group" aria-label="Три опоры потенциала"><span class="clue-chip" data-chip="market"><span class="research-chip-symbol">▥</span> ДАННЫЕ</span><span class="clue-chip" data-chip="parent"><span class="research-chip-symbol">◎</span> МАСШТАБ</span><span class="clue-chip" data-chip="feedback"><span class="research-chip-symbol">✦</span> ВЛИЯНИЕ</span></div></div><button class="gold-btn" id="research-next" disabled>Открыто 0 из 3</button></div>
     </div>
@@ -517,9 +517,9 @@
 .overlay-modal{position:absolute;inset:0;z-index:30;background:#15132bca;display:grid;place-items:center;padding:18px;backdrop-filter:blur(5px)}.overlay-modal[hidden]{display:none}.modal-card{max-width:500px;width:100%;padding:20px}.modal-card p{font-size:16px;line-height:1.45}.toast{pointer-events:none;opacity:0;position:absolute;top:calc(75px + var(--top));left:50%;transform:translateX(-50%) translateY(-12px);z-index:40;background:#fff0c9;border:4px solid #664764;box-shadow:0 5px #1e1831;color:#352748;font-weight:900;padding:12px 15px;text-align:center;max-width:90%;transition:.25s}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}.sprite-defs{position:absolute;width:0;height:0;overflow:hidden}.stage-help{font-size:12px;color:#fff1d7}.stage-help button{background:transparent;border:0;color:inherit;text-decoration:underline;font-size:inherit}
 </style>
 <link rel="stylesheet" href="assets/css/retro-monitor.css?v=bba35fc"/>
-<link rel="stylesheet" href="assets/css/mobile-play.css?v=c4bb2628"/>
+<link rel="stylesheet" href="assets/css/mobile-play.css?v=48f255ce"/>
 <script src="assets/js/founder-interview.js?v=7f7fa4"></script>
-<script src="assets/js/mobile-play.js?v=852acabf"></script>
+<script src="assets/js/mobile-play.js?v=88b0d8ba"></script>
 <script>
 (()=>{'use strict';
 const $=(s,root=document)=>root.querySelector(s), $$=(s,root=document)=>[...root.querySelectorAll(s)];
@@ -618,7 +618,7 @@ function renderResearch(){
  $('#research-status').textContent=n===3?'✦ Три опоры открыты':'Три опоры роста · '+n+'/3';
  $('#research-copy').textContent=n===3
   ?'Данные помогают принимать решения, масштаб определяет возможности, а влияние напоминает, ради чего всё это. Пора строить стратегию CAP Education.'
-  :'Найди аналитическую доску, глобус и город за окном. Нажимай на светящиеся точки, чтобы открыть потенциал CAP.';
+  :'Нажимай на сами объекты: доску и ноутбук справа, город за окном и глобус слева. Листай панораму пальцем.';
 }
 function researchReveal(k){
  const item=clueData[k];if(!item)return;

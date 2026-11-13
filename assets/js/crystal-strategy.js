@@ -2,11 +2,11 @@
 (function(){
 'use strict';
 const defs=[
- {name:'СЕГМЕНТЫ ЦА',color:'#65e5fa',light:'#defaff',dark:'#2372b5',label:'бирюзовый',asset:'crystal_turquoise.gif'},
- {name:'ПОЗИЦИОНИРОВАНИЕ',color:'#c290ff',light:'#f5dfff',dark:'#714bb2',label:'фиолетовый',asset:'crystal_purple.gif'},
- {name:'ПИЛОТ ПРОДУКТА',color:'#ffca65',light:'#fff3bb',dark:'#c66c2d',label:'золотой',asset:'crystal_gold.gif'},
- {name:'КАНАЛЫ РОСТА',color:'#ff829e',light:'#ffdce7',dark:'#ba396a',label:'розовый',asset:'crystal_pink.gif'},
- {name:'KPI И ЭКОНОМИКА',color:'#8deaa3',light:'#edffe9',dark:'#2c9678',label:'зелёный',asset:'crystal_green.gif'}
+ {name:'СЕГМЕНТЫ ЦА',color:'#65e5fa',light:'#defaff',dark:'#2372b5',label:'бирюзовый',asset:'crystal_turquoise_clean.svg'},
+ {name:'ПОЗИЦИОНИРОВАНИЕ',color:'#c290ff',light:'#f5dfff',dark:'#714bb2',label:'фиолетовый',asset:'crystal_purple_clean.svg'},
+ {name:'ПИЛОТ ПРОДУКТА',color:'#ffca65',light:'#fff3bb',dark:'#c66c2d',label:'золотой',asset:'crystal_gold_clean.svg'},
+ {name:'КАНАЛЫ РОСТА',color:'#ff829e',light:'#ffdce7',dark:'#ba396a',label:'розовый',asset:'crystal_pink_clean.svg'},
+ {name:'KPI И ЭКОНОМИКА',color:'#8deaa3',light:'#edffe9',dark:'#2c9678',label:'зелёный',asset:'crystal_green_clean.svg'}
 ];
 const $=s=>document.querySelector(s);
 let ctx=null,els=null,falling=[],held=null,drag=null,timer=null,deck=[],serial=0;
@@ -95,6 +95,12 @@ function spawn(){
  el.style.left=startX+'px';
  el.style.setProperty('--drift',drift+'px');
  el.style.setProperty('--fall-distance',travel+'px');
+ el.style.setProperty('--sway1',Math.round(drift*.2+9)+'px');
+ el.style.setProperty('--sway2',Math.round(drift*.48-11)+'px');
+ el.style.setProperty('--sway3',Math.round(drift*.75+8)+'px');
+ el.style.setProperty('--fall22',Math.round(travel*.22)+'px');
+ el.style.setProperty('--fall48',Math.round(travel*.48)+'px');
+ el.style.setProperty('--fall75',Math.round(travel*.75)+'px');
  el.style.setProperty('--spark-delay',(-Math.random()*2.7).toFixed(2)+'s');
  el.style.animationDuration=(4.1+Math.random()*2.1).toFixed(2)+'s';
  falling.push({node:el,id:i});els.rain.append(el);

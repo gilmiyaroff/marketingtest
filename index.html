@@ -219,6 +219,31 @@
 }
 @media(min-width:900px){#content .layout.mission-layout{width:min(100%,840px);padding-inline:clamp(22px,3vw,40px)}#content .pipe-board{width:min(100%,500px);max-width:500px}}
 
+
+/* Research Mission: desktop mouse drag + wheel + visible panorama arrows. */
+#research .explore{position:relative}
+#research .explore-scroll{cursor:grab;scroll-behavior:auto!important;overscroll-behavior-x:contain;user-select:none;-webkit-user-select:none}
+#research .explore-scroll.research-dragging{cursor:grabbing}
+#research .explore-scroll .clue{user-select:none;-webkit-user-select:none}
+#research .pan-arrow{display:grid!important;position:absolute;z-index:7;top:50%;transform:translateY(-50%);width:42px;height:55px;min-height:0;place-items:center;padding:0;font-size:24px;line-height:1;color:#fff5ca;border:3px solid #efc68e;border-radius:5px;background:#2f254dcc;box-shadow:0 4px #1a1532;opacity:1;touch-action:manipulation}
+#research .pan-arrow.left{left:6px}
+#research .pan-arrow.right{right:6px}
+#research .pan-arrow:disabled{opacity:.22;pointer-events:none}
+#research .research-pan-help{position:absolute;left:50%;bottom:10px;transform:translateX(-50%);z-index:5;background:#272038db;border:1px solid #ffdda0a8;box-shadow:0 2px #110d25;color:#fff3d4;font-size:clamp(10px,1.2vw,12px);font-weight:800;line-height:1.25;white-space:nowrap;padding:4px 8px;pointer-events:none;text-shadow:0 1px #151025}
+#research .pan-bar{top:9px;z-index:6}
+@media(min-width:900px){
+ #research .layout.mission-layout{grid-template-columns:minmax(300px,.88fr) minmax(425px,1.12fr);grid-template-rows:auto auto 1fr;align-items:start;gap:15px 22px}
+ #research .mission-layout>.activity{align-self:start}
+ #research .mission-layout>.bottom-stack{align-self:start}
+ #research .explore{height:clamp(310px,51dvh,480px)!important}
+}
+@media(max-width:600px){
+ #research .pan-arrow{width:29px;height:40px;font-size:17px;border-width:2px}
+ #research .pan-arrow.left{left:2px}
+ #research .pan-arrow.right{right:2px}
+ #research .research-pan-help{font-size:9px;bottom:5px;max-width:80%;overflow:hidden;text-overflow:ellipsis}
+}
+
 </style>
 </head>
 <body>
@@ -239,7 +264,7 @@
     <div class="layout mission-layout">
       <header class="hud"><button class="hud-btn" data-menu>← Меню</button><span class="hud-title">01 / 06</span><div class="hud-tag">◈ <span data-coins>0</span></div></header>
       <div class="chap-head"><div class="chapter-kicker">МИССИЯ 01 · ИССЛЕДОВАНИЕ</div><h1 class="chapter-title">Найти реальную проблему</h1><p>Прежде чем покупать трафик, изучаем родителей, конкурентов и опыт первых пользователей.</p><div class="progress" data-progress></div></div>
-      <div class="activity"><div class="explore"><div class="explore-scroll" id="explore-scroll" tabindex="0" aria-label="Широкая исследовательская комната. Проведи пальцем влево или вправо, чтобы осмотреть её"><div class="explore-world" id="explore-world"><button class="clue" data-clue="parent" aria-label="Изучить аудиторию: глобус"></button><button class="clue" data-clue="market" aria-label="Изучить рынок: тетрадь с графиками"></button><button class="clue" data-clue="feedback" aria-label="Изучить кастдев: ноутбук"></button></div></div><div class="pan-bar" aria-hidden="true"><span id="pan-thumb"></span></div></div></div>
+      <div class="activity"><div class="explore"><div class="explore-scroll" id="explore-scroll" tabindex="0" aria-label="Панорама исследовательской комнаты. На компьютере зажми левую кнопку мыши и тащи картинку; можно также использовать колесо мыши и стрелки. На телефоне проведи пальцем."><div class="explore-world" id="explore-world"><button class="clue" data-clue="parent" aria-label="Изучить аудиторию: глобус"></button><button class="clue" data-clue="market" aria-label="Изучить рынок: тетрадь с графиками"></button><button class="clue" data-clue="feedback" aria-label="Изучить кастдев: ноутбук"></button></div></div><button class="pan-arrow left" id="pan-left" type="button" aria-label="Прокрутить панораму влево" title="Листать влево">❮</button><button class="pan-arrow right" id="pan-right" type="button" aria-label="Прокрутить панораму вправо" title="Листать вправо">❯</button><div class="pan-bar" aria-hidden="true"><span id="pan-thumb"></span></div><div class="research-pan-help">↔ Зажми мышь и тяни · колесо · свайп</div></div></div>
       <div class="spacer"></div>
       <div class="bottom-stack"><div class="panel"><div class="dialog-title" id="research-status">Разведка начинается</div><p id="research-copy">Осмотри три подсвеченных объекта, чтобы собрать базу для маркетинговой стратегии.</p><div class="clue-chip-row"><span class="clue-chip" data-chip="parent">Родители</span><span class="clue-chip" data-chip="market">Рынок</span><span class="clue-chip" data-chip="feedback">Кастдев</span></div></div><button class="gold-btn" id="research-next" disabled>Найдено 0 из 3</button></div>
     </div>
@@ -367,8 +392,65 @@ $('#home-info').addEventListener('click',()=>modal('CAP Growth Quest','Это н
 $('#about').addEventListener('click',()=>modal('О проекте','Шесть игровых миссий показывают, как руководитель маркетинга исследует рынок, строит стратегию, тестирует продукт, запускает контентные каналы и работает с удержанием.'));
 $('#how').addEventListener('click',()=>modal('Как играть','Осмотри панораму, собери стратегию, ответь на вопросы о приоритетах CAP, собери трубы из ограниченного набора деталей, сравни масштаб и закончи пазл. Все миссии доступны с телефона.'));
 // Mission 1: Pan and clue search
-const pan=$('#explore-scroll');function panSize(){const world=$('#explore-world');world.style.width=Math.max(pan.clientWidth,Math.round(pan.clientHeight*1439/810))+'px'}function panUpdate(){panSize();const max=Math.max(1,pan.scrollWidth-pan.clientWidth),ratio=Math.min(1,pan.clientWidth/Math.max(1,pan.scrollWidth));$('#pan-thumb').style.width=Math.max(12,ratio*100)+'%';$('#pan-thumb').style.left=((100-ratio*100)*pan.scrollLeft/max)+'%'}
-pan.addEventListener('scroll',panUpdate,{passive:true});pan.addEventListener('keydown',e=>{if(e.key==='ArrowLeft'||e.key==='ArrowRight'){panEngaged=true;pan.scrollBy({left:(e.key==='ArrowRight'?1:-1)*120,behavior:'smooth'})}});pan.addEventListener('pointerdown',()=>panEngaged=true,{passive:true});pan.addEventListener('touchstart',()=>panEngaged=true,{passive:true});window.addEventListener('resize',()=>{panUpdate()});
+const pan=$('#explore-scroll'),panLeft=$('#pan-left'),panRight=$('#pan-right');
+function panSize(){
+ const world=$('#explore-world');
+ const width=Math.max(pan.clientWidth*1.4,pan.clientHeight*1439/810);
+ world.style.width=Math.max(0,Math.round(width))+'px';
+}
+function panUpdate(){
+ panSize();
+ const max=Math.max(0,pan.scrollWidth-pan.clientWidth);
+ const ratio=Math.min(1,pan.clientWidth/Math.max(1,pan.scrollWidth));
+ $('#pan-thumb').style.width=Math.max(12,ratio*100)+'%';
+ $('#pan-thumb').style.left=(max?((100-ratio*100)*pan.scrollLeft/max):0)+'%';
+ panLeft.disabled=pan.scrollLeft<=2||max<=2;
+ panRight.disabled=pan.scrollLeft>=max-2||max<=2;
+}
+function movePan(direction){
+ panEngaged=true;
+ pan.scrollBy({left:direction*Math.max(140,pan.clientWidth*.68),behavior:'smooth'});
+}
+panLeft.addEventListener('click',()=>movePan(-1));
+panRight.addEventListener('click',()=>movePan(1));
+pan.addEventListener('scroll',panUpdate,{passive:true});
+pan.addEventListener('keydown',e=>{
+ if(e.key==='ArrowLeft'||e.key==='ArrowRight'){e.preventDefault();movePan(e.key==='ArrowRight'?1:-1)}
+});
+let researchDrag=null;
+pan.addEventListener('pointerdown',e=>{
+ panEngaged=true;
+ if(e.pointerType!=='mouse'||e.button!==0||e.target.closest('button'))return;
+ researchDrag={id:e.pointerId,startX:e.clientX,startScroll:pan.scrollLeft,moved:false};
+ pan.setPointerCapture?.(e.pointerId);
+});
+pan.addEventListener('pointermove',e=>{
+ if(!researchDrag||e.pointerId!==researchDrag.id)return;
+ const delta=e.clientX-researchDrag.startX;
+ if(Math.abs(delta)>4)researchDrag.moved=true;
+ if(researchDrag.moved){pan.classList.add('research-dragging');pan.scrollLeft=researchDrag.startScroll-delta;e.preventDefault()}
+});
+function researchStopDrag(e){
+ if(!researchDrag||e.pointerId!==researchDrag.id)return;
+ researchDrag=null;
+ pan.classList.remove('research-dragging');
+ if(pan.hasPointerCapture?.(e.pointerId))pan.releasePointerCapture(e.pointerId);
+ panUpdate();
+}
+pan.addEventListener('pointerup',researchStopDrag);
+pan.addEventListener('pointercancel',researchStopDrag);
+pan.addEventListener('wheel',e=>{
+ const max=pan.scrollWidth-pan.clientWidth;
+ if(max<=2)return;
+ const delta=Math.abs(e.deltaX)>Math.abs(e.deltaY)?e.deltaX:e.deltaY;
+ if(!delta)return;
+ const canMove=delta>0?pan.scrollLeft<max-2:pan.scrollLeft>2;
+ if(!canMove)return;
+ panEngaged=true;e.preventDefault();
+ pan.scrollLeft+=delta*(e.deltaMode===1?18:e.deltaMode===2?pan.clientWidth:1);
+},{passive:false});
+pan.addEventListener('touchstart',()=>panEngaged=true,{passive:true});
+window.addEventListener('resize',panUpdate);
 function panPreview(){if(previewPlayed)return;previewPlayed=true;setTimeout(()=>{if(current!=='research'||panEngaged)return;pan.scrollTo({left:90,behavior:'smooth'});setTimeout(()=>{if(!panEngaged&&current==='research')pan.scrollTo({left:0,behavior:'smooth'})},850)},650)}
 function renderResearch(){const n=data.found.length;$$('[data-clue]').forEach(b=>b.classList.toggle('done',data.found.includes(b.dataset.clue)));$$('[data-chip]').forEach(x=>x.classList.toggle('done',data.found.includes(x.dataset.chip)));$('#research-next').disabled=n!==3;$('#research-next').textContent=n===3?'Собрать маркетинговую стратегию':`Найдено ${n} из 3`;if(n===3){$('#research-status').textContent='Исследование завершено';$('#research-copy').textContent='Мы собрали гипотезы о потребностях, рынке и первом опыте. Пора строить план.'}}
 $$('[data-clue]').forEach(btn=>btn.addEventListener('click',()=>{const k=btn.dataset.clue;if(data.found.includes(k))return;data.found.push(k);renderResearch();modal(...clueData[k]);if(data.found.length===3)reward('research');persist()}));$('#research-next').addEventListener('click',()=>{if(data.found.length===3)go('strategy')});

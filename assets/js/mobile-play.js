@@ -25,7 +25,7 @@
   window.addEventListener('keydown',e=>{if(e.key==='Escape'&&scene.classList.contains('game-focused'))toggle(false)});
   const help=scene.querySelector('.research-pan-help');
   const touch=window.matchMedia&&window.matchMedia('(pointer:coarse)').matches;
-  if(help&&touch)help.textContent='↔ Листай пальцем · нажимай на ✦';
+  if(help&&touch)help.textContent='↔ Листай пальцем · нажимай на объекты';
   if(window.MutationObserver){
    const observer=new MutationObserver(()=>{if(!scene.classList.contains('active')&&scene.classList.contains('game-focused'))toggle(false)});
    observer.observe(scene,{attributes:true,attributeFilter:['class']});

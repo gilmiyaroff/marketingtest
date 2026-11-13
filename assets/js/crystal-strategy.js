@@ -12,7 +12,27 @@ const $=s=>document.querySelector(s);
 let ctx=null,els=null,falling=[],held=null,drag=null,timer=null,deck=[],serial=0;
 const allOn=()=>ctx&&ctx.data.crystals.every(Boolean);
 function styleGem(node,i){const d=defs[i];node.style.setProperty('--gem',d.color);node.style.setProperty('--gem-light',d.light);node.style.setProperty('--gem-dark',d.dark)}
-const gemShape=i=>'<img class="crystal-gem-art" src="assets/crystals/'+defs[i].asset+'" alt="" draggable="false" loading="eager">';
+const gemShape=i=>{
+ const d=defs[i],o=d.dark,b=d.color,l=d.light;
+ return '<svg class="crystal-gem-art" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 104" shape-rendering="crispEdges" aria-hidden="true" focusable="false">'
+  +'<path d="M29 3H35V7H40V12H45V18H50V26H55V36H59V61H55V72H50V80H45V86H40V93H35V100H29V93H24V86H19V80H14V72H9V61H5V36H9V26H14V18H19V12H24V7H29Z" fill="'+o+'"/>'
+  +'<path d="M30 7H34V12H39V17H44V24H49V33H54V42H56V60H52V70H47V78H42V84H37V91H34V96H30V91H27V84H22V78H17V70H12V60H8V42H10V33H15V24H20V17H25V12H30Z" fill="'+b+'"/>'
+  +'<path d="M31 10L51 38L52 60L32 95L11 60L11 39Z" fill="'+b+'"/>'
+  +'<path d="M31 10L11 39L20 52L31 45Z" fill="'+l+'"/>'
+  +'<path d="M31 10L51 38L42 53L31 45Z" fill="'+b+'"/>'
+  +'<path d="M11 39L20 52L21 70L32 95L11 60Z" fill="'+o+'"/>'
+  +'<path d="M20 52L31 45L42 53L37 78L32 95L21 70Z" fill="'+b+'"/>'
+  +'<path d="M42 53L51 38L52 60L32 95L37 78Z" fill="'+o+'"/>'
+  +'<path d="M32 13L22 36L13 43L20 48L31 39L31 17Z" fill="#fff" opacity=".76"/>'
+  +'<path d="M21 53L31 46L29 72L35 62L32 91L25 75Z" fill="'+l+'" opacity=".72"/>'
+  +'<path d="M42 53L51 40L49 59L41 73L36 85Z" fill="'+d.dark+'" opacity=".85"/>'
+  +'<path d="M31 45L42 53L41 58L31 50L21 57L20 52Z" fill="#fff" opacity=".42"/>'
+  +'<path d="M22 36H26V32H29V26H32V36H27V42H22ZM14 41H19V44H14ZM18 48H22V51H18Z" fill="#fff" opacity=".54"/>'
+  +'<path d="M30 91H34V97H30ZM13 59H16V64H13ZM48 58H51V62H48Z" fill="'+l+'"/>'
+  +'<g fill="#fff"><path d="M41 25H44V20H46V25H50V28H46V33H44V28H41Z"><animate attributeName="opacity" values=".22;1;.2" dur="2.1s" repeatCount="indefinite"/></path>'
+  +'<path d="M16 54H19V50H21V54H24V56H21V60H19V56H16Z"><animate attributeName="opacity" values=".12;.95;.15" dur="2.65s" repeatCount="indefinite"/></path>'
+  +'<path d="M36 75H38V73H40V75H42V77H40V79H38V77H36Z"><animate attributeName="opacity" values=".12;.8;.15" dur="1.9s" repeatCount="indefinite"/></path></g></svg>';
+};
 function notice(s){els.help.textContent=s}
 function refreshHeld(){
  const show=held!==null&&!ctx.data.crystals[held];els.held.hidden=!show;
@@ -29,7 +49,7 @@ function render(){
   const screen=document.createElement('div');screen.className='crystal-mini-screen'+(powered?' is-powered':'');
   screen.setAttribute('aria-live','polite');
   const heading=document.createElement('small');heading.textContent='ЭКРАН 0'+(i+1);
-  const label=document.createElement('strong');label.textContent=powered?d.name:'· · ·';
+  const label=document.createElement('strong');label.textContent=powered?d.name:'';
   const led=document.createElement('span');led.className='crystal-monitor-led';led.setAttribute('aria-hidden','true');
   screen.append(heading,label,led);
   const wire=document.createElement('div');wire.className='crystal-wire';wire.setAttribute('aria-hidden','true');
@@ -46,6 +66,7 @@ function render(){
  const n=ctx.data.crystals.filter(Boolean).length;
  els.count.textContent=n+' / 5';els.charge.style.width=n*20+'%';
  els.next.disabled=n!==5;
+ els.next.style.display=n===5?'block':'none';
  els.next.textContent=n===5?'К диалогу с собственником →':'Заряжено '+n+' из 5';
  els.core.textContent=n===5?'ВСЕ ПЯТЬ ЭКРАНОВ АКТИВИРОВАНЫ':'CAP · СТРАТЕГИЯ / ОЖИДАНИЕ ЭНЕРГИИ';
  els.core.classList.toggle('is-on',n===5);

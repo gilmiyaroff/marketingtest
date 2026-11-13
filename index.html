@@ -431,8 +431,8 @@
       <div id="crystal-core-text">CAP · СТРАТЕГИЯ / ОЖИДАНИЕ ЭНЕРГИИ</div>
       <div class="crystal-rain-zone">
         <div class="crystal-rain-stars" aria-hidden="true"></div>
-        <div id="crystal-rain" role="group" aria-label="Падающие цветные кристаллы, которые нужно ловить пальцем или мышью"></div>
-        <div class="crystal-catch-hint">ПОЙМАЙ КРИСТАЛЛ · ПЕРЕНЕСИ К ЭКРАНУ ↓</div>
+        <div id="crystal-rain" role="group" aria-label="Падающие и приземлившиеся цветные кристаллы, доступные для нажатия"><div id="crystal-catch-tray" aria-label="Кристаллы, которые можно спокойно поймать после падения"></div></div>
+        <div class="crystal-catch-hint">ЛОВИ КРИСТАЛЛЫ · ИЛИ БЕРИ С ПОЛКИ ВНИЗУ</div>
       </div>
       <div id="crystal-held" hidden>
         <span id="crystal-held-gem" aria-hidden="true"><span class="crystal-gem-shape"><span class="crystal-gem-facet"></span><span class="crystal-gem-spark"></span></span></span>
@@ -441,7 +441,7 @@
       </div>
       <div class="crystal-panel-label">ПЯТЬ ЦВЕТОВ · ПЯТЬ НЕЗАВИСИМЫХ ЭКРАНОВ</div>
       <div id="crystal-matrix" role="group" aria-label="Пять цветных слотов с отдельными экранами"></div>
-      <div id="crystal-help" aria-live="polite">Лови падающие кристаллы. Перетащи пойманный кристалл к слоту того же цвета или нажми на соответствующий экран.</div>
+      <div id="crystal-help" aria-live="polite">Лови кристаллы в полёте или бери их с полки внизу. Затем помести кристалл в слот такого же цвета — этот экран сразу включится.</div>
     </div></div>
     <div class="spacer"></div>
     <div class="bottom-stack"><div class="panel"><div class="guide"><picture><source srcset="assets/characters/hero-petting.webp" type="image/webp"><img src="assets/characters/hero-petting.gif" alt="Мальчик с котом"/></picture><p id="strategy-feedback">Каждый кристалл запускает свой экран: сегменты, позиционирование, пилот, каналы и экономика.</p></div></div><button class="gold-btn" id="strategy-check" disabled>Заряжено 0 из 5</button></div>
@@ -537,10 +537,10 @@
 </style>
 <link rel="stylesheet" href="assets/css/retro-monitor.css?v=bba35fc"/>
 <link rel="stylesheet" href="assets/css/mobile-play.css?v=dc7506bd"/>
-<link rel="stylesheet" href="assets/css/crystal-strategy.css?v=2c6cd79f"/>
+<link rel="stylesheet" href="assets/css/crystal-strategy.css?v=c1e27c10"/>
 <script src="assets/js/founder-interview.js?v=7f7fa4"></script>
 <script src="assets/js/mobile-play.js?v=88b0d8ba"></script>
-<script src="assets/js/crystal-strategy.js?v=6962c23b"></script>
+<script src="assets/js/crystal-strategy.js?v=878e829e"></script>
 <script>
 (()=>{'use strict';
 const $=(s,root=document)=>root.querySelector(s), $$=(s,root=document)=>[...root.querySelectorAll(s)];

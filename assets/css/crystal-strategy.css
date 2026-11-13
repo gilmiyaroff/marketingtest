@@ -1,0 +1,75 @@
+/* CAP Growth Quest mission 02 — crystal rain and five individual energy screens */
+#strategy .crystal-game{
+ width:100%;min-width:0;display:grid;gap:9px;
+ border:4px solid #76536f;
+ background:linear-gradient(165deg,#292142,#25213e 65%,#39294c);
+ color:#fff1cf;box-shadow:inset 0 0 0 3px #49345b,0 6px #19152b;
+ padding:clamp(9px,1.6vw,14px);
+}
+#strategy .crystal-game-top{display:flex;gap:9px;align-items:center;justify-content:space-between;font-family:var(--title);font-size:clamp(7px,1.2vw,10px);line-height:1.5;color:#ffe3a7}
+#strategy #crystal-count{color:#94f1df;white-space:nowrap}
+#strategy .crystal-charge-track{width:100%;height:9px;background:#171b2b;border:2px solid #6e6f83;overflow:hidden}
+#strategy #crystal-charge{width:0;height:100%;background:linear-gradient(90deg,#65e5fa,#bf89ff,#ffc961,#ff829e,#8deaa3);box-shadow:0 0 12px #ffe09a;transition:width .4s ease}
+#strategy #crystal-core-text{min-height:35px;display:grid;place-items:center;text-align:center;border:3px solid #526d7d;background:#0d2535;color:#7babae;font-family:var(--title);font-size:clamp(7px,1.45vw,11px);line-height:1.45;padding:7px}
+#strategy #crystal-core-text.is-on{border-color:#8cf3d2;background:#164d45;color:#ebffe1;box-shadow:0 0 14px #81ebbe75,inset 0 0 20px #86f3bf33}
+#strategy .crystal-rain-zone{
+ position:relative;height:clamp(190px,30dvh,265px);overflow:hidden;
+ border:3px solid #907692;background:radial-gradient(ellipse at 50% 3%,#514e8c,#292648 49%,#121e35 100%);
+ touch-action:pan-y;isolation:isolate;
+}
+#strategy .crystal-rain-zone:before{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,#65e5fa0d,transparent 20%,#c290ff0d 40%,transparent 70%,#ffe59d0d);z-index:0}
+#strategy .crystal-rain-zone:after{content:"";position:absolute;left:0;right:0;bottom:0;height:17px;pointer-events:none;background:repeating-linear-gradient(90deg,#67557c 0 18px,#514168 18px 36px);border-top:3px solid #c5a188;z-index:3}
+#strategy .crystal-rain-stars{position:absolute;inset:0;pointer-events:none;opacity:.48;background-image:radial-gradient(circle,#fff7e8 1px,transparent 1.5px),radial-gradient(circle,#72e9ec 1px,transparent 1.5px);background-size:56px 71px,93px 89px;background-position:9px 17px,33px 48px}
+#strategy #crystal-rain{position:absolute;inset:0;z-index:2}
+#strategy .falling-crystal{position:absolute;top:-65px;width:57px;height:65px;display:grid;place-items:center;padding:0;border:0;background:none;box-shadow:none;filter:drop-shadow(0 0 6px var(--gem));touch-action:none;cursor:grab;z-index:3;animation:crystal-rain-fall linear both}
+#strategy .falling-crystal:active{cursor:grabbing;filter:drop-shadow(0 0 14px var(--gem-light))}
+@keyframes crystal-rain-fall{from{transform:translateY(0)}to{transform:translateY(var(--fall-distance))}}
+.crystal-gem-shape{position:relative;display:block;width:43px;height:52px;background:linear-gradient(115deg,var(--gem-light) 0%,var(--gem) 31%,var(--gem-dark) 92%);clip-path:polygon(46% 0,79% 8%,100% 42%,56% 100%,2% 58%,17% 13%);box-shadow:inset 0 0 6px #fff;flex-shrink:0;image-rendering:pixelated}
+.crystal-gem-facet{position:absolute;inset:9% 10%;background:linear-gradient(110deg,#ffffff80,transparent 32%,#ffffff18 53%,#17233780);clip-path:polygon(32% 0,94% 13%,62% 92%,8% 59%);pointer-events:none}
+.crystal-gem-spark{position:absolute;left:26%;top:19%;width:11px;height:11px;background:#fff8dc;clip-path:polygon(50% 0,64% 37%,100% 50%,64% 63%,50% 100%,35% 64%,0 50%,35% 36%);filter:drop-shadow(0 0 6px white)}
+#strategy .crystal-catch-hint{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);pointer-events:none;width:max-content;max-width:94%;color:#fff0c8;background:#291f43cf;border:2px solid #a68d91;padding:4px 9px;text-align:center;font-size:clamp(11px,1.8vw,13px);line-height:1.2;font-weight:900;z-index:1}
+#strategy #crystal-held[hidden]{display:none!important}
+#strategy #crystal-held{display:flex;align-items:center;gap:9px;background:#473858;border:2px solid #edc789;padding:6px 9px;min-height:58px;color:#fff3cb}
+#strategy #crystal-held-gem{width:35px;height:43px;display:grid;place-items:center;flex-shrink:0}
+#strategy #crystal-held-gem .crystal-gem-shape{width:30px;height:39px}
+#strategy #crystal-held-label{font-weight:900;flex:1;font-size:clamp(11px,2vw,14px);line-height:1.2}
+#strategy #crystal-drop{border:2px solid #bda1a3;background:#392d4f;color:#fff6d8;padding:7px 9px;min-height:40px;font-weight:800;font-size:12px}
+#strategy .crystal-panel-label{font-family:var(--title);font-size:clamp(7px,1.15vw,9px);color:#ffe3a2;line-height:1.45}
+#strategy #crystal-matrix{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+#strategy .crystal-socket{position:relative;min-width:0;min-height:82px;display:flex;align-items:center;gap:6px;text-align:left;border:3px solid #62536d;background:#302b45;color:#c2bacb;padding:5px;touch-action:manipulation;box-shadow:0 3px #151325}
+#strategy .crystal-socket.is-target{border-color:var(--gem);box-shadow:0 0 11px var(--gem),0 3px #151325}
+#strategy .crystal-socket.is-powered{border-color:var(--gem);background:#3b3654;box-shadow:0 0 10px color-mix(in srgb,var(--gem) 45%,transparent),0 3px #151325}
+#strategy .crystal-socket.is-wrong{animation:crystal-wrong .18s ease-in-out 2}
+@keyframes crystal-wrong{50%{transform:translateX(4px);border-color:#ff5757}}
+#strategy .crystal-port{display:grid;place-items:center;flex:0 0 31px;width:31px;height:45px;border:2px solid var(--gem);color:var(--gem);font-family:var(--title);font-size:17px;background:#16162b}
+#strategy .crystal-port .crystal-gem-shape{width:26px;height:33px}
+#strategy .crystal-mini-screen{min-width:0;display:grid;gap:5px}
+#strategy .crystal-mini-screen small{font-family:var(--title);font-size:clamp(6px,.9vw,8px);color:#c0b6ce;line-height:1.4}
+#strategy .crystal-mini-screen strong{font-family:var(--title);font-size:clamp(7px,1.03vw,9px);line-height:1.55;color:#625f79;overflow-wrap:anywhere}
+#strategy .is-powered .crystal-mini-screen strong{color:var(--gem-light);text-shadow:0 0 6px var(--gem);animation:crystal-light-on .45s steps(3,end)}
+#strategy .is-powered .crystal-mini-screen small{color:var(--gem)}
+@keyframes crystal-light-on{0%{opacity:.05;filter:brightness(.1)}55%{opacity:.9;filter:brightness(1.8)}100%{opacity:1}}
+#strategy #crystal-help{min-height:34px;color:#e9f5d9;font-size:clamp(12px,2vw,14px);font-weight:750;line-height:1.3}
+.crystal-drag-ghost{position:fixed;z-index:9999;pointer-events:none;transform:translate(-50%,-50%);filter:drop-shadow(0 0 17px var(--gem));width:70px;height:80px;display:grid;place-items:center}
+.crystal-drag-ghost .crystal-gem-shape{width:55px;height:65px}
+#strategy .board,#strategy .road-slots,#strategy .cards-bank{display:none}
+@media(min-width:900px){
+ #strategy .activity{align-self:start}
+ #strategy .crystal-game{max-height:calc(100dvh - 130px);overflow:auto;scrollbar-width:thin}
+ #strategy .crystal-rain-zone{height:200px}
+}
+@media(max-width:700px){
+ #strategy .crystal-game{padding:9px;gap:8px}
+ #strategy .crystal-rain-zone{height:clamp(225px,36dvh,310px)}
+ #strategy #crystal-matrix{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+ #strategy .crystal-socket{min-height:87px;gap:8px;padding:7px}
+ #strategy .crystal-mini-screen strong{font-size:clamp(8px,2.5vw,11px)}
+ #strategy .crystal-mini-screen small{font-size:7px}
+ #strategy .crystal-socket:last-child{grid-column:span 2}
+ #strategy .crystal-catch-hint{bottom:21px}
+ #strategy .falling-crystal{width:60px;height:68px}
+}
+@media(prefers-reduced-motion:reduce){
+ #strategy .falling-crystal{animation-duration:9s!important}
+ #strategy .is-powered .crystal-mini-screen strong{animation:none}
+}

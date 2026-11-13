@@ -424,24 +424,25 @@
   <div class="backdrop"><img src="assets/scenes/strategy.webp" alt=""/><div class="weather"></div></div>
   <div class="layout mission-layout">
     <header class="hud"><button class="hud-btn" data-menu>← Меню</button><span class="hud-title">02 / 06</span><div class="hud-tag">◈ <span data-coins>0</span></div></header>
-    <div class="chap-head"><div class="chapter-kicker">МИССИЯ 02 · КРИСТАЛЛЫ СТРАТЕГИИ</div><h1 class="chapter-title">Заряди пять экранов CAP</h1><p>Поймай пять кристаллов разных цветов и вставь каждый в подходящий слот. Один цвет — один включённый экран с элементом стратегии.</p><div class="progress" data-progress></div></div>
+    <div class="chap-head"><div class="chapter-kicker">МИССИЯ 02 · КРИСТАЛЛЫ СТРАТЕГИИ</div><h1 class="chapter-title">Заряди пять экранов CAP</h1><p>Зажги пять экранов стратегии: поймай летящий кристалл и вставь его в ячейку под экраном того же цвета. Каждый экран включается отдельно.</p><div class="progress" data-progress></div></div>
     <div class="activity"><div class="crystal-game" id="crystal-game">
       <div class="crystal-game-top"><span>КРИСТАЛЛИЧЕСКИЙ ТЕРМИНАЛ CAP</span><strong id="crystal-count">0 / 5</strong></div>
       <div class="crystal-charge-track" aria-hidden="true"><div id="crystal-charge"></div></div>
       <div id="crystal-core-text">CAP · СТРАТЕГИЯ / ОЖИДАНИЕ ЭНЕРГИИ</div>
-      <div class="crystal-rain-zone">
-        <div class="crystal-rain-stars" aria-hidden="true"></div>
-        <div id="crystal-rain" role="group" aria-label="Падающие и приземлившиеся цветные кристаллы, доступные для нажатия"><div id="crystal-catch-tray" aria-label="Кристаллы, которые можно спокойно поймать после падения"></div></div>
-        <div class="crystal-catch-hint">ЛОВИ КРИСТАЛЛЫ · ИЛИ БЕРИ С ПОЛКИ ВНИЗУ</div>
-      </div>
+      <div class="crystal-panel-label">ПЯТЬ ЭКРАНОВ → ПЯТЬ ПРОВОДОВ → ПЯТЬ ЯЧЕЕК</div>
+      <div id="crystal-matrix" role="group" aria-label="Пять экранов CAP, каждый соединён проводом с ячейкой для кристалла"></div>
       <div id="crystal-held" hidden>
-        <span id="crystal-held-gem" aria-hidden="true"><span class="crystal-gem-shape"><span class="crystal-gem-facet"></span><span class="crystal-gem-spark"></span></span></span>
+        <span id="crystal-held-gem" aria-hidden="true"></span>
         <span id="crystal-held-label"></span>
         <button id="crystal-drop" type="button">Отпустить</button>
       </div>
-      <div class="crystal-panel-label">ПЯТЬ ЦВЕТОВ · ПЯТЬ НЕЗАВИСИМЫХ ЭКРАНОВ</div>
-      <div id="crystal-matrix" role="group" aria-label="Пять цветных слотов с отдельными экранами"></div>
-      <div id="crystal-help" aria-live="polite">Лови кристаллы в полёте или бери их с полки внизу. Затем помести кристалл в слот такого же цвета — этот экран сразу включится.</div>
+      <div class="crystal-panel-label">КРИСТАЛЛОПАД · ЛОВИ НУЖНЫЙ ЦВЕТ</div>
+      <div class="crystal-rain-zone">
+        <div class="crystal-rain-stars" aria-hidden="true"></div>
+        <div id="crystal-rain" role="group" aria-label="Кристаллы пяти цветов пролетают сверху вниз. Нажми на кристалл, чтобы поймать."></div>
+        <div class="crystal-catch-hint">✦ ПОЙМАЙ КРИСТАЛЛ В ПОЛЁТЕ ✦</div>
+      </div>
+      <div id="crystal-help" aria-live="polite">Поймай кристалл внизу и нажми на ячейку его цвета. Через провод включится соответствующий экран.</div>
     </div></div>
     <div class="spacer"></div>
     <div class="bottom-stack"><div class="panel"><div class="guide"><picture><source srcset="assets/characters/hero-petting.webp" type="image/webp"><img src="assets/characters/hero-petting.gif" alt="Мальчик с котом"/></picture><p id="strategy-feedback">Каждый кристалл запускает свой экран: сегменты, позиционирование, пилот, каналы и экономика.</p></div></div><button class="gold-btn" id="strategy-check" disabled>Заряжено 0 из 5</button></div>
@@ -537,10 +538,10 @@
 </style>
 <link rel="stylesheet" href="assets/css/retro-monitor.css?v=bba35fc"/>
 <link rel="stylesheet" href="assets/css/mobile-play.css?v=dc7506bd"/>
-<link rel="stylesheet" href="assets/css/crystal-strategy.css?v=c1e27c10"/>
+<link rel="stylesheet" href="assets/css/crystal-strategy.css?v=ad379ca8"/>
 <script src="assets/js/founder-interview.js?v=7f7fa4"></script>
 <script src="assets/js/mobile-play.js?v=88b0d8ba"></script>
-<script src="assets/js/crystal-strategy.js?v=878e829e"></script>
+<script src="assets/js/crystal-strategy.js?v=7e04e17d"></script>
 <script>
 (()=>{'use strict';
 const $=(s,root=document)=>root.querySelector(s), $$=(s,root=document)=>[...root.querySelectorAll(s)];

@@ -307,3 +307,19 @@
   75%{transform:translate3d(var(--sway3,8px),var(--fall75,210px),0) rotate(3deg)}
   100%{transform:translate3d(var(--drift,0px),var(--fall-distance,280px),0) rotate(-3deg)}
 }
+
+
+/* Original GIF matte removal: blend the entire moving button, not the GIF child.
+   CSS transforms create a stacking context, so mix-blend-mode on the child
+   can leave the black rectangle intact. Blending on the outer sprite fixes it. */
+#strategy .falling-crystal,
+#strategy .crystal-drag-ghost{
+  mix-blend-mode:screen!important;
+  isolation:auto!important;
+  background:transparent!important;
+  box-shadow:none!important;
+}
+#strategy .falling-crystal .crystal-gem-art,
+#strategy .crystal-drag-ghost .crystal-gem-art{
+  mix-blend-mode:normal!important;
+}

@@ -291,6 +291,25 @@
 #strategy #strategy-check:disabled{opacity:.68;cursor:default}
 @media(max-width:580px){#strategy .road-slot.filled{font-size:clamp(10px,2.3vw,13px)}#strategy .road-slot.needs-review::after,#strategy .road-slot.validated::after{top:-8px;right:-5px}}
 
+
+/* 4x4 fifteen puzzle; tiled pixel-art image and one open space. */
+#puzzle .fifteen-panel{max-width:100%;padding:clamp(8px,1.8vw,16px)}
+#puzzle .fifteen-mini-stats{display:flex;justify-content:space-between;gap:9px;align-items:center;padding:6px 0 10px;color:#f9dfae;font-family:var(--title);font-size:clamp(7px,1vw,10px);line-height:1.5}
+#puzzle .fifteen-mini-stats strong{color:#7ef0ce;white-space:nowrap}
+#puzzle .jigsaw-board.fifteen-board{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-template-rows:repeat(4,minmax(0,1fr));gap:clamp(3px,.7vw,7px);width:min(100%,480px);max-width:480px;aspect-ratio:1;margin:8px auto 12px;padding:clamp(5px,.8vw,9px);background:#241e40;border:5px solid #c69b7b;box-shadow:inset 0 0 0 3px #49395e,0 7px #17122d;touch-action:none;overflow:hidden;outline-offset:3px}
+#puzzle .fifteen-cell{position:relative;display:grid;place-items:center;min-width:0;min-height:0;aspect-ratio:1;width:100%;height:100%;border-radius:4px;padding:0;overflow:hidden;touch-action:none;user-select:none;-webkit-user-select:none}
+#puzzle .fifteen-tile{background-image:linear-gradient(180deg,#28214755,#2015319c),url('assets/scenes/scale.webp');background-repeat:no-repeat;background-size:100%,400% 400%;background-position:center,var(--tile-x) var(--tile-y);image-rendering:pixelated;border:3px solid #bf9b82;box-shadow:inset 0 3px #f7d29d,inset 0 -5px #5b425e,0 3px #120d28;color:#fff6ce;text-shadow:2px 2px #33213f,-1px -1px #33213f;font-family:var(--title);font-size:clamp(15px,3.9vw,30px);font-weight:400;line-height:1;cursor:default}
+#puzzle .fifteen-movable{border-color:#f6cb76;box-shadow:inset 0 3px #fff0ba,inset 0 -5px #826090,0 0 7px #ffd48a8c;cursor:pointer}
+#puzzle .fifteen-tile:active{filter:brightness(1.25)}
+#puzzle .fifteen-empty{background:repeating-linear-gradient(135deg,#28203c 0 9px,#352a48 9px 18px);border:3px dashed #866c8b;box-shadow:inset 0 0 8px #100b21;cursor:default}
+#puzzle .fifteen-empty:disabled{opacity:1}
+#puzzle .fifteen-cell:focus-visible{outline:3px solid #fff5b0;outline-offset:-4px;z-index:2}
+#puzzle .fifteen-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:9px}
+#puzzle .fifteen-actions .soft-btn{min-height:37px;white-space:nowrap;font-size:clamp(12px,2.4vw,15px);border-width:3px;padding:7px}
+#puzzle .fifteen-actions .soft-btn:disabled{opacity:.42}
+#puzzle .fifteen-panel .jigsaw-instructions{min-height:0;margin:10px 0 4px;font-size:clamp(12px,2vw,14px);line-height:1.32}
+@media(max-width:520px){#puzzle .jigsaw-board.fifteen-board{width:min(100%,380px);gap:3px;border-width:3px;padding:5px}#puzzle .fifteen-tile{border-width:2px;font-size:clamp(13px,4.8vw,22px)}#puzzle .fifteen-mini-stats{font-size:8px}}
+
 </style>
 </head>
 <body>
@@ -375,19 +394,20 @@
       <div class="spacer"></div><div class="bottom-stack"><div class="panel"><div class="guide"><picture><source srcset="assets/characters/hero-petting.webp" type="image/webp"><img src="assets/characters/hero-petting.gif" alt="Мальчик гладит кота"/></picture><p id="scale-feedback">Показатели выручки — только верхняя часть экономики. Для решения нужны CAC, себестоимость обслуживания и фактическое удержание.</p></div></div><button class="gold-btn" id="scale-next" disabled>Изучи 3 сценария масштаба</button></div>
     </div>
   </section>
-  <section class="scene" id="puzzle" aria-label="Миссия 6: собери карту стратегии">
-    <div class="backdrop"><img src="assets/scenes/strategy.webp" alt=""/><div class="weather"></div></div>
-    <div class="layout mission-layout">
-      <header class="hud"><button class="hud-btn" data-menu>← Меню</button><span class="hud-title">06 / 06</span><div class="hud-tag">◇ <span data-coins>0</span></div></header>
-      <div class="chap-head"><div class="chapter-kicker">МИССИЯ 06 · ФИНАЛЬНАЯ СТРАТЕГИЯ</div><h1 class="chapter-title">Собери общую картину</h1><p>Всё, что мы изучили, должно сложиться в единую систему. Вставь недостающие фрагменты, чтобы увидеть перспективу.</p><div class="progress" data-progress></div></div>
-      <div class="activity"><div class="jigsaw-panel"><div class="jigsaw-top"><span>КАРТА СТРАТЕГИИ</span><strong id="puzzle-progress">0 / 9</strong></div>
-        <div class="jigsaw-board" id="jigsaw-board" role="group" aria-label="Девять ячеек стратегического пазла"></div>
-        <div class="jigsaw-instructions" id="jigsaw-tip">Выбери фрагмент внизу, затем нажми на его место на картине. Или перетащи его.</div>
-        <div class="jigsaw-tray" id="jigsaw-tray" role="group" aria-label="Доступные фрагменты пазла"></div>
-      </div></div>
-      <div class="spacer"></div><div class="bottom-stack"><div class="panel"><div class="guide"><picture><source srcset="assets/characters/hero-petting.webp" type="image/webp"><img src="assets/characters/hero-petting.gif" alt="Мальчик гладит кота"/></picture><p id="puzzle-feedback">Маленькие решения превращаются в большую систему роста. Собери девять частей, чтобы открыть план реализации.</p></div></div><button class="gold-btn" id="puzzle-next" disabled>Собрано 0 из 9</button></div>
-    </div>
-  </section>
+  <section class="scene" id="puzzle" aria-label="Миссия 6: пятнашки — собери стратегию">
+<div class="backdrop"><img src="assets/scenes/strategy.webp" alt=""/><div class="weather"></div></div>
+<div class="layout mission-layout">
+<header class="hud"><button class="hud-btn" data-menu>← Меню</button><span class="hud-title">06 / 06</span><div class="hud-tag">◇ <span data-coins>0</span></div></header>
+<div class="chap-head"><div class="chapter-kicker">МИССИЯ 06 · ФИНАЛЬНАЯ СТРАТЕГИЯ</div><h1 class="chapter-title">Пятнашки: собери систему роста</h1><p>15 элементов складываются в единый план. Передвигай числа в свободную клетку и восстанови порядок от 1 до 15.</p><div class="progress" data-progress></div></div>
+<div class="activity"><div class="jigsaw-panel fifteen-panel">
+<div class="jigsaw-top"><span>ПЯТНАШКИ · CAP GROWTH</span><strong id="puzzle-progress">0 / 15</strong></div>
+<div class="fifteen-mini-stats"><span>НА МЕСТАХ <strong id="fifteen-placed">0 / 15</strong></span><span>ХОДЫ <strong id="fifteen-moves">0</strong></span></div>
+<div class="jigsaw-board fifteen-board" id="jigsaw-board" role="group" aria-label="Пятнашки четыре на четыре: числа от 1 до 15 и одна пустая клетка" tabindex="0"></div>
+<div class="jigsaw-instructions" id="jigsaw-tip">Нажми на плитку рядом с пустотой или сдвинь её пальцем в свободную клетку. На компьютере работают стрелки.</div>
+<div class="fifteen-actions"><button type="button" class="soft-btn" id="fifteen-undo" disabled>↶ Отменить</button><button type="button" class="soft-btn" id="fifteen-shuffle">↻ Перемешать</button></div>
+</div></div>
+<div class="spacer"></div><div class="bottom-stack"><div class="panel"><div class="guide"><picture><source srcset="assets/characters/hero-petting.webp" type="image/webp"><img src="assets/characters/hero-petting.gif" alt="Мальчик и кот"/></picture><p id="puzzle-feedback">Расставь числа от 1 до 15, двигая плитки в свободную клетку. Затем открой план на 90 дней.</p></div></div><button class="gold-btn" id="puzzle-next" disabled>Собери пятнашки</button></div>
+</div></section>
   <section class="scene" id="final" aria-label="Финал — план развития на 90 дней">
     <div class="backdrop"><img src="assets/scenes/home.webp" alt=""/><div class="weather"></div></div>
     <div class="layout final-layout"><header class="hud"><button class="hud-btn" data-menu>← Меню</button><span class="hud-title">ПЛАН ГОТОВ</span><div class="hud-tag">◈ <span data-coins>0</span></div></header>
@@ -418,14 +438,14 @@
 (()=>{'use strict';
 const $=(s,root=document)=>root.querySelector(s), $$=(s,root=document)=>[...root.querySelectorAll(s)];
 const stages=['home','research','strategy','pilot','content','scale','puzzle','final'];
-const data={coins:0,found:[],strategy:[null,null,null,null,null],chosen:null,issues:[],ownerAnswers:[null,null,null,null],links:{},selected:null,pipes:{},pipeActive:null,pipeTiles:{},pipeVersion:10,pipeTool:'straight',pipeUnlocks:[],audience:10000,seenTiers:[],jigsaw:[],jigsawSelected:null,completed:[]};
+const data={coins:0,found:[],strategy:[null,null,null,null,null],chosen:null,issues:[],ownerAnswers:[null,null,null,null],links:{},selected:null,pipes:{},pipeActive:null,pipeTiles:{},pipeVersion:10,pipeTool:'straight',pipeUnlocks:[],audience:10000,seenTiers:[],fifteenTiles:null,fifteenMoves:0,completed:[]};
 let current='home',drag=null,toastTimer=0,previewPlayed=false,panEngaged=false;
 const clueData={parent:['Кто наш клиент?','Проведём кастдевы с родителями: когда ребёнок отстаёт, за что они готовы платить и как ищут помощь.'],market:['Что происходит на рынке?','Изучим конкурентов, цены и разные сегменты семей. Не будем путать интерес к идее с готовностью платить.'],feedback:['Каков первый опыт?','Посмотрим, где семьи бросают диагностику, понятен ли результат, что нравится и что мешает продлить подписку.']};
 const strategyCards=[{id:'audience',text:'Сегменты ЦА'},{id:'value',text:'Позиционирование'},{id:'pilot',text:'Пилот продукта'},{id:'channels',text:'Каналы роста'},{id:'kpi',text:'KPI и экономика'}];
 const linkData=[{id:'shorts',src:'Shorts и AI-мультфильмы',target:'Охват',to:'reach'},{id:'ugc',src:'UGC родителей',target:'Доверие',to:'trust'},{id:'quiz',src:'Бесплатный квиз',target:'Первый опыт',to:'experience'},{id:'referral',src:'Рекомендации',target:'Оплаты',to:'payments'}];const shuffledTargets=[linkData[3],linkData[0],linkData[2],linkData[1]];
 const fmt=n=>new Intl.NumberFormat('ru-RU').format(Math.round(n));
 function persist(){try{sessionStorage.setItem('cap-growth-quest-v7',JSON.stringify(data))}catch(e){}}
-function restore(){try{const saved=JSON.parse(sessionStorage.getItem('cap-growth-quest-v7')||'null');if(saved){data.coins=Number(saved.coins)||0;data.found=Array.isArray(saved.found)?saved.found:[];data.strategy=Array.isArray(saved.strategy)&&saved.strategy.length===5?saved.strategy:[null,null,null,null,null];data.issues=Array.isArray(saved.issues)?saved.issues:[];data.ownerAnswers=Array.isArray(saved.ownerAnswers)&&saved.ownerAnswers.length===4?saved.ownerAnswers.map(x=>Number.isInteger(x)&&x>=0&&x<=2?x:null):[null,null,null,null];data.links=saved.links||{};data.pipeTiles=saved.pipeVersion===10&&saved.pipeTiles&&typeof saved.pipeTiles==='object'&&!Array.isArray(saved.pipeTiles)?saved.pipeTiles:{};data.pipeVersion=10;data.pipeTool=['straight','corner','erase'].includes(saved.pipeTool)?saved.pipeTool:'straight';data.pipeUnlocks=Array.isArray(saved.pipeUnlocks)?[...new Set(saved.pipeUnlocks.filter(id=>['shorts','ugc','ai','referral'].includes(id)))]:[];data.audience=audienceTiers.includes(saved.audience)?saved.audience:10000;data.seenTiers=saved.seenTiers||[];data.jigsaw=saved.jigsaw||[];data.jigsawSelected=null;data.completed=saved.completed||[]}}catch(e){}}
+function restore(){try{const saved=JSON.parse(sessionStorage.getItem('cap-growth-quest-v7')||'null');if(saved){data.coins=Number(saved.coins)||0;data.found=Array.isArray(saved.found)?saved.found:[];data.strategy=Array.isArray(saved.strategy)&&saved.strategy.length===5?saved.strategy:[null,null,null,null,null];data.issues=Array.isArray(saved.issues)?saved.issues:[];data.ownerAnswers=Array.isArray(saved.ownerAnswers)&&saved.ownerAnswers.length===4?saved.ownerAnswers.map(x=>Number.isInteger(x)&&x>=0&&x<=2?x:null):[null,null,null,null];data.links=saved.links||{};data.pipeTiles=saved.pipeVersion===10&&saved.pipeTiles&&typeof saved.pipeTiles==='object'&&!Array.isArray(saved.pipeTiles)?saved.pipeTiles:{};data.pipeVersion=10;data.pipeTool=['straight','corner','erase'].includes(saved.pipeTool)?saved.pipeTool:'straight';data.pipeUnlocks=Array.isArray(saved.pipeUnlocks)?[...new Set(saved.pipeUnlocks.filter(id=>['shorts','ugc','ai','referral'].includes(id)))]:[];data.audience=audienceTiers.includes(saved.audience)?saved.audience:10000;data.seenTiers=saved.seenTiers||[];data.fifteenTiles=Array.isArray(saved.fifteenTiles)?saved.fifteenTiles:null;data.fifteenMoves=Math.max(0,Number(saved.fifteenMoves)||0);data.completed=saved.completed||[]}}catch(e){}}
 function updateCoins(){$$('[data-coins]').forEach(x=>x.textContent=fmt(data.coins));$$('[data-progress]').forEach(x=>x.replaceChildren(...Array.from({length:6},(_,i)=>{const a=document.createElement('span');a.className=i<Math.max(0,stages.indexOf(current)-1)?'done':'';return a})))}
 function reward(id){if(data.completed.includes(id))return;data.completed.push(id);data.coins+=100;updateCoins();showToast('★ +100 монет за миссию');persist()}
 function showToast(s){const t=$('#toast');t.textContent=s;t.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),2200)}
@@ -437,7 +457,7 @@ $$('[data-menu]').forEach(b=>b.addEventListener('click',()=>go('home')));
 $('#start').addEventListener('click',()=>go('research'));
 $('#home-info').addEventListener('click',()=>modal('CAP Growth Quest','Это не утверждённые данные компании, а интерактивное предложение: от изучения рынка до маркетинговых экспериментов и экономики роста.'));
 $('#about').addEventListener('click',()=>modal('О проекте','Шесть игровых миссий показывают, как руководитель маркетинга исследует рынок, строит стратегию, тестирует продукт, запускает контентные каналы и работает с удержанием.'));
-$('#how').addEventListener('click',()=>modal('Как играть','Осмотри панораму, собери стратегию, ответь на вопросы о приоритетах CAP, собери трубы из ограниченного набора деталей, сравни масштаб и закончи пазл. Все миссии доступны с телефона.'));
+$('#how').addEventListener('click',()=>modal('Как играть','Осмотри панораму, собери стратегию, ответь на вопросы о приоритетах CAP, собери трубы из ограниченного набора деталей, сравни масштаб и собери пятнашки. Все миссии доступны с телефона.'));
 // Mission 1: Pan and clue search
 const pan=$('#explore-scroll'),panLeft=$('#pan-left'),panRight=$('#pan-right');
 function panSize(){
@@ -809,34 +829,127 @@ function buildGrowth(){const t=$('#tier-chips');t.replaceChildren();audienceTier
 }
 $('#payrate').addEventListener('input',buildGrowth);$('#renew').addEventListener('input',buildGrowth);
 $('#scale-next').addEventListener('click',()=>{if(data.seenTiers.length>=3){reward('scale');go('puzzle')}});
-// Mission 6: 3x3 jigsaw; image pieces in separate tray, drag or tap to place.
-const puzzleNames=['Исследование','Сегменты','Позиция','Пилот','Контент','UGC','Рефералы','Аналитика','Масштаб'];
-const puzzleOrder=[4,0,7,2,8,3,5,1,6];
-function puzzlePiece(i,mode){const button=document.createElement(mode==='tray'?'button':'div');if(mode==='tray')button.type='button';button.className='jigsaw-piece '+(mode==='tray'?'tray-piece':'placed-piece');button.dataset.piece=i;
- button.style.setProperty('--jigsaw-x',(i%3*50)+'%');button.style.setProperty('--jigsaw-y',(Math.floor(i/3)*50)+'%');button.style.backgroundPosition=`${(i%3)*50}% ${Math.floor(i/3)*50}%`;
- button.setAttribute('aria-label',puzzleNames[i]);button.innerHTML=`<span><em>${i+1}.</em> ${puzzleNames[i]}</span>`;return button}
-function renderPuzzle(){const board=$('#jigsaw-board'),tray=$('#jigsaw-tray');board.replaceChildren();tray.replaceChildren();
- for(let i=0;i<9;i++){const spot=document.createElement('button');spot.className='jigsaw-slot';spot.type='button';spot.dataset.slot=i;spot.setAttribute('aria-label','Позиция '+(i+1));const placed=data.jigsaw.includes(i);
- if(placed){spot.classList.add('is-placed');spot.append(puzzlePiece(i,'placed'));spot.disabled=true}else{const grid=document.createElement('span');grid.className='slot-guide';grid.textContent=i+1;spot.append(grid);spot.addEventListener('click',()=>dropPuzzle(i))}board.append(spot)}
- puzzleOrder.filter(i=>!data.jigsaw.includes(i)).forEach(i=>{const b=puzzlePiece(i,'tray');b.classList.toggle('selected',data.jigsawSelected===i);b.addEventListener('click',()=>{data.jigsawSelected=i;renderPuzzle()});b.draggable=true;b.addEventListener('dragstart',e=>{data.jigsawSelected=i;e.dataTransfer.setData('text/plain',String(i))});tray.append(b)});
- const n=data.jigsaw.length;tray.style.display=n===9?'none':'grid';$('#puzzle-progress').textContent=n+' / 9';$('#puzzle-next').disabled=n!==9;$('#puzzle-next').textContent=n===9?'Открыть стратегию на 90 дней':`Собрано ${n} из 9`;
- $('#jigsaw-tip').textContent=n===9?'Картина сложилась! Готовая стратегия — это взаимосвязанная система.':'Нажми фрагмент с номером, затем такую же ячейку на картине. На компьютере можно перетаскивать.';
+// Mission 6: classic 4x4 fifteen puzzle with a single blank.
+const fifteenGoal=Array.from({length:16},(_,i)=>(i+1)%16),fifteenUndo=[];
+let fifteenSuppressUntil=0,fifteenPointer=null;
+function fifteenAdjacent(i){
+ const r=Math.floor(i/4),c=i%4,near=[];
+ if(r>0)near.push(i-4);if(r<3)near.push(i+4);
+ if(c>0)near.push(i-1);if(c<3)near.push(i+1);
+ return near;
 }
-function dropPuzzle(index){if(data.jigsaw.includes(index))return;let choice=data.jigsawSelected;if(choice===null){data.jigsawSelected=index;renderPuzzle();return}if(choice!==index){$('#puzzle-feedback').textContent=`Фрагмент «${puzzleNames[choice]}» относится к другой ячейке. Попробуй номер ${choice+1}.`;return}
- data.jigsaw.push(index);data.jigsawSelected=null;const n=data.jigsaw.length;if(n===9){reward('puzzle');$('#puzzle-feedback').textContent='Картина собрана. Теперь можно показать руководству CAP реальный план действий на 90 дней.'}persist();renderPuzzle();
+function fifteenSwap(t,a,b){const x=t[a];t[a]=t[b];t[b]=x}
+function fifteenValid(t){
+ if(!Array.isArray(t)||t.length!==16||t.some(v=>!Number.isInteger(v)||v<0||v>15)||new Set(t).size!==16)return false;
+ let inv=0;
+ for(let i=0;i<16;i++)for(let j=i+1;j<16;j++)if(t[i]&&t[j]&&t[i]>t[j])inv++;
+ return (inv+4-Math.floor(t.indexOf(0)/4))%2===1;
 }
-// Mobile-friendly dragging: touch a puzzle piece and release over the matching slot.
-let puzzlePointer=null,puzzleGhost=null;
-$('#jigsaw-tray').addEventListener('pointerdown',e=>{const piece=e.target.closest('.tray-piece');if(!piece)return;puzzlePointer={id:Number(piece.dataset.piece),x:e.clientX,y:e.clientY};});
-window.addEventListener('pointermove',e=>{if(!puzzlePointer)return;const moved=Math.hypot(e.clientX-puzzlePointer.x,e.clientY-puzzlePointer.y)>12;if(!moved&&!puzzleGhost)return;
- if(!puzzleGhost){puzzleGhost=puzzlePiece(puzzlePointer.id,'tray');puzzleGhost.classList.add('drag-preview');puzzleGhost.style.position='fixed';puzzleGhost.style.pointerEvents='none';puzzleGhost.style.width='96px';puzzleGhost.style.height='96px';puzzleGhost.style.zIndex='9999';document.body.append(puzzleGhost)}
- puzzleGhost.style.left=(e.clientX-48)+'px';puzzleGhost.style.top=(e.clientY-48)+'px';});
-window.addEventListener('pointerup',e=>{if(!puzzlePointer)return;const id=puzzlePointer.id,wasDragging=!!puzzleGhost;puzzleGhost?.remove();puzzleGhost=null;puzzlePointer=null;if(wasDragging){const slot=document.elementFromPoint(e.clientX,e.clientY)?.closest('#jigsaw-board [data-slot]');if(slot){data.jigsawSelected=id;dropPuzzle(Number(slot.dataset.slot));}}});
-window.addEventListener('pointercancel',()=>{puzzleGhost?.remove();puzzleGhost=null;puzzlePointer=null});
-$('#jigsaw-board').addEventListener('dragover',e=>e.preventDefault());$('#jigsaw-board').addEventListener('drop',e=>{e.preventDefault();const spot=e.target.closest('[data-slot]');if(!spot)return;const piece=Number(e.dataTransfer.getData('text/plain'));if(Number.isInteger(piece)){data.jigsawSelected=piece;dropPuzzle(+spot.dataset.slot)}});
-$('#puzzle-next').addEventListener('click',()=>{if(data.jigsaw.length===9)go('final')});
-$('#restart').addEventListener('click',()=>{data.coins=0;data.found=[];data.strategy=Array(5).fill(null);data.chosen=null;data.issues=[];data.ownerAnswers=[null,null,null,null];window.CAPFounder.reset();data.links={};data.selected=null;data.pipes={};data.pipeActive=null;data.pipeTiles={};data.pipeVersion=10;data.pipeTool='straight';data.pipeUnlocks=[];$('#pipe-achievement').hidden=true;pipeUndo.length=0;data.audience=10000;data.seenTiers=[];data.jigsaw=[];data.jigsawSelected=null;data.completed=[];previewPlayed=false;panEngaged=false;pan.scrollLeft=0;strategySuppressClickUntil=0;$('#strategy-check').textContent='Правильно 0 из 5';$('#strategy-check').disabled=true;$('#strategy-feedback').textContent='Начнём с аудитории и позиционирования. Потом спланируем тест и каналы роста.';$('#research-status').textContent='Разведка начинается';$('#research-copy').textContent='Осмотри три подсвеченных объекта, чтобы собрать базу для маркетинговой стратегии.';$('#pilot-feedback').textContent='Выберите приоритеты, которые ближе всего вашему видению. Это короткое стратегическое интервью, не экзамен.';$('#content-feedback').textContent='Четыре цвета скрывают четыре маркетинговых потока. Соедини пары и открой все достижения!';$('#puzzle-feedback').textContent='Маленькие решения превращаются в большую систему роста. Собери девять частей, чтобы открыть план реализации.';persist();go('home')});
-window.CAPFounder.init({data,reward,go,persist});restore();updateCoins();go(({strategy:'strategy',pipes:'content',interview:'pilot',final:'final'})[new URLSearchParams(window.location.search).get('preview')]||'home');
+function fifteenSolved(t){return fifteenValid(t)&&t.every((v,i)=>v===fifteenGoal[i])}
+function fifteenDistance(t){return t.reduce((n,v,i)=>v?n+Math.abs(Math.floor(i/4)-Math.floor((v-1)/4))+Math.abs(i%4-(v-1)%4):n,0)}
+function fifteenShuffle(){
+ let best=fifteenGoal.slice(),bestD=-1;
+ for(let attempt=0;attempt<18;attempt++){
+  const t=fifteenGoal.slice(),seen=new Set([t.join(',')]);let prev=-1;
+  for(let move=0;move<22;move++){
+   const blank=t.indexOf(0),choices=fifteenAdjacent(blank).filter(i=>i!==prev);
+   const fresh=choices.filter(i=>{const next=t.slice();fifteenSwap(next,blank,i);return !seen.has(next.join(','))});
+   const pool=fresh.length?fresh:choices,chosen=pool[Math.floor(Math.random()*pool.length)];
+   fifteenSwap(t,blank,chosen);seen.add(t.join(','));prev=blank;
+  }
+  const d=fifteenDistance(t);
+  if(d>bestD){best=t;bestD=d}
+  if(d>=13&&t.filter((v,i)=>v!==0&&v!==i+1).length>=9)break;
+ }
+ return best;
+}
+function fifteenPrepare(){
+ if(!fifteenValid(data.fifteenTiles)){data.fifteenTiles=fifteenShuffle();data.fifteenMoves=0;fifteenUndo.length=0;persist()}
+}
+function renderPuzzle(){
+ fifteenPrepare();
+ const board=$('#jigsaw-board'),t=data.fifteenTiles,blank=t.indexOf(0),near=new Set(fifteenAdjacent(blank));
+ board.replaceChildren();
+ t.forEach((v,i)=>{
+  const b=document.createElement('button');b.type='button';
+  b.className='fifteen-cell '+(v?'fifteen-tile':'fifteen-empty')+(v&&near.has(i)?' fifteen-movable':'')+(v&&v===i+1?' fifteen-correct':'');
+  b.dataset.index=i;b.dataset.value=v;
+  if(v){
+   b.textContent=String(v);
+   b.style.setProperty('--tile-x',((v-1)%4*100/3)+'%');
+   b.style.setProperty('--tile-y',(Math.floor((v-1)/4)*100/3)+'%');
+   b.setAttribute('aria-label','Плитка '+v+(near.has(i)?', можно передвинуть':'') );
+   b.addEventListener('click',()=>{
+    if(Date.now()<fifteenSuppressUntil)return;
+    if(!fifteenMove(i))$('#jigsaw-tip').textContent='Двигать можно только соседние с пустотой плитки. Пустая клетка отмечена пунктиром.';
+   });
+  }else{b.disabled=true;b.setAttribute('aria-label','Пустая клетка')}
+  board.append(b);
+ });
+ const right=t.reduce((n,v,i)=>n+(v!==0&&v===i+1?1:0),0),won=fifteenSolved(t);
+ $('#puzzle-progress').textContent=right+' / 15';
+ $('#fifteen-placed').textContent=right+' / 15';
+ $('#fifteen-moves').textContent=String(data.fifteenMoves);
+ $('#fifteen-undo').disabled=fifteenUndo.length===0;
+ $('#puzzle-next').disabled=!won;
+ $('#puzzle-next').textContent=won?'Открыть стратегию на 90 дней →':'Расставь все 15 плиток';
+ if(won){
+  $('#jigsaw-tip').textContent='★ Все числа от 1 до 15 на месте! Открывай финальную стратегию.';
+  $('#puzzle-feedback').textContent='✓ Пятнашки собраны! Все элементы системы на месте. Теперь открой план CAP Education на 90 дней.';
+ }else if(data.fifteenMoves===0){
+  $('#jigsaw-tip').textContent='Двигай соседнюю с пустотой плитку нажатием или свайпом. На ПК можно использовать стрелки. Раскладка всегда решаемая.';
+ }
+}
+function fifteenMove(i){
+ if(!fifteenValid(data.fifteenTiles)||fifteenSolved(data.fifteenTiles))return false;
+ const t=data.fifteenTiles,blank=t.indexOf(0);
+ if(!fifteenAdjacent(blank).includes(i))return false;
+ fifteenUndo.push(t.slice());if(fifteenUndo.length>90)fifteenUndo.shift();
+ fifteenSwap(t,blank,i);data.fifteenMoves++;
+ persist();renderPuzzle();
+ if(fifteenSolved(t)){reward('puzzle');showToast('★ Пятнашки собраны! Стратегия открыта.')}
+ return true;
+}
+function fifteenNewGame(){
+ data.fifteenTiles=fifteenShuffle();data.fifteenMoves=0;fifteenUndo.length=0;
+ $('#puzzle-feedback').textContent='Новая раскладка готова! Расставь числа от 1 до 15 по порядку.';
+ persist();renderPuzzle();
+}
+const fifteenBoard=$('#jigsaw-board');
+fifteenBoard.addEventListener('pointerdown',e=>{
+ const tile=e.target.closest('.fifteen-tile');
+ if(!tile||(e.pointerType==='mouse'&&e.button!==0))return;
+ fifteenPointer={id:e.pointerId,index:+tile.dataset.index,x:e.clientX,y:e.clientY};
+});
+fifteenBoard.addEventListener('pointerup',e=>{
+ const p=fifteenPointer;
+ if(!p||p.id!==e.pointerId)return;
+ fifteenPointer=null;
+ const dx=e.clientX-p.x,dy=e.clientY-p.y;
+ if(Math.hypot(dx,dy)<16)return;
+ fifteenSuppressUntil=Date.now()+300;
+ const blank=data.fifteenTiles.indexOf(0),source=p.index;
+ if(!fifteenAdjacent(blank).includes(source))return;
+ const dr=Math.floor(blank/4)-Math.floor(source/4),dc=blank%4-source%4;
+ if((Math.abs(dx)>=Math.abs(dy)&&dc!==0&&Math.sign(dx)===Math.sign(dc))||
+    (Math.abs(dy)>Math.abs(dx)&&dr!==0&&Math.sign(dy)===Math.sign(dr)))fifteenMove(source);
+});
+fifteenBoard.addEventListener('pointercancel',()=>{fifteenPointer=null});
+fifteenBoard.addEventListener('keydown',e=>{
+ if(current!=='puzzle'||!['ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.key))return;
+ e.preventDefault();
+ const blank=data.fifteenTiles.indexOf(0),offset={ArrowUp:4,ArrowDown:-4,ArrowLeft:1,ArrowRight:-1}[e.key],source=blank+offset;
+ if(fifteenAdjacent(blank).includes(source))fifteenMove(source);
+});
+$('#fifteen-shuffle').addEventListener('click',fifteenNewGame);
+$('#fifteen-undo').addEventListener('click',()=>{
+ if(!fifteenUndo.length)return;
+ data.fifteenTiles=fifteenUndo.pop();data.fifteenMoves=Math.max(0,data.fifteenMoves-1);
+ persist();renderPuzzle();
+});
+$('#puzzle-next').addEventListener('click',()=>{if(fifteenSolved(data.fifteenTiles))go('final')});
+$('#restart').addEventListener('click',()=>{data.coins=0;data.found=[];data.strategy=Array(5).fill(null);data.chosen=null;data.issues=[];data.ownerAnswers=[null,null,null,null];window.CAPFounder.reset();data.links={};data.selected=null;data.pipes={};data.pipeActive=null;data.pipeTiles={};data.pipeVersion=10;data.pipeTool='straight';data.pipeUnlocks=[];$('#pipe-achievement').hidden=true;pipeUndo.length=0;data.audience=10000;data.seenTiers=[];data.fifteenTiles=null;data.fifteenMoves=0;fifteenUndo.length=0;data.completed=[];previewPlayed=false;panEngaged=false;pan.scrollLeft=0;strategySuppressClickUntil=0;$('#strategy-check').textContent='Правильно 0 из 5';$('#strategy-check').disabled=true;$('#strategy-feedback').textContent='Начнём с аудитории и позиционирования. Потом спланируем тест и каналы роста.';$('#research-status').textContent='Разведка начинается';$('#research-copy').textContent='Осмотри три подсвеченных объекта, чтобы собрать базу для маркетинговой стратегии.';$('#pilot-feedback').textContent='Выберите приоритеты, которые ближе всего вашему видению. Это короткое стратегическое интервью, не экзамен.';$('#content-feedback').textContent='Четыре цвета скрывают четыре маркетинговых потока. Соедини пары и открой все достижения!';$('#puzzle-feedback').textContent='Маленькие решения превращаются в большую систему роста. Расставь числа от 1 до 15, двигая плитки в свободную клетку. Затем открой план на 90 дней.';persist();go('home')});
+window.CAPFounder.init({data,reward,go,persist});restore();updateCoins();go(({strategy:'strategy',pipes:'content',interview:'pilot',puzzle:'puzzle',final:'final'})[new URLSearchParams(window.location.search).get('preview')]||'home');
 
 })();
 </script>

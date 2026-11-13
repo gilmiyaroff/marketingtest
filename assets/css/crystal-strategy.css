@@ -73,3 +73,23 @@
  #strategy .falling-crystal{animation-duration:9s!important}
  #strategy .is-powered .crystal-mini-screen strong{animation:none}
 }
+
+/* Accessible catch ledge: a missed crystal stays tappable at the bottom. */
+#strategy .crystal-catch-hint{top:9px;bottom:auto;z-index:2}
+#strategy #crystal-catch-tray{
+ position:absolute;left:0;right:0;bottom:16px;z-index:6;
+ display:flex;flex-wrap:nowrap;justify-content:center;align-items:center;
+ gap:4px;min-height:61px;
+ padding:5px 4px;
+ background:linear-gradient(90deg,#2f284dbb,#42325cd9,#2f284dbb);
+ border-top:2px solid #b99abb;
+}
+#strategy #crystal-catch-tray:empty{display:none}
+#strategy .falling-crystal.crystal-landed{
+ position:relative!important;top:auto!important;left:auto!important;
+ width:clamp(44px,12vw,55px);height:53px;min-width:44px;
+ animation:none!important;transform:none!important;
+ flex-shrink:1;opacity:1;z-index:7;cursor:pointer;
+ filter:drop-shadow(0 0 7px var(--gem));
+}
+#strategy .crystal-landed .crystal-gem-shape{width:clamp(30px,8vw,39px);height:45px}

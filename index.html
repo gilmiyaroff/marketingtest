@@ -311,19 +311,69 @@
 @media(max-width:520px){#puzzle .jigsaw-board.fifteen-board{width:min(100%,380px);gap:3px;border-width:3px;padding:5px}#puzzle .fifteen-tile{border-width:2px;font-size:clamp(13px,4.8vw,22px)}#puzzle .fifteen-mini-stats{font-size:8px}}
 
 
-/* Mission 1 — CAP Education potential: data, scale, social impact. */
-#research .clue{width:clamp(40px,5vw,57px);height:clamp(40px,5vw,57px);border:3px solid #ffe3a4;background:#37274db8;box-shadow:0 0 0 4px #48305899,0 0 16px #ffd78ba8;display:grid;place-items:center;overflow:visible;isolation:isolate}
-#research .clue::before{content:attr(data-sigil);position:relative;inset:auto;width:26px;height:26px;background:#ffdf9b;border:2px solid #4b315c;box-shadow:0 2px #24142d;color:#3e2754;font-size:19px;font-family:var(--title);line-height:1;display:grid;place-items:center}
-#research .clue::after{content:attr(data-hotspot-label);position:absolute;top:calc(100% + 5px);left:50%;transform:translateX(-50%);background:#271b3ae8;border:2px solid #f6d6a0;box-shadow:0 2px #181127;color:#fff1ca;font:900 clamp(9px,1.3vw,12px)/1.1 var(--body);letter-spacing:.035em;white-space:nowrap;padding:4px 6px;text-shadow:1px 1px #140e22;pointer-events:none}
+/* Invisible-exploration hotspots: subtle translucent pulses, no labels on image. */
+#research .clue{
+ width:clamp(43px,5vw,53px);height:clamp(43px,5vw,53px);
+ border:0;background:transparent;box-shadow:none;overflow:visible;isolation:isolate;
+ display:grid;place-items:center;opacity:1;
+ animation:none;cursor:pointer;-webkit-tap-highlight-color:transparent;
+}
+#research .clue::before{
+ content:"";position:relative;inset:auto;width:21px;height:21px;
+ background:radial-gradient(circle,#fff7d9ac 0 17%,#ffe3a25b 36%,#ffd68b18 66%,transparent 78%);
+ border:1px solid #fff8e06e;border-radius:50%;
+ box-shadow:0 0 10px 4px #ffe09b45,0 0 22px #fff1bb24;
+ opacity:.16;transform:scale(.72);
+ animation:research-soft-pulse 6.6s ease-in-out infinite;
+ pointer-events:none;
+}
+#research .clue::after{
+ content:"";position:absolute;inset:0;border-radius:50%;
+ background:radial-gradient(circle,#fff6cb28 0,transparent 65%);
+ opacity:0;transform:scale(.6);pointer-events:none;
+ animation:research-soft-aura 6.6s ease-in-out infinite;
+}
 #research .clue[data-clue="parent"]{left:10.5%;top:68.5%}
 #research .clue[data-clue="market"]{left:88%;top:38.5%}
 #research .clue[data-clue="feedback"]{left:61%;top:58%}
-#research .clue[data-clue="parent"]::before{background:#99e4ff}
-#research .clue[data-clue="market"]::before{background:#aaf3d1}
-#research .clue[data-clue="feedback"]::before{background:#ffdb9a}
-#research .clue.done{opacity:.78;pointer-events:auto;border-color:#7ce5b0;background:#295e51b8;animation:none;box-shadow:0 0 0 3px #204a43a6,0 0 10px #7feec1}
-#research .clue.done::before{content:'✓';background:#91f0b5;color:#285543}
-#research .clue.done::after{border-color:#8ae7b2;background:#234a41e8;color:#eaffdd}
+#research .clue[data-clue="market"]::before,#research .clue[data-clue="market"]::after{animation-delay:-2.2s}
+#research .clue[data-clue="feedback"]::before,#research .clue[data-clue="feedback"]::after{animation-delay:-4.4s}
+@keyframes research-soft-pulse{
+ 0%,28%,100%{opacity:.13;transform:scale(.65);box-shadow:0 0 4px #ffe09b18}
+ 42%{opacity:.78;transform:scale(1.12);box-shadow:0 0 14px 5px #fff1be75}
+ 55%{opacity:.25;transform:scale(.85);box-shadow:0 0 8px 2px #ffe09b32}
+}
+@keyframes research-soft-aura{
+ 0%,26%,65%,100%{opacity:0;transform:scale(.65)}
+ 42%{opacity:.65;transform:scale(1.22)}
+}
+#research .clue:is(:hover,:focus-visible)::before{
+ opacity:.95!important;transform:scale(1.08)!important;
+ background:radial-gradient(circle,#fff9e1e0,#ffe5a279 55%,transparent 76%);
+ box-shadow:0 0 16px #fff0b2b5!important;
+ animation-play-state:paused;
+}
+#research .clue:is(:hover,:focus-visible)::after{opacity:.5;animation-play-state:paused}
+#research .clue:focus-visible{outline:2px solid #fff0b2;outline-offset:-3px;border-radius:50%}
+#research .clue.done{opacity:1;pointer-events:auto;background:transparent;border:0;box-shadow:none;animation:none}
+#research .clue.done::before{
+ content:"✓";display:grid;place-items:center;
+ width:18px;height:18px;background:#2d755eb3;color:#d3ffdb;
+ font:800 12px/1 var(--body);border:1px solid #a4efc0a8;
+ box-shadow:0 0 7px #73e5ad52;opacity:.8;transform:scale(1);
+ animation:none;
+}
+#research .clue.done::after{content:none;animation:none}
+@media(max-width:600px){
+ #research .clue{width:44px;height:44px}
+ #research .clue::before{width:20px;height:20px}
+ #research .clue.done::before{width:17px;height:17px;font-size:11px}
+}
+@media(prefers-reduced-motion:reduce){
+ #research .clue::before,#research .clue::after{animation:none}
+ #research .clue::before{opacity:.5;transform:scale(1)}
+ #research .clue.done::before{opacity:.8}
+}
 #research .clue-chip-row{gap:7px;align-items:stretch}
 #research .clue-chip{display:flex;align-items:center;justify-content:center;gap:5px;min-height:35px;background:#3b3051;color:#f6e9d8;border:2px solid #947894;font-size:clamp(10px,1.6vw,14px);font-weight:900;letter-spacing:.025em;transition:background .2s,box-shadow .2s}
 #research .clue-chip::after{content:'?';font-family:var(--title);font-size:9px;margin-left:auto;opacity:.6}
@@ -339,13 +389,10 @@
 #modal.research-reveal #modal-copy{line-height:1.5;font-size:clamp(13px,2.2vw,17px)}
 #modal.research-reveal #modal-close{background:linear-gradient(#fce1a2,#f8b85a);color:#382744}
 @media(max-width:600px){
- #research .clue{width:38px;height:38px;border-width:2px}
- #research .clue::before{width:21px;height:21px;font-size:15px}
- #research .clue::after{font-size:9px;padding:3px 4px;border-width:1px}
  #research .clue-chip{min-width:0;padding:4px;gap:3px;font-size:clamp(9px,2.5vw,12px)}
  #research .research-chip-symbol{font-size:10px}
 }
-@media(prefers-reduced-motion:reduce){#research .clue{animation:none!important}}
+
 
 </style>
 </head>
@@ -367,7 +414,7 @@
     <div class="layout mission-layout">
       <header class="hud"><button class="hud-btn" data-menu>← Меню</button><span class="hud-title">01 / 06</span><div class="hud-tag">◈ <span data-coins>0</span></div></header>
       <div class="chap-head"><div class="chapter-kicker">МИССИЯ 01 · ПОТЕНЦИАЛ CAP EDUCATION</div><h1 class="chapter-title">Открой потенциал CAP Education</h1><p>Большая стратегия начинается с трёх опор: данных для решений, возможностей масштабирования и пользы для Казахстана.</p><div class="progress" data-progress></div></div>
-      <div class="activity"><div class="explore"><div class="explore-scroll" id="explore-scroll" tabindex="0" aria-label="Панорама исследовательской комнаты. На компьютере зажми левую кнопку мыши и тащи картинку; можно также использовать колесо мыши и стрелки. На телефоне проведи пальцем."><div class="explore-world" id="explore-world"><button class="clue" data-clue="parent" data-sigil="◎" data-hotspot-label="ГЛОБУС" aria-label="Открыть масштаб: глобус"></button><button class="clue" data-clue="market" data-sigil="▥" data-hotspot-label="АНАЛИТИКА" aria-label="Открыть данные: доска с аналитикой"></button><button class="clue" data-clue="feedback" data-sigil="✦" data-hotspot-label="ГОРОД" aria-label="Открыть влияние: город за окном"></button></div></div><button class="pan-arrow left" id="pan-left" type="button" aria-label="Прокрутить панораму влево" title="Листать влево">❮</button><button class="pan-arrow right" id="pan-right" type="button" aria-label="Прокрутить панораму вправо" title="Листать вправо">❯</button><div class="pan-bar" aria-hidden="true"><span id="pan-thumb"></span></div><div class="research-pan-help">↔ Зажми мышь и тяни · колесо · свайп</div></div></div>
+      <div class="activity"><div class="explore"><div class="explore-scroll" id="explore-scroll" tabindex="0" aria-label="Панорама исследовательской комнаты. На компьютере зажми левую кнопку мыши и тащи картинку; можно также использовать колесо мыши и стрелки. На телефоне проведи пальцем."><div class="explore-world" id="explore-world"><button class="clue" data-clue="parent" aria-label="Открыть масштабирование: глобус" title="Открыть находку"></button><button class="clue" data-clue="market" aria-label="Открыть данные: аналитика" title="Открыть находку"></button><button class="clue" data-clue="feedback" aria-label="Открыть влияние: город за окном" title="Открыть находку"></button></div></div><button class="pan-arrow left" id="pan-left" type="button" aria-label="Прокрутить панораму влево" title="Листать влево">❮</button><button class="pan-arrow right" id="pan-right" type="button" aria-label="Прокрутить панораму вправо" title="Листать вправо">❯</button><div class="pan-bar" aria-hidden="true"><span id="pan-thumb"></span></div><div class="research-pan-help">↔ Зажми мышь и тяни · колесо · свайп</div></div></div>
       <div class="spacer"></div>
       <div class="bottom-stack"><div class="panel"><div class="dialog-title" id="research-status">Три опоры роста</div><p id="research-copy">Найди аналитическую доску, глобус и город за окном. Каждая находка раскроет часть будущего CAP.</p><div class="clue-chip-row" role="group" aria-label="Три опоры потенциала"><span class="clue-chip" data-chip="market"><span class="research-chip-symbol">▥</span> ДАННЫЕ</span><span class="clue-chip" data-chip="parent"><span class="research-chip-symbol">◎</span> МАСШТАБ</span><span class="clue-chip" data-chip="feedback"><span class="research-chip-symbol">✦</span> ВЛИЯНИЕ</span></div></div><button class="gold-btn" id="research-next" disabled>Открыто 0 из 3</button></div>
     </div>

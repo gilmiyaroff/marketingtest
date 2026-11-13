@@ -282,3 +282,28 @@
 }
 
 #strategy .crystal-sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0 0 0 0)!important;white-space:nowrap!important;border:0!important}
+
+
+/* Final crystal polish: transparent SVG sprites, no visual instructions or black tiles. */
+#strategy .crystal-gem-art,
+#strategy .falling-crystal .crystal-gem-art,
+#strategy .crystal-port .crystal-gem-art,
+#strategy #crystal-held-gem .crystal-gem-art,
+#strategy .crystal-drag-ghost .crystal-gem-art{
+  mix-blend-mode:normal!important;
+  filter:drop-shadow(0 0 6px var(--gem)) drop-shadow(0 0 5px var(--gem))!important;
+  background:transparent!important;
+}
+#strategy .retro-monitor-footer{display:none!important}
+#strategy #strategy-check:disabled{display:none!important}
+#strategy .crystal-game{gap:12px!important}
+#strategy .crystal-mini-screen strong{font-size:clamp(7px,1.15vw,11px)}
+#strategy .crystal-mini-screen strong:empty{opacity:0}
+#strategy .crystal-rain-zone{border-width:3px}
+@keyframes crystal-fall-wiggle{
+  0%{transform:translate3d(0,0,0) rotate(-5deg)}
+  22%{transform:translate3d(var(--sway1,9px),var(--fall22,60px),0) rotate(4deg)}
+  48%{transform:translate3d(var(--sway2,-11px),var(--fall48,132px),0) rotate(-4deg)}
+  75%{transform:translate3d(var(--sway3,8px),var(--fall75,210px),0) rotate(3deg)}
+  100%{transform:translate3d(var(--drift,0px),var(--fall-distance,280px),0) rotate(-3deg)}
+}

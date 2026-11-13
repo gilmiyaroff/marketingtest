@@ -81,16 +81,22 @@ function refill(){
  for(let n=0;n<2;n++)deck.push(...remaining.slice().sort(()=>Math.random()-.5));
 }
 function spawn(){
- if(!ctx||allOn()||!$('#strategy').classList.contains('active')||falling.length>=7)return;
+ if(!ctx||allOn()||!$('#strategy').classList.contains('active')||falling.length>=6)return;
  if(!deck.length)refill();
  const i=deck.shift();if(i===undefined||ctx.data.crystals[i])return;
  const el=document.createElement('button');el.type='button';el.className='falling-crystal';
  el.dataset.crystal=String(serial++);el.innerHTML=gemShape(i);styleGem(el,i);
  el.setAttribute('aria-label','Поймать '+defs[i].label+' кристалл');
- const w=els.rain.clientWidth,travel=els.rain.clientHeight+70;
- el.style.left=Math.round(7+Math.random()*Math.max(0,w-66))+'px';
+ const w=els.rain.clientWidth,travel=els.rain.clientHeight+115;
+ // Reserve space on both sides for a gentle zig-zag without clipping.
+ const pad=Math.min(82,Math.max(34,w*.14));
+ const drift=Math.round((Math.random()-.5)*Math.min(62,w*.18));
+ const startX=Math.round(pad+Math.random()*Math.max(1,w-2*pad));
+ el.style.left=startX+'px';
+ el.style.setProperty('--drift',drift+'px');
  el.style.setProperty('--fall-distance',travel+'px');
- el.style.animationDuration=(3.2+Math.random()*1.25)+'s';
+ el.style.setProperty('--spark-delay',(-Math.random()*2.7).toFixed(2)+'s');
+ el.style.animationDuration=(4.1+Math.random()*2.1).toFixed(2)+'s';
  falling.push({node:el,id:i});els.rain.append(el);
  // Also catch ordinary click/keyboard activation (some mobile browsers and
  // automation drivers do not deliver pointerdown to fast-moving elements).
@@ -112,7 +118,7 @@ function stop(){
 }
 function start(){
  if(timer!==null||allOn())return;
- spawn();timer=setInterval(spawn,530);
+ spawn();timer=setInterval(spawn,640);
 }
 function clearDrag(){
  if(drag?.ghost)drag.ghost.remove();drag=null;

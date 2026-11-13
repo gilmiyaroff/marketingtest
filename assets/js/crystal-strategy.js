@@ -2,36 +2,46 @@
 (function(){
 'use strict';
 const defs=[
- {name:'СЕГМЕНТЫ ЦА',color:'#65e5fa',light:'#defaff',dark:'#2372b5',label:'бирюзовый'},
- {name:'ПОЗИЦИОНИРОВАНИЕ',color:'#c290ff',light:'#f5dfff',dark:'#714bb2',label:'фиолетовый'},
- {name:'ПИЛОТ ПРОДУКТА',color:'#ffca65',light:'#fff3bb',dark:'#c66c2d',label:'золотой'},
- {name:'КАНАЛЫ РОСТА',color:'#ff829e',light:'#ffdce7',dark:'#ba396a',label:'розовый'},
- {name:'KPI И ЭКОНОМИКА',color:'#8deaa3',light:'#edffe9',dark:'#2c9678',label:'зелёный'}
+ {name:'СЕГМЕНТЫ ЦА',color:'#65e5fa',light:'#defaff',dark:'#2372b5',label:'бирюзовый',asset:'crystal_turquoise.gif'},
+ {name:'ПОЗИЦИОНИРОВАНИЕ',color:'#c290ff',light:'#f5dfff',dark:'#714bb2',label:'фиолетовый',asset:'crystal_purple.gif'},
+ {name:'ПИЛОТ ПРОДУКТА',color:'#ffca65',light:'#fff3bb',dark:'#c66c2d',label:'золотой',asset:'crystal_gold.gif'},
+ {name:'КАНАЛЫ РОСТА',color:'#ff829e',light:'#ffdce7',dark:'#ba396a',label:'розовый',asset:'crystal_pink.gif'},
+ {name:'KPI И ЭКОНОМИКА',color:'#8deaa3',light:'#edffe9',dark:'#2c9678',label:'зелёный',asset:'crystal_green.gif'}
 ];
 const $=s=>document.querySelector(s);
 let ctx=null,els=null,falling=[],held=null,drag=null,timer=null,deck=[],serial=0;
 const allOn=()=>ctx&&ctx.data.crystals.every(Boolean);
 function styleGem(node,i){const d=defs[i];node.style.setProperty('--gem',d.color);node.style.setProperty('--gem-light',d.light);node.style.setProperty('--gem-dark',d.dark)}
-const gemShape='<span class="crystal-gem-shape"><span class="crystal-gem-facet"></span><span class="crystal-gem-spark"></span></span>';
+const gemShape=i=>'<img class="crystal-gem-art" src="assets/crystals/'+defs[i].asset+'" alt="" draggable="false" loading="eager">';
 function notice(s){els.help.textContent=s}
 function refreshHeld(){
  const show=held!==null&&!ctx.data.crystals[held];els.held.hidden=!show;
- if(show){styleGem(els.hand,held);els.heldLabel.textContent='ПОЙМАН: '+defs[held].label.toUpperCase()+' КРИСТАЛЛ'}
+ if(show){styleGem(els.hand,held);els.hand.innerHTML=gemShape(held);els.heldLabel.textContent='ПОЙМАН: '+defs[held].label.toUpperCase()+' КРИСТАЛЛ'}
 }
 function render(){
  if(!ctx)return;
- const grid=els.matrix;grid.replaceChildren();
+ const rack=els.matrix;rack.replaceChildren();
  defs.forEach((d,i)=>{
-  const on=ctx.data.crystals[i],button=document.createElement('button');
-  button.type='button';button.className='crystal-socket'+(on?' is-powered':'')+(held===i?' is-target':'');
-  button.dataset.crystalSlot=String(i);styleGem(button,i);
-  button.setAttribute('aria-label',d.label+' слот, '+(on?'экран активен: '+d.name:'экран ждёт кристалл'));
-  const port=document.createElement('span');port.className='crystal-port';port.innerHTML=on?gemShape:'◇';
-  const screen=document.createElement('span');screen.className='crystal-mini-screen';
+  const powered=ctx.data.crystals[i];
+  const channel=document.createElement('div');
+  channel.className='crystal-channel'+(powered?' is-powered':'');
+  styleGem(channel,i);
+  const screen=document.createElement('div');screen.className='crystal-mini-screen'+(powered?' is-powered':'');
+  screen.setAttribute('aria-live','polite');
   const heading=document.createElement('small');heading.textContent='ЭКРАН 0'+(i+1);
-  const label=document.createElement('strong');label.textContent=on?d.name:'· · ·';
-  screen.append(heading,label);button.append(port,screen);
-  button.addEventListener('click',()=>place(i));grid.append(button);
+  const label=document.createElement('strong');label.textContent=powered?d.name:'· · ·';
+  const led=document.createElement('span');led.className='crystal-monitor-led';led.setAttribute('aria-hidden','true');
+  screen.append(heading,label,led);
+  const wire=document.createElement('div');wire.className='crystal-wire';wire.setAttribute('aria-hidden','true');
+  const socket=document.createElement('button');socket.type='button';socket.className='crystal-socket'+(powered?' is-powered':'')+(held===i?' is-target':'');
+  socket.dataset.crystalSlot=String(i);
+  socket.setAttribute('aria-label',d.label+' гнездо: '+(powered?'включает экран '+d.name:'ожидает кристалл'));
+  socket.setAttribute('aria-pressed',String(powered));
+  const port=document.createElement('span');port.className='crystal-port';port.innerHTML=powered?gemShape(i):'◇';
+  const socketLabel=document.createElement('small');socketLabel.textContent='СЛОТ 0'+(i+1);
+  socket.append(port,socketLabel);
+  socket.addEventListener('click',()=>place(i));
+  channel.append(screen,wire,socket);rack.append(channel);
  });
  const n=ctx.data.crystals.filter(Boolean).length;
  els.count.textContent=n+' / 5';els.charge.style.width=n*20+'%';
@@ -42,7 +52,7 @@ function render(){
  els.feedback.textContent=n===5
   ?'✓ Все пять экранов работают! Каждый цвет активировал отдельную часть маркетинговой стратегии CAP Education.'
   :n===0
-   ?'Лови падающие кристаллы. Каждый цвет питает отдельный экран: сегменты, позиционирование, пилот, каналы или экономику.'
+   ?'Лови пролетающие кристаллы и вставляй их в ячейки подходящего цвета. Каждая ячейка включает свой экран.'
    :'Уже активировано '+n+' из 5 экранов. Продолжай ловить оставшиеся цвета.';
  refreshHeld();
  if(n===5){stop();if(!ctx.data.completed.includes('strategy'))ctx.reward('strategy')}
@@ -50,7 +60,7 @@ function render(){
 function choose(i){
  if(ctx.data.crystals[i])return;
  held=i;render();
- notice('Пойман '+defs[i].label+' кристалл. Перетащи к нужному слоту или нажми на экран такого же цвета.');
+ notice('Пойман '+defs[i].label+' кристалл. Перетащи к ячейке под экраном такого же цвета или нажми на эту ячейку.');
 }
 function place(i){
  if(ctx.data.crystals[i]){notice('Экран уже горит: '+defs[i].name);return}
@@ -75,7 +85,7 @@ function spawn(){
  if(!deck.length)refill();
  const i=deck.shift();if(i===undefined||ctx.data.crystals[i])return;
  const el=document.createElement('button');el.type='button';el.className='falling-crystal';
- el.dataset.crystal=String(serial++);el.innerHTML=gemShape;styleGem(el,i);
+ el.dataset.crystal=String(serial++);el.innerHTML=gemShape(i);styleGem(el,i);
  el.setAttribute('aria-label','Поймать '+defs[i].label+' кристалл');
  const w=els.rain.clientWidth,travel=els.rain.clientHeight+70;
  el.style.left=Math.round(7+Math.random()*Math.max(0,w-66))+'px';
@@ -90,18 +100,10 @@ function spawn(){
   falling=falling.filter(g=>g!==at);el.remove();choose(i);
  });
  el.addEventListener('animationend',()=>{
-  const at=falling.find(g=>g.node===el);
-  if(!at)return;
-  // Let missed crystals settle on a reachable ledge instead of vanishing.
-  // Only one stable crystal of each unfilled color can be on the ledge.
-  const sameColor=falling.some(g=>g!==at&&g.id===i&&g.landed);
-  if(!ctx.data.crystals[i]&&!sameColor&&els.tray.childElementCount<5){
-   at.landed=true;el.classList.add('crystal-landed');
-   el.style.left='auto';el.style.top='auto';el.style.animation='none';
-   el.style.removeProperty('--fall-distance');el.style.transform='none';
-   els.tray.append(el);return;
-  }
-  falling=falling.filter(g=>g!==at);el.remove();
+  // Missed gems disappear below the playfield; colors keep spawning until all screens light.
+  const at=falling.findIndex(g=>g.node===el);
+  if(at!==-1)falling.splice(at,1);
+  el.remove();
  });
 }
 function stop(){
@@ -117,7 +119,7 @@ function clearDrag(){
 }
 function init(c){
  ctx=c;
- els={rain:$('#crystal-rain'),tray:$('#crystal-catch-tray'),matrix:$('#crystal-matrix'),held:$('#crystal-held'),hand:$('#crystal-held-gem'),heldLabel:$('#crystal-held-label'),count:$('#crystal-count'),charge:$('#crystal-charge'),next:$('#strategy-check'),core:$('#crystal-core-text'),help:$('#crystal-help'),feedback:$('#strategy-feedback')};
+ els={rain:$('#crystal-rain'),matrix:$('#crystal-matrix'),held:$('#crystal-held'),hand:$('#crystal-held-gem'),heldLabel:$('#crystal-held-label'),count:$('#crystal-count'),charge:$('#crystal-charge'),next:$('#strategy-check'),core:$('#crystal-core-text'),help:$('#crystal-help'),feedback:$('#strategy-feedback')};
  els.rain.addEventListener('pointerdown',e=>{
   const button=e.target.closest('.falling-crystal');
   if(!button||(e.pointerType==='mouse'&&e.button!==0))return;
@@ -130,7 +132,7 @@ function init(c){
   if(!drag||e.pointerId!==drag.id)return;
   if(!drag.ghost&&Math.hypot(e.clientX-drag.x,e.clientY-drag.y)>9){
    drag.ghost=document.createElement('div');drag.ghost.className='crystal-drag-ghost';
-   drag.ghost.innerHTML=gemShape;styleGem(drag.ghost,drag.gem);
+   drag.ghost.innerHTML=gemShape(drag.gem);styleGem(drag.ghost,drag.gem);
    document.body.append(drag.ghost);
   }
   if(drag.ghost){drag.ghost.style.left=e.clientX+'px';drag.ghost.style.top=e.clientY+'px';e.preventDefault()}
@@ -144,11 +146,11 @@ function init(c){
   }
  });
  window.addEventListener('pointercancel',e=>{if(drag?.id===e.pointerId)clearDrag()});
- $('#crystal-drop').addEventListener('click',()=>{held=null;render();notice('Кристалл отпущен. Поймай другой цвет!')});
+ $('#crystal-drop').addEventListener('click',()=>{held=null;render();notice('Кристалл отпущен. Поймай другой цвет в нижнем игровом поле!')});
  els.next.addEventListener('click',()=>{if(allOn()){stop();ctx.go('pilot')}});
 }
 function enter(){if(!ctx)return;render();start()}
 function leave(){stop();clearDrag()}
-function reset(){stop();held=null;clearDrag();if(els){els.held.hidden=true;notice('Лови падающие кристаллы и заряжай каждый мини-экран своим цветом.')}}
+function reset(){stop();held=null;clearDrag();if(els){els.held.hidden=true;notice('Лови кристаллы в нижнем поле. Каждый слот связан проводом со своим экраном.')}}
 window.CAPCrystals={init,enter,leave,reset,defs};
 })();

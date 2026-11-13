@@ -193,3 +193,56 @@
 @media(prefers-reduced-motion:reduce){
   #research .clue::before{animation:none!important}
 }
+
+
+/* Research panorama: invisible, generous object hit areas (desktop and mobile).
+   Data = board/laptop at right; influence = city in middle; scale = globe at left.
+   Do not render dots, glows, labels or completion ticks over the illustration. */
+#research #explore-world .clue{
+  position:absolute!important;
+  display:block!important;
+  transform:none!important;
+  min-width:0!important;
+  min-height:0!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  filter:none!important;
+  backdrop-filter:none!important;
+  opacity:1!important;
+  overflow:visible;
+  animation:none!important;
+  touch-action:pan-x;
+  -webkit-tap-highlight-color:transparent;
+}
+#research #explore-world .clue::before,
+#research #explore-world .clue::after,
+#research #explore-world .clue.done::before,
+#research #explore-world .clue.done::after{
+  content:none!important;
+  display:none!important;
+  border:0!important;
+  background:none!important;
+  box-shadow:none!important;
+  animation:none!important;
+}
+#research #explore-world .clue[data-clue="parent"]{
+  left:0%!important;top:46%!important;width:31%!important;height:52%!important;z-index:6;
+}
+#research #explore-world .clue[data-clue="feedback"]{
+  left:25%!important;top:15%!important;width:39%!important;height:82%!important;z-index:4;
+}
+#research #explore-world .clue[data-clue="market"]{
+  left:64%!important;top:3%!important;width:36%!important;height:94%!important;z-index:5;
+}
+#research #explore-world .clue.done{
+  opacity:0!important;
+  pointer-events:none!important;
+  animation:none!important;
+}
+#research #explore-world .clue:focus-visible{
+  outline:3px dashed #fff0bd!important;
+  outline-offset:-3px!important;
+}

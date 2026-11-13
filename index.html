@@ -429,23 +429,23 @@
       <div class="crystal-game-top"><span>КРИСТАЛЛИЧЕСКИЙ ТЕРМИНАЛ CAP</span><strong id="crystal-count">0 / 5</strong></div>
       <div class="crystal-charge-track" aria-hidden="true"><div id="crystal-charge"></div></div>
       <div id="crystal-core-text">CAP · СТРАТЕГИЯ / ОЖИДАНИЕ ЭНЕРГИИ</div>
-      <div class="crystal-panel-label">ПЯТЬ ЭКРАНОВ → ПЯТЬ ПРОВОДОВ → ПЯТЬ ЯЧЕЕК</div>
+      
       <div id="crystal-matrix" role="group" aria-label="Пять экранов CAP, каждый соединён проводом с ячейкой для кристалла"></div>
       <div id="crystal-held" hidden>
         <span id="crystal-held-gem" aria-hidden="true"></span>
         <span id="crystal-held-label"></span>
-        <button id="crystal-drop" type="button">Отпустить</button>
+        <button id="crystal-drop" type="button" aria-label="Отпустить пойманный кристалл" title="Отпустить">×</button>
       </div>
-      <div class="crystal-panel-label">КРИСТАЛЛОПАД · ЛОВИ НУЖНЫЙ ЦВЕТ</div>
+      
       <div class="crystal-rain-zone">
         <div class="crystal-rain-stars" aria-hidden="true"></div>
         <div id="crystal-rain" role="group" aria-label="Кристаллы пяти цветов пролетают сверху вниз. Нажми на кристалл, чтобы поймать."></div>
-        <div class="crystal-catch-hint">✦ ПОЙМАЙ КРИСТАЛЛ В ПОЛЁТЕ ✦</div>
+        
       </div>
       <div id="crystal-help" aria-live="polite">Поймай кристалл внизу и нажми на ячейку его цвета. Через провод включится соответствующий экран.</div>
     </div></div>
     <div class="spacer"></div>
-    <div class="bottom-stack"><div class="panel"><div class="guide"><picture><source srcset="assets/characters/hero-petting.webp" type="image/webp"><img src="assets/characters/hero-petting.gif" alt="Мальчик с котом"/></picture><p id="strategy-feedback">Каждый кристалл запускает свой экран: сегменты, позиционирование, пилот, каналы и экономика.</p></div></div><button class="gold-btn" id="strategy-check" disabled>Заряжено 0 из 5</button></div>
+    <div class="bottom-stack"><p id="strategy-feedback" class="crystal-sr-only" aria-live="polite">Каждый цвет включает один экран.</p><button class="gold-btn" id="strategy-check" disabled>Заряжено 0 из 5</button></div>
   </div>
 </section>
 
@@ -538,10 +538,10 @@
 </style>
 <link rel="stylesheet" href="assets/css/retro-monitor.css?v=bba35fc"/>
 <link rel="stylesheet" href="assets/css/mobile-play.css?v=dc7506bd"/>
-<link rel="stylesheet" href="assets/css/crystal-strategy.css?v=ad379ca8"/>
+<link rel="stylesheet" href="assets/css/crystal-strategy.css?v=720aaa06"/>
 <script src="assets/js/founder-interview.js?v=7f7fa4"></script>
 <script src="assets/js/mobile-play.js?v=88b0d8ba"></script>
-<script src="assets/js/crystal-strategy.js?v=7e04e17d"></script>
+<script src="assets/js/crystal-strategy.js?v=ad2c4e31"></script>
 <script>
 (()=>{'use strict';
 const $=(s,root=document)=>root.querySelector(s), $$=(s,root=document)=>[...root.querySelectorAll(s)];

@@ -90,7 +90,18 @@ function spawn(){
   falling=falling.filter(g=>g!==at);el.remove();choose(i);
  });
  el.addEventListener('animationend',()=>{
-  const at=falling.findIndex(g=>g.node===el);if(at!==-1)falling.splice(at,1);el.remove();
+  const at=falling.find(g=>g.node===el);
+  if(!at)return;
+  // Let missed crystals settle on a reachable ledge instead of vanishing.
+  // Only one stable crystal of each unfilled color can be on the ledge.
+  const sameColor=falling.some(g=>g!==at&&g.id===i&&g.landed);
+  if(!ctx.data.crystals[i]&&!sameColor&&els.tray.childElementCount<5){
+   at.landed=true;el.classList.add('crystal-landed');
+   el.style.left='auto';el.style.top='auto';el.style.animation='none';
+   el.style.removeProperty('--fall-distance');el.style.transform='none';
+   els.tray.append(el);return;
+  }
+  falling=falling.filter(g=>g!==at);el.remove();
  });
 }
 function stop(){
@@ -106,7 +117,7 @@ function clearDrag(){
 }
 function init(c){
  ctx=c;
- els={rain:$('#crystal-rain'),matrix:$('#crystal-matrix'),held:$('#crystal-held'),hand:$('#crystal-held-gem'),heldLabel:$('#crystal-held-label'),count:$('#crystal-count'),charge:$('#crystal-charge'),next:$('#strategy-check'),core:$('#crystal-core-text'),help:$('#crystal-help'),feedback:$('#strategy-feedback')};
+ els={rain:$('#crystal-rain'),tray:$('#crystal-catch-tray'),matrix:$('#crystal-matrix'),held:$('#crystal-held'),hand:$('#crystal-held-gem'),heldLabel:$('#crystal-held-label'),count:$('#crystal-count'),charge:$('#crystal-charge'),next:$('#strategy-check'),core:$('#crystal-core-text'),help:$('#crystal-help'),feedback:$('#strategy-feedback')};
  els.rain.addEventListener('pointerdown',e=>{
   const button=e.target.closest('.falling-crystal');
   if(!button||(e.pointerType==='mouse'&&e.button!==0))return;

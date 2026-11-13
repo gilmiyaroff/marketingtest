@@ -1,0 +1,195 @@
+/* Mobile-first layout for CAP Growth Quest, v1.
+   Keep desktop presentation unchanged; prioritize finger-sized controls on phones. */
+@media (max-width:700px){
+  html{-webkit-text-size-adjust:100%}
+  #app{height:100dvh;min-height:100dvh}
+  .scene.active:not(#home):not(#final){
+    height:100dvh;min-height:0;
+    overflow-y:auto;overflow-x:hidden;
+    overscroll-behavior-y:contain;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+  }
+  .scene.active:not(#home):not(#final)::-webkit-scrollbar{display:none}
+  .scene .layout.mission-layout{
+    min-height:100%;height:auto;
+    padding:calc(9px + var(--top)) 10px calc(34px + var(--bottom));
+    gap:9px;
+    justify-content:flex-start;
+  }
+  .mission-layout > .spacer{display:none!important}
+  .mission-layout > .activity{flex:0 0 auto;min-width:0;width:100%}
+  .mission-layout .hud{min-height:43px}
+  .mission-layout .hud-btn,.mission-layout .hud-tag{min-height:43px;padding:7px 10px;font-size:13px}
+  .mission-layout .hud-title{font-size:9px}
+  .mission-layout .chap-head{padding:10px 11px}
+  .mission-layout .chapter-kicker{font-size:10px;line-height:1.35}
+  .mission-layout .chapter-title{font-size:clamp(12px,3.25vw,15px);line-height:1.55;margin:5px 0}
+  .mission-layout .chap-head p{font-size:clamp(13px,3.3vw,15px);line-height:1.32}
+  .mission-layout .progress{margin-top:7px}
+  .mission-layout .progress span{height:7px}
+  .mission-layout .bottom-stack{gap:9px}
+  .mission-layout .bottom-stack .panel{padding:12px}
+  .mission-layout .bottom-stack .panel p{font-size:14px;line-height:1.37}
+  .mission-layout .gold-btn{min-height:54px;font-size:clamp(15px,4.2vw,18px);padding:10px 12px}
+  .scene .retro-monitor{max-width:none;padding-bottom:0}
+  .scene .retro-monitor-chassis{border-width:4px 4px 7px}
+  .scene .retro-monitor-header{min-height:35px;padding:5px 7px}
+  .scene .retro-monitor-logo{font-size:8px}
+  .scene .retro-monitor-id{font-size:7px}
+  .scene .retro-monitor-screen{padding:5px}
+  .scene .retro-monitor-footer{min-height:25px;padding:3px 8px;font-size:7px}
+  .scene .retro-monitor-stand{display:none}
+  /* Instead of fitting the entire scene into a 200px-tall browser window, enlarge the
+     illustration and pan horizontally across the native scene aspect ratio. */
+  #research .explore{height:clamp(340px,53dvh,520px)!important;max-height:none;border-width:2px;box-shadow:none}
+  #research .retro-monitor-screen{padding:4px}
+  #research .explore-scroll{touch-action:pan-x;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch}
+  #research .clue{
+    width:64px;height:64px;
+    border:0!important;background:transparent!important;box-shadow:none!important;
+    display:grid;place-items:center;
+  }
+  #research .clue::before{
+    content:'✦';width:43px;height:43px;
+    display:grid;place-items:center;
+    border-radius:50%;
+    background:#45315de8;
+    border:3px solid #ffdf8c;
+    box-shadow:0 0 0 4px #ffda8355,0 0 20px #ffdf90a8;
+    color:#ffe39c;
+    font:900 28px/1 var(--body);
+    opacity:1;
+    animation:mobile-find-pulse 2.3s ease-in-out infinite;
+  }
+  #research .clue::after{
+    top:53px;bottom:auto;left:50%;right:auto;
+    transform:translateX(-50%)!important;
+    opacity:1!important;
+    animation:none!important;
+    width:max-content;min-width:74px;height:auto;inset-block-start:53px;
+    padding:3px 5px;
+    border:2px solid #f8d897;
+    border-radius:4px;
+    background:#36284eea;
+    color:#fff7cf;
+    box-shadow:0 2px #17122b;
+    text-align:center;
+    font:900 11px/1.2 var(--body);
+    white-space:nowrap;
+    pointer-events:none;
+  }
+  #research .clue[data-clue='market']::after{content:'ДАННЫЕ'}
+  #research .clue[data-clue='parent']::after{content:'МАСШТАБ'}
+  #research .clue[data-clue='feedback']::after{content:'ВЛИЯНИЕ'}
+  #research .clue.done::before{
+    content:'✓'!important;width:36px;height:36px;
+    background:#236b54ea;color:#d0ffdc;border:3px solid #93eabc;
+    box-shadow:0 0 13px #74e0ac88;
+    font:900 23px/1 var(--body);
+    animation:none!important;
+    opacity:1;
+    transform:none!important;
+  }
+  #research .clue.done::after{content:none!important;display:none!important}
+  #research .pan-arrow{
+    width:48px;height:58px;min-height:58px;
+    top:49%;font-size:25px;border-width:3px;
+    box-shadow:0 4px #17112b;
+  }
+  #research .pan-arrow.left{left:2px}
+  #research .pan-arrow.right{right:2px}
+  #research .pan-bar{height:9px;top:11px;left:25%;right:25%}
+  #research .research-pan-help{
+    bottom:7px;max-width:96%;white-space:normal;
+    font-size:11px;text-align:center;
+    padding:5px 9px;border-width:2px;
+  }
+  #research .bottom-stack .clue-chip-row{gap:6px}
+  #research .bottom-stack .clue-chip{min-height:43px;min-width:0;font-size:clamp(10px,2.8vw,13px)}
+  #research .bottom-stack .dialog-title{font-size:13px}
+  #research .bottom-stack .panel p{font-size:14px}
+  /* Touch-friendly secondary games, without rewriting desktop gameplay. */
+  #strategy .road-slots{
+    display:flex;gap:9px;
+    overflow-x:auto;overflow-y:hidden;
+    scrollbar-width:thin;
+    scroll-snap-type:x proximity;
+    padding:6px 2px 10px;
+    -webkit-overflow-scrolling:touch;
+  }
+  #strategy .road-slot{
+    flex:0 0 118px;min-height:91px;
+    font-size:13px;line-height:1.25;
+    scroll-snap-align:start;padding:8px 5px;
+  }
+  #strategy .cards-bank{gap:8px}
+  #strategy .strategy-card{
+    min-height:50px;flex:1 1 126px;
+    font-size:14px;padding:8px;
+    touch-action:manipulation;
+  }
+  #pilot .owner-choice{min-height:58px;padding:10px 9px;font-size:14px}
+  #pilot .owner-back{min-height:44px}
+  #content .pipe-board{width:min(100%,360px)!important}
+  #content .pipe-tool{min-height:52px}
+  #content .pipe-actions .soft-btn,#content .pipe-tool{touch-action:manipulation}
+  #scale .tier-chip{min-height:45px}
+  #scale input[type="range"]{min-height:38px}
+  #puzzle .fifteen-board{width:min(100%,370px)!important;max-width:100%}
+  #puzzle .fifteen-actions .soft-btn{min-height:44px}
+  @keyframes mobile-find-pulse{
+    0%,100%{transform:scale(1);box-shadow:0 0 0 4px #ffda8355,0 0 13px #ffdf90a8}
+    50%{transform:scale(1.12);box-shadow:0 0 0 6px #ffda8388,0 0 21px #ffdf90dd}
+  }
+}
+/* An optional truly immersive mode for mission 01 on mobile Safari/Chrome.
+   Unlike Fullscreen API, works on iPhone. */
+@media (max-width:700px){
+  #research .retro-monitor-zoom{
+    display:inline-flex;align-items:center;justify-content:center;
+    border:2px solid #ffe09c;border-radius:4px;background:#352844;color:#fff3cb;
+    padding:5px 7px;min-height:32px;
+    font:900 11px/1.15 var(--body);
+    flex-shrink:0;touch-action:manipulation;
+  }
+  #research .retro-monitor-header{gap:6px}
+  #research .retro-monitor-id{margin-left:auto}
+  #research.game-focused.scene.active{overflow:hidden!important}
+  #research.game-focused .layout.mission-layout{
+    height:100dvh;min-height:0;width:100%;max-width:none;
+    padding:var(--top) 0 var(--bottom)!important;
+    gap:0;
+  }
+  #research.game-focused .mission-layout>.hud,
+  #research.game-focused .mission-layout>.chap-head,
+  #research.game-focused .mission-layout>.bottom-stack,
+  #research.game-focused .mission-layout>.spacer{display:none!important}
+  #research.game-focused .mission-layout>.activity{
+    display:flex;flex:1 1 auto;min-height:0;height:100%;width:100%;margin:0;
+  }
+  #research.game-focused .retro-monitor{
+    display:flex;flex:1 1 auto;flex-direction:column;height:100%;min-height:0;
+    margin:0;width:100%;padding:0;
+  }
+  #research.game-focused .retro-monitor-chassis{
+    display:flex;flex:1 1 auto;flex-direction:column;
+    min-height:0;height:100%;border-width:0;
+  }
+  #research.game-focused .retro-monitor-screen{
+    display:flex;flex:1 1 auto;min-height:0;height:auto;padding:0;
+  }
+  #research.game-focused .explore{
+    width:100%;height:100%!important;min-height:0;flex:1 1 auto;
+    border-width:0;
+  }
+  #research.game-focused .retro-monitor-header{min-height:52px;padding:8px 12px}
+  #research.game-focused .retro-monitor-zoom{min-height:38px;padding:7px 11px;font-size:13px}
+  #research.game-focused .retro-monitor-footer{min-height:32px}
+}
+@media (min-width:701px){
+  #research .retro-monitor-zoom{display:none}
+}
+@media(prefers-reduced-motion:reduce){
+  #research .clue::before{animation:none!important}
+}

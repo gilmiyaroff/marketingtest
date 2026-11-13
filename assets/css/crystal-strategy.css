@@ -93,3 +93,96 @@
  filter:drop-shadow(0 0 7px var(--gem));
 }
 #strategy .crystal-landed .crystal-gem-shape{width:clamp(30px,8vw,39px);height:45px}
+
+/* Mission 02 revamp — five screens, visible wires, five slots, falling GIFs below */
+#strategy #crystal-matrix{display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:clamp(4px,1vw,9px)!important;align-items:stretch;min-width:0}
+#strategy .crystal-channel{display:flex;flex-direction:column;align-items:stretch;min-width:0;--glow:var(--gem);position:relative}
+#strategy .crystal-mini-screen{
+  flex:0 0 auto;position:relative;min-height:85px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:7px;padding:9px 3px 12px;text-align:center;
+  background:linear-gradient(#161e3b,#12162c);border:3px solid #7a7089;
+  box-shadow:inset 0 0 0 3px #28314f,0 4px #171425;
+  border-radius:3px;
+}
+#strategy .crystal-mini-screen small{color:#8fa5b2;font:900 clamp(6px,.9vw,8px)/1.4 var(--title);letter-spacing:0}
+#strategy .crystal-mini-screen strong{
+  display:block;width:100%;max-width:100%;color:#62677a;min-height:24px;
+  font:900 clamp(7px,1.1vw,11px)/1.5 var(--title);
+  overflow-wrap:anywhere;word-break:normal;hyphens:auto;
+}
+#strategy .crystal-mini-screen.is-powered{
+  background:radial-gradient(ellipse at 50% 40%,color-mix(in srgb,var(--gem) 22%,#183e55),#111c33 85%);
+  border-color:var(--gem);box-shadow:0 0 13px color-mix(in srgb,var(--gem) 47%,transparent),inset 0 0 13px color-mix(in srgb,var(--gem) 22%,transparent);
+}
+#strategy .crystal-mini-screen.is-powered strong{color:var(--gem-light);text-shadow:0 0 9px var(--gem);animation:crystal-light-on .45s steps(3,end)}
+#strategy .crystal-mini-screen.is-powered small{color:var(--gem)}
+#strategy .crystal-monitor-led{position:absolute;bottom:5px;left:50%;transform:translateX(-50%);width:8px;height:5px;background:#55556a;box-shadow:0 0 0 1px #25213e}
+#strategy .is-powered .crystal-monitor-led{background:var(--gem);box-shadow:0 0 8px var(--gem)}
+#strategy .crystal-wire{
+  position:relative;width:9px;min-height:29px;flex:0 0 29px;
+  margin:2px auto 0;background:linear-gradient(90deg,#262739 0 18%,#79738c 18% 58%,#262739 58%);
+  border-left:2px solid #1b1a2d;border-right:2px solid #1b1a2d;
+}
+#strategy .crystal-wire:before,#strategy .crystal-wire:after{content:"";position:absolute;left:50%;transform:translateX(-50%);width:17px;height:6px;background:#82718b;border:2px solid #292239}
+#strategy .crystal-wire:before{top:-3px}#strategy .crystal-wire:after{bottom:-3px}
+#strategy .crystal-channel.is-powered .crystal-wire{
+  background:var(--gem);box-shadow:0 0 9px var(--gem);
+  border-left-color:color-mix(in srgb,var(--gem) 65%,black);
+  border-right-color:color-mix(in srgb,var(--gem) 65%,black)
+}
+#strategy .crystal-channel.is-powered .crystal-wire:before,#strategy .crystal-channel.is-powered .crystal-wire:after{background:var(--gem);box-shadow:0 0 7px var(--gem)}
+#strategy .crystal-socket{
+  flex:0 0 auto;display:flex!important;flex-direction:column;align-items:center;justify-content:center;
+  gap:3px!important;min-width:0!important;width:100%;min-height:71px!important;
+  border:3px solid var(--gem)!important;border-radius:5px;
+  padding:4px 1px!important;background:linear-gradient(#393049,#251e38)!important;
+  color:var(--gem-light)!important;box-shadow:0 3px #171226!important;
+  touch-action:manipulation;cursor:pointer
+}
+#strategy .crystal-socket small{display:block;text-align:center;font:900 clamp(6px,.9vw,8px)/1.2 var(--title);color:var(--gem-light)}
+#strategy .crystal-socket.is-target{box-shadow:0 0 13px var(--gem),0 3px #171226!important}
+#strategy .crystal-socket.is-powered{
+  background:radial-gradient(ellipse at center,color-mix(in srgb,var(--gem) 35%,#2c233d),#241f3a)!important;
+  box-shadow:0 0 15px var(--gem),0 3px #171226!important
+}
+#strategy .crystal-port{
+  flex:0 0 auto!important;display:grid;place-items:center;
+  width:clamp(30px,4.2vw,50px)!important;height:clamp(39px,4.4vw,52px)!important;
+  border:2px solid color-mix(in srgb,var(--gem) 65%,#1b1a32);
+  border-radius:4px;background:#14172e;
+  font:900 19px var(--title);color:var(--gem)
+}
+#strategy .crystal-gem-art{
+  display:block;width:100%;height:100%;object-fit:contain;
+  image-rendering:pixelated;image-rendering:crisp-edges;
+  filter:drop-shadow(0 0 4px var(--gem));pointer-events:none;user-select:none
+}
+#strategy .crystal-port .crystal-gem-art{width:100%;height:100%;filter:drop-shadow(0 0 5px var(--gem))}
+#strategy .falling-crystal .crystal-gem-art{width:clamp(49px,6vw,65px);height:clamp(58px,7vw,72px);filter:drop-shadow(0 0 8px var(--gem))}
+#strategy .falling-crystal{width:clamp(55px,7vw,72px);height:clamp(65px,8vw,80px);display:grid;place-items:center}
+#strategy #crystal-held-gem .crystal-gem-art{width:35px;height:46px}
+#strategy .crystal-drag-ghost .crystal-gem-art{width:60px;height:75px}
+#strategy .crystal-rain-zone{margin-top:2px;min-height:175px;height:clamp(190px,29dvh,250px);border-color:#a47d9c}
+#strategy .crystal-catch-hint{top:8px;bottom:auto;z-index:2;white-space:normal;max-width:95%}
+#strategy .crystal-rain-zone:after{height:9px;bottom:0}
+#strategy #crystal-catch-tray{display:none!important}
+#strategy #crystal-help{margin:0;font-size:clamp(12px,2vw,14px)}
+@media(max-width:700px){
+  #strategy .crystal-game{gap:8px;padding:7px}
+  #strategy #crystal-matrix{gap:3px!important}
+  #strategy .crystal-mini-screen{min-height:100px;padding:8px 1px 10px;border-width:2px;gap:7px}
+  #strategy .crystal-mini-screen small{font-size:6px}
+  #strategy .crystal-mini-screen strong{font-size:clamp(6px,1.9vw,9px)!important;line-height:1.5}
+  #strategy .crystal-wire{min-height:22px;flex-basis:22px;width:8px;margin-top:1px}
+  #strategy .crystal-wire:before,#strategy .crystal-wire:after{width:13px;height:5px}
+  #strategy .crystal-socket{min-height:65px!important;padding:4px 1px!important;border-width:2px!important}
+  #strategy .crystal-port{height:37px!important;width:32px!important}
+  #strategy .crystal-socket small{font-size:6px}
+  #strategy .crystal-rain-zone{height:clamp(205px,31dvh,260px)}
+}
+@media(max-width:360px){
+  #strategy .crystal-mini-screen strong{font-size:6px!important}
+  #strategy .crystal-mini-screen{min-height:106px}
+  #strategy .crystal-socket small{font-size:5px}
+}

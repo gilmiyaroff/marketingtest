@@ -13,7 +13,7 @@ let ctx=null,els=null,falling=[],held=null,drag=null,timer=null,deck=[],serial=0
 const allOn=()=>ctx&&ctx.data.crystals.every(Boolean);
 function styleGem(node,i){const d=defs[i];node.style.setProperty('--gem',d.color);node.style.setProperty('--gem-light',d.light);node.style.setProperty('--gem-dark',d.dark)}
 // Original artist-made animated GIFs, not the temporary hand-drawn SVG approximations.
-const gemShape=i=>'<img class="crystal-gem-art" src="assets/crystals/'+defs[i].asset+'" alt="" aria-hidden="true" draggable="false" loading="eager">';
+const gemShape=i=>'<span class="crystal-art-host"><img class="crystal-source-gif" src="assets/crystals/'+defs[i].asset+'" alt="" aria-hidden="true" draggable="false" loading="eager"><canvas class="crystal-gem-art" aria-hidden="true"></canvas></span>';
 function notice(s){els.help.textContent=s}
 function refreshHeld(){
  const show=held!==null&&!ctx.data.crystals[held];els.held.hidden=!show;

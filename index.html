@@ -276,6 +276,21 @@
 }
 @media(prefers-reduced-motion:reduce){#content .pipe-just-unlocked{animation:none}}
 
+
+/* Mission 2: instant correct/incorrect validation and draggable placed cards. */
+#strategy .road-slot{touch-action:none;-webkit-user-select:none;user-select:none}
+#strategy .road-slot.filled{cursor:grab;opacity:1}
+#strategy .road-slot.filled:active{cursor:grabbing}
+#strategy .road-slot.validated{background:#226a51;border:3px solid #74edaa;box-shadow:inset 0 0 0 2px #16543f,0 0 11px #5bd99777;color:#f6ffda;cursor:grab}
+#strategy .road-slot.needs-review{background:#8c3346;border:3px solid #ff6680;box-shadow:inset 0 0 0 2px #632b3b,0 0 10px #f2547077;color:#fff5e9;cursor:grab}
+#strategy .road-slot.needs-review::after{content:'×';background:#ff7890;color:#562139;border-color:#522a43;font-weight:900}
+#strategy .road-slot.validated::after{content:'✓';background:#a2efb8;color:#164d38}
+#strategy .strategy-source{opacity:.55!important;transform:scale(.97)}
+#strategy .strategy-card{touch-action:none;-webkit-user-select:none;user-select:none}
+.strategy-moving-ghost{max-width:min(220px,65vw);white-space:normal;line-height:1.15;text-align:center;z-index:1000}
+#strategy #strategy-check:disabled{opacity:.68;cursor:default}
+@media(max-width:580px){#strategy .road-slot.filled{font-size:clamp(10px,2.3vw,13px)}#strategy .road-slot.needs-review::after,#strategy .road-slot.validated::after{top:-8px;right:-5px}}
+
 </style>
 </head>
 <body>
@@ -306,7 +321,7 @@
     <div class="backdrop"><img src="assets/scenes/strategy.webp" alt=""/><div class="weather"></div></div>
     <div class="layout mission-layout"><header class="hud"><button class="hud-btn" data-menu>← Меню</button><span class="hud-title">02 / 06</span><div class="hud-tag">◈ <span data-coins>0</span></div></header>
       <div class="chap-head"><div class="chapter-kicker">МИССИЯ 02 · СТРАТЕГИЯ</div><h1 class="chapter-title">Собери план выхода на рынок</h1><p>Изучили аудиторию — теперь определяем сегменты, позиционирование, последовательность экспериментов и метрики.</p><div class="progress" data-progress></div></div>
-      <div class="activity"><div class="board"><p class="board-caption">Перетащи или нажми карточку, затем нужное место на карте.</p><div class="road-slots" id="road-slots" aria-label="Пять этапов стратегии"></div><div class="cards-bank" id="strategy-cards" aria-label="Карточки стратегических задач"></div></div></div>
+      <div class="activity"><div class="board"><p class="board-caption">Расставь карточки: зелёный — верно, красный — ошибка. Перетаскивай между ячейками или нажимай, чтобы убрать.</p><div class="road-slots" id="road-slots" aria-label="Пять этапов стратегии"></div><div class="cards-bank" id="strategy-cards" aria-label="Карточки стратегических задач"></div></div></div>
       <div class="spacer"></div><div class="bottom-stack"><div class="panel"><div class="guide"><picture><source srcset="assets/characters/hero-petting.webp" type="image/webp"><img src="assets/characters/hero-petting.gif" alt=""/></picture><p id="strategy-feedback">Начнём с аудитории и позиционирования. Потом спланируем тест и каналы роста.</p></div></div><button class="gold-btn" id="strategy-check">Проверить стратегию</button></div>
     </div>
   </section>
@@ -486,28 +501,110 @@ window.addEventListener('resize',panUpdate);
 function panPreview(){if(previewPlayed)return;previewPlayed=true;setTimeout(()=>{if(current!=='research'||panEngaged)return;pan.scrollTo({left:90,behavior:'smooth'});setTimeout(()=>{if(!panEngaged&&current==='research')pan.scrollTo({left:0,behavior:'smooth'})},850)},650)}
 function renderResearch(){const n=data.found.length;$$('[data-clue]').forEach(b=>b.classList.toggle('done',data.found.includes(b.dataset.clue)));$$('[data-chip]').forEach(x=>x.classList.toggle('done',data.found.includes(x.dataset.chip)));$('#research-next').disabled=n!==3;$('#research-next').textContent=n===3?'Собрать маркетинговую стратегию':`Найдено ${n} из 3`;if(n===3){$('#research-status').textContent='Исследование завершено';$('#research-copy').textContent='Мы собрали гипотезы о потребностях, рынке и первом опыте. Пора строить план.'}}
 $$('[data-clue]').forEach(btn=>btn.addEventListener('click',()=>{const k=btn.dataset.clue;if(data.found.includes(k))return;data.found.push(k);renderResearch();modal(...clueData[k]);if(data.found.length===3)reward('research');persist()}));$('#research-next').addEventListener('click',()=>{if(data.found.length===3)go('strategy')});
-// Mission 2: sortable roadmap by touch or drag
-let suppressClick=false;
-// The check button validates each position independently.
-const strategyConfirmed=new Set(),strategyNeedsReview=new Set();
-function renderStrategy(){const bank=$('#strategy-cards'),slots=$('#road-slots');bank.replaceChildren();slots.replaceChildren();data.strategy.forEach((id,i)=>{const b=document.createElement('button');const isCorrect=id===strategyCards[i].id&&(strategyConfirmed.has(i)||data.completed.includes('strategy'));const needsReview=!!id&&strategyNeedsReview.has(i)&&!isCorrect;b.className='road-slot'+(id?' filled':'')+(isCorrect?' validated':'')+(needsReview?' needs-review':'');b.dataset.step=i+1;b.dataset.slot=i;b.textContent=id?strategyCards.find(x=>x.id===id).text:'+';b.disabled=isCorrect;b.setAttribute('aria-label',isCorrect?'Правильно: '+b.textContent+'. Этап закреплён':needsReview?'Нужно переставить: '+b.textContent:id?'Убрать '+b.textContent:'Поместить карточку на позицию '+(i+1));b.addEventListener('click',()=>{if(isCorrect)return;if(id){data.strategy[i]=null;data.chosen=null;strategyNeedsReview.delete(i);renderStrategy();persist();return}if(data.chosen){putCard(data.chosen,i)}});slots.append(b)});[strategyCards[3],strategyCards[2],strategyCards[0],strategyCards[4],strategyCards[1]].forEach(a=>{const b=document.createElement('button');b.className='strategy-card'+(data.chosen===a.id?' selected':'');b.textContent=a.text;b.dataset.card=a.id;b.disabled=data.strategy.includes(a.id);b.addEventListener('click',()=>{if(suppressClick){suppressClick=false;return}data.chosen=data.chosen===a.id?null:a.id;renderStrategy()});b.addEventListener('pointerdown',e=>dragStart(e,a.id));bank.append(b)})}
-function putCard(id,index){if(!id||data.strategy.includes(id))return;data.strategy[index]=id;data.chosen=null;strategyNeedsReview.delete(index);renderStrategy();persist()}
-function dragStart(e,id){if(data.strategy.includes(id)||e.button>0)return;const startX=e.clientX,startY=e.clientY;const pointer=e.pointerId;let ghost=null;const move=ev=>{if(ev.pointerId!==pointer)return;if(!ghost&&Math.hypot(ev.clientX-startX,ev.clientY-startY)>10){ghost=document.createElement('div');ghost.className='drag-ghost';ghost.textContent=strategyCards.find(x=>x.id===id).text;document.body.append(ghost)}if(ghost){ghost.style.left=ev.clientX+'px';ghost.style.top=ev.clientY+'px';ev.preventDefault()}};const end=ev=>{if(ev.pointerId!==pointer)return;ghost?.remove();window.removeEventListener('pointermove',move);window.removeEventListener('pointerup',end);window.removeEventListener('pointercancel',end);if(ghost){suppressClick=true;const b=document.elementFromPoint(ev.clientX,ev.clientY)?.closest('[data-slot]');if(b&&!data.strategy[+b.dataset.slot])putCard(id,+b.dataset.slot);setTimeout(()=>suppressClick=false,120)}};window.addEventListener('pointermove',move,{passive:false});window.addEventListener('pointerup',end);window.addEventListener('pointercancel',end)}
-$('#strategy-check').addEventListener('click',()=>{
- if(data.completed.includes('strategy')){go('pilot');return}
- strategyConfirmed.clear();strategyNeedsReview.clear();
- data.strategy.forEach((id,i)=>{if(!id)return;if(id===strategyCards[i].id)strategyConfirmed.add(i);else strategyNeedsReview.add(i)});
- renderStrategy();
- const correct=strategyConfirmed.size,empty=data.strategy.filter(x=>!x).length;
- if(correct<5){
-   $('#strategy-feedback').textContent='✓ Правильно стоят '+correct+' из 5. Зелёные карточки закреплены. '+(empty?'Заполни пустые места ('+empty+'). ':'')+'Отмеченные оранжевым нужно переставить, затем проверить снова.';
-   $('#strategy-check').textContent='Проверить ещё раз';
-   return;
+// Mission 2: instant positional feedback and touch/mouse drag-and-drop for all five cards.
+let strategySuppressClickUntil=0;
+function strategyScore(){return data.strategy.reduce((n,id,i)=>n+(id===strategyCards[i].id?1:0),0)}
+function strategyUpdateStatus(){
+ const correct=strategyScore(),filled=data.strategy.filter(Boolean).length;
+ const done=correct===strategyCards.length;
+ $('#strategy-check').disabled=!done;
+ $('#strategy-check').textContent=done?'К диалогу с собственником →':'Правильно '+correct+' из 5';
+ $('#strategy-feedback').textContent=done
+  ?'✓ Все пять этапов на месте! Теперь выясним приоритеты собственника CAP Education.'
+  :filled===0?'Начни с аудитории и позиционирования. Нажми или перетащи карточки в пять ячеек.'
+  :'Правильно '+correct+' из 5. '+(filled-correct?'Красные карточки не на своих местах. ':'')+
+   (filled<5?'Осталось разместить '+(5-filled)+'. ':'')+'Зажми установленную карточку и перетащи её в другую ячейку; обычное нажатие убирает её.';
+ if(done&&!data.completed.includes('strategy'))reward('strategy');
+}
+function renderStrategy(){
+ const bank=$('#strategy-cards'),slots=$('#road-slots');
+ bank.replaceChildren();slots.replaceChildren();
+ data.strategy.forEach((id,i)=>{
+  const b=document.createElement('button');
+  const isCorrect=!!id&&id===strategyCards[i].id;
+  b.type='button';
+  b.className='road-slot'+(id?' filled':'')+(isCorrect?' validated':id?' needs-review':'');
+  b.dataset.step=i+1;b.dataset.slot=i;
+  b.textContent=id?strategyCards.find(x=>x.id===id).text:'+';
+  b.setAttribute('aria-label',id?(isCorrect?'Правильно: ':'Неправильно: ')+b.textContent+'. Нажми, чтобы убрать, или перетащи в другую ячейку.':'Пустая позиция '+(i+1)+'. Нажми, чтобы поместить выбранную карточку.');
+  b.addEventListener('click',()=>{
+   if(Date.now()<strategySuppressClickUntil)return;
+   if(id){data.strategy[i]=null;data.chosen=null;renderStrategy();persist();return}
+   if(data.chosen)strategyPlace(data.chosen,i,null);
+  });
+  if(id)b.addEventListener('pointerdown',e=>strategyDragStart(e,id,i));
+  slots.append(b);
+ });
+ [strategyCards[3],strategyCards[2],strategyCards[0],strategyCards[4],strategyCards[1]].forEach(card=>{
+  const b=document.createElement('button');
+  b.type='button';b.className='strategy-card'+(data.chosen===card.id?' selected':'');
+  b.textContent=card.text;b.dataset.card=card.id;
+  b.disabled=data.strategy.includes(card.id);
+  b.setAttribute('aria-pressed',String(data.chosen===card.id));
+  b.addEventListener('click',()=>{
+   if(Date.now()<strategySuppressClickUntil)return;
+   data.chosen=data.chosen===card.id?null:card.id;renderStrategy();
+  });
+  b.addEventListener('pointerdown',e=>strategyDragStart(e,card.id,null));
+  bank.append(b);
+ });
+ strategyUpdateStatus();
+}
+// Moves between occupied positions swap cards. A bank card dropped on an occupied
+// position replaces that card and returns it to the bank.
+function strategyPlace(id,to,from){
+ if(to<0||to>=5||!strategyCards.some(c=>c.id===id))return;
+ if(from===null){
+  if(data.strategy.includes(id))return;
+  data.strategy[to]=id;
+ }else{
+  if(from===to||data.strategy[from]!==id)return;
+  const target=data.strategy[to];
+  data.strategy[to]=id;
+  data.strategy[from]=target;
  }
- reward('strategy');
- $('#strategy-feedback').textContent='✓ Все пять этапов на месте! Теперь выясним приоритеты собственника CAP Education.';
- $('#strategy-check').textContent='К диалогу с собственником';
- modal('Стратегия готова','План: сегменты → позиционирование → пилот → каналы → экономика. После аудита превращаем его в дорожную карту с ответственными, сроками и бюджетами.');
+ data.chosen=null;renderStrategy();persist();
+}
+function strategyDragStart(e,id,from){
+ if(e.pointerType==='mouse'&&e.button!==0)return;
+ if(from===null&&data.strategy.includes(id))return;
+ const origin=e.currentTarget,pid=e.pointerId;
+ const startX=e.clientX,startY=e.clientY;
+ let ghost=null;
+ const move=ev=>{
+  if(ev.pointerId!==pid)return;
+  if(!ghost&&Math.hypot(ev.clientX-startX,ev.clientY-startY)>9){
+   ghost=document.createElement('div');ghost.className='drag-ghost strategy-moving-ghost';
+   ghost.textContent=strategyCards.find(x=>x.id===id).text;
+   document.body.append(ghost);origin.classList.add('strategy-source');
+  }
+  if(ghost){ghost.style.left=ev.clientX+'px';ghost.style.top=ev.clientY+'px';ev.preventDefault()}
+ };
+ const finish=ev=>{
+  if(ev.pointerId!==pid)return;
+  window.removeEventListener('pointermove',move);
+  window.removeEventListener('pointerup',finish);
+  window.removeEventListener('pointercancel',finish);
+  origin.classList.remove('strategy-source');
+  if(origin.hasPointerCapture?.(pid))origin.releasePointerCapture(pid);
+  if(!ghost)return;
+  ghost.remove();strategySuppressClickUntil=Date.now()+350;
+  if(ev.type==='pointercancel')return;
+  const at=document.elementFromPoint(ev.clientX,ev.clientY);
+  const slot=at?.closest('#road-slots [data-slot]');
+  if(slot){strategyPlace(id,Number(slot.dataset.slot),from);return}
+  if(from!==null&&at?.closest('#strategy-cards')){
+   data.strategy[from]=null;data.chosen=null;renderStrategy();persist();
+  }
+ };
+ try{origin.setPointerCapture?.(pid)}catch(_){}
+ window.addEventListener('pointermove',move,{passive:false});
+ window.addEventListener('pointerup',finish);
+ window.addEventListener('pointercancel',finish);
+}
+$('#strategy-check').addEventListener('click',()=>{
+ if(strategyScore()!==5)return;
+ reward('strategy');go('pilot');
 });
 // Mission 4: 8x8 compact labyrinth; four disjoint paths are solvable.
 const pipeCols=8,pipeRows=8,pipeCellSize=40,pipeStock={straight:10,corner:16},pipeUndo=[];
@@ -738,9 +835,9 @@ window.addEventListener('pointerup',e=>{if(!puzzlePointer)return;const id=puzzle
 window.addEventListener('pointercancel',()=>{puzzleGhost?.remove();puzzleGhost=null;puzzlePointer=null});
 $('#jigsaw-board').addEventListener('dragover',e=>e.preventDefault());$('#jigsaw-board').addEventListener('drop',e=>{e.preventDefault();const spot=e.target.closest('[data-slot]');if(!spot)return;const piece=Number(e.dataTransfer.getData('text/plain'));if(Number.isInteger(piece)){data.jigsawSelected=piece;dropPuzzle(+spot.dataset.slot)}});
 $('#puzzle-next').addEventListener('click',()=>{if(data.jigsaw.length===9)go('final')});
-$('#restart').addEventListener('click',()=>{data.coins=0;data.found=[];data.strategy=Array(5).fill(null);data.chosen=null;data.issues=[];data.ownerAnswers=[null,null,null,null];window.CAPFounder.reset();data.links={};data.selected=null;data.pipes={};data.pipeActive=null;data.pipeTiles={};data.pipeVersion=10;data.pipeTool='straight';data.pipeUnlocks=[];$('#pipe-achievement').hidden=true;pipeUndo.length=0;data.audience=10000;data.seenTiers=[];data.jigsaw=[];data.jigsawSelected=null;data.completed=[];previewPlayed=false;panEngaged=false;pan.scrollLeft=0;$('#strategy-check').textContent='Проверить стратегию';$('#strategy-feedback').textContent='Начнём с аудитории и позиционирования. Потом спланируем тест и каналы роста.';$('#research-status').textContent='Разведка начинается';$('#research-copy').textContent='Осмотри три подсвеченных объекта, чтобы собрать базу для маркетинговой стратегии.';$('#pilot-feedback').textContent='Выберите приоритеты, которые ближе всего вашему видению. Это короткое стратегическое интервью, не экзамен.';$('#content-feedback').textContent='Четыре цвета скрывают четыре маркетинговых потока. Соедини пары и открой все достижения!';$('#puzzle-feedback').textContent='Маленькие решения превращаются в большую систему роста. Собери девять частей, чтобы открыть план реализации.';persist();go('home')});
+$('#restart').addEventListener('click',()=>{data.coins=0;data.found=[];data.strategy=Array(5).fill(null);data.chosen=null;data.issues=[];data.ownerAnswers=[null,null,null,null];window.CAPFounder.reset();data.links={};data.selected=null;data.pipes={};data.pipeActive=null;data.pipeTiles={};data.pipeVersion=10;data.pipeTool='straight';data.pipeUnlocks=[];$('#pipe-achievement').hidden=true;pipeUndo.length=0;data.audience=10000;data.seenTiers=[];data.jigsaw=[];data.jigsawSelected=null;data.completed=[];previewPlayed=false;panEngaged=false;pan.scrollLeft=0;strategySuppressClickUntil=0;$('#strategy-check').textContent='Правильно 0 из 5';$('#strategy-check').disabled=true;$('#strategy-feedback').textContent='Начнём с аудитории и позиционирования. Потом спланируем тест и каналы роста.';$('#research-status').textContent='Разведка начинается';$('#research-copy').textContent='Осмотри три подсвеченных объекта, чтобы собрать базу для маркетинговой стратегии.';$('#pilot-feedback').textContent='Выберите приоритеты, которые ближе всего вашему видению. Это короткое стратегическое интервью, не экзамен.';$('#content-feedback').textContent='Четыре цвета скрывают четыре маркетинговых потока. Соедини пары и открой все достижения!';$('#puzzle-feedback').textContent='Маленькие решения превращаются в большую систему роста. Собери девять частей, чтобы открыть план реализации.';persist();go('home')});
 window.CAPFounder.init({data,reward,go,persist});restore();updateCoins();go(({pipes:'content',interview:'pilot',final:'final'})[new URLSearchParams(window.location.search).get('preview')]||'home');
-if(data.completed.includes('strategy'))$('#strategy-check').textContent='К диалогу с собственником';
+
 })();
 </script>
 </body>

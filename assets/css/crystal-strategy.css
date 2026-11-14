@@ -349,3 +349,36 @@
 }
 #strategy .crystal-art-fallback .crystal-source-gif{opacity:1!important}
 #strategy .crystal-art-fallback .crystal-gem-art{display:none!important}
+
+
+/* Tap-to-catch UX: no held-item banner. Only the matching slot signals readiness. */
+#strategy .crystal-socket.is-target:not(.is-powered){
+ animation:crystal-slot-ready 1.15s ease-in-out infinite!important;
+ border-color:var(--gem-light)!important;
+ box-shadow:0 0 14px var(--gem),inset 0 0 12px color-mix(in srgb,var(--gem) 30%,transparent)!important;
+}
+#strategy .crystal-channel.is-selected .crystal-wire{
+ background:linear-gradient(90deg,#28243a 0 18%,var(--gem) 18% 65%,#28243a 65%)!important;
+ box-shadow:0 0 7px var(--gem);
+}
+#strategy .crystal-socket.is-charging{
+ border-color:#fff7cb!important;
+ box-shadow:0 0 18px var(--gem),0 0 9px #fff6d1!important;
+}
+#strategy .crystal-flight-gem{
+ position:fixed!important;left:0;top:0;z-index:9999!important;pointer-events:none!important;
+ display:grid;place-items:center;width:72px;height:90px;
+ transform:translate(-50%,-50%);
+ filter:drop-shadow(0 0 10px var(--gem))!important;
+ will-change:top,left,transform,opacity;
+}
+#strategy .crystal-flight-gem .crystal-art-host{width:100%;height:100%}
+#strategy .crystal-flight-gem .crystal-gem-art{width:64px!important;height:83px!important}
+#strategy .crystal-flight-gem .crystal-source-gif{object-fit:contain!important}
+@keyframes crystal-slot-ready{
+ 0%,100%{filter:brightness(1);transform:scale(1)}
+ 50%{filter:brightness(1.28);transform:scale(1.025)}
+}
+@media(prefers-reduced-motion:reduce){
+ #strategy .crystal-socket.is-target:not(.is-powered){animation:none!important}
+}

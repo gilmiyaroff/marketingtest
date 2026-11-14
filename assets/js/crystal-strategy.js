@@ -23,6 +23,24 @@ const titleLines=[
  ['KPI И','ЭКОНОМИКА']
 ];
 const slotOrder=[0,2,3,4,1]; // longest cables serve top two screens, routed along left/right edges.
+function fitScreenTitles(){
+ if(!els?.matrix)return;
+ els.matrix.querySelectorAll('.crystal-screen-label').forEach(label=>{
+  label.style.removeProperty('font-size');
+  const screen=label.closest('.crystal-mini-screen');
+  if(!screen)return;
+  const width=screen.clientWidth-8;
+  if(width<30)return;
+  const lines=Array.from(label.querySelectorAll('.crystal-label-line'));
+  if(!lines.length)return;
+  const widest=Math.max(...lines.map(line=>line.getBoundingClientRect().width));
+  if(widest>width){
+   const font=parseFloat(getComputedStyle(label).fontSize)||8;
+   const fit=Math.max(5.5,Math.floor(font*width/widest*98)/100);
+   label.style.setProperty('font-size',fit+'px','important');
+  }
+ });
+}
 function drawWires(){
  if(!els?.matrix||!$('#strategy').classList.contains('active'))return;
  const rack=els.matrix,svg=rack.querySelector('.crystal-wire-network');
@@ -117,7 +135,7 @@ function render(){
   socket.addEventListener('click',()=>place(i));
  });
  rack.append(bank);
- requestAnimationFrame(drawWires);
+ requestAnimationFrame(()=>{fitScreenTitles();drawWires()});
  const n=ctx.data.crystals.filter(Boolean).length;
  els.count.textContent=n+' / 5';els.charge.style.width=n*20+'%';
  els.next.disabled=n!==5;
@@ -326,7 +344,7 @@ function init(c){
   if(!drag||e.pointerId!==drag.id)return;
   const grabbed=drag;clearDrag();removeCaughtGem(grabbed.entry);markHoverSlot(null);
  });
- window.addEventListener('resize',()=>requestAnimationFrame(drawWires),{passive:true});
+ window.addEventListener('resize',()=>requestAnimationFrame(()=>{fitScreenTitles();drawWires()}),{passive:true});
  if(window.ResizeObserver){
   const watcher=new ResizeObserver(()=>requestAnimationFrame(drawWires));
   watcher.observe(els.matrix);

@@ -178,7 +178,15 @@ function removeCaughtGem(gem){
  gem.node.remove();
 }
 function getSlotAt(x,y){
- return document.elementFromPoint(x,y)?.closest('[data-crystal-slot]')||null;
+ const exact=document.elementFromPoint(x,y)?.closest('[data-crystal-slot]');
+ if(exact)return exact;
+ // A small magnetic margin around the correct socket makes thumb drops
+ // less frustrating on narrow mobile screens without accepting a wrong color.
+ if(held===null)return null;
+ const matching=els.matrix.querySelector('[data-crystal-slot="'+held+'"]');
+ if(!matching)return null;
+ const rect=matching.getBoundingClientRect();
+ return x>=rect.left-12&&x<=rect.right+12&&y>=rect.top-18&&y<=rect.bottom+18?matching:null;
 }
 function markHoverSlot(slot){
  els.matrix.querySelectorAll('.crystal-socket.is-drop-hover').forEach(node=>{

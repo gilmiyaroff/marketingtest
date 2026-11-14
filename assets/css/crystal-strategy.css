@@ -420,3 +420,131 @@
   #strategy .crystal-socket{touch-action:none!important}
   #strategy .crystal-drag-ghost{width:70px;height:90px}
 }
+
+
+/* CAP Growth Quest / Mission 02 — cinematic 2+3 display wall.
+   Upper two screens have long outer PCB routes to the edge sockets;
+   the three lower screens connect to the center sockets. */
+#strategy #crystal-matrix{
+ display:block!important;grid-template-columns:none!important;
+ position:relative!important;width:100%;min-width:0;overflow:visible;
+ padding:1px 9px 0;
+ isolation:isolate;
+}
+#strategy .crystal-wire-network{
+ position:absolute;inset:0;width:100%;height:100%;
+ z-index:1;pointer-events:none;overflow:visible;
+}
+#strategy .crystal-wire-path{
+ stroke:#866f91;stroke-width:5.5;stroke-linecap:square;stroke-linejoin:bevel;
+ fill:none;opacity:.83;
+ filter:drop-shadow(0 0 2px #27203d);
+ transition:stroke .28s ease,filter .28s ease;
+}
+#strategy .crystal-wire-path.is-selected{
+ stroke:var(--gem);opacity:1;
+ filter:drop-shadow(0 0 5px var(--gem));
+ stroke-dasharray:6 6;animation:crystal-conduit-flow 1.7s linear infinite;
+}
+#strategy .crystal-wire-path.is-powered{
+ stroke:var(--gem);opacity:1;stroke-width:6.5;
+ filter:drop-shadow(0 0 6px var(--gem)) drop-shadow(0 0 3px var(--gem));
+ stroke-dasharray:13 3;animation:crystal-conduit-flow 3.5s linear infinite;
+}
+@keyframes crystal-conduit-flow{to{stroke-dashoffset:-64}}
+#strategy .crystal-display-rows{position:relative;z-index:2;display:grid;gap:25px}
+#strategy .crystal-screen-row{display:grid;align-items:stretch;min-width:0;gap:10px}
+#strategy .crystal-screen-row-top{
+ grid-template-columns:repeat(2,minmax(0,1fr));
+ width:87%;margin-inline:auto;gap:clamp(11px,3vw,30px);
+}
+#strategy .crystal-screen-row-bottom{
+ grid-template-columns:repeat(3,minmax(0,1fr));
+ width:91%;margin-inline:auto;
+}
+#strategy .crystal-display{display:flex;min-width:0;position:relative;align-self:stretch;--gem:#c6c3d5}
+#strategy .crystal-display .crystal-mini-screen{
+ width:100%;min-width:0;
+ min-height:78px!important;
+ padding:9px 4px 11px!important;
+ display:flex!important;flex-direction:column;align-items:center;justify-content:center;
+ border-width:3px;
+}
+#strategy .crystal-screen-row-top .crystal-mini-screen{min-height:86px!important}
+#strategy .crystal-screen-row-bottom .crystal-mini-screen{min-height:75px!important}
+#strategy .crystal-display .crystal-screen-label{
+ margin:0;padding:0;
+ min-width:0;max-width:100%;min-height:0;
+ width:100%;height:auto;
+ display:flex!important;flex-direction:column;align-items:center;justify-content:center;
+ gap:2px;
+ font-family:var(--title);font-weight:900;text-align:center;
+ white-space:nowrap!important;word-break:keep-all!important;
+ overflow-wrap:normal!important;hyphens:none!important;
+ line-break:strict!important;letter-spacing:0;
+ font-size:clamp(7px,1.65vw,11px)!important;line-height:1.5;
+}
+#strategy .crystal-screen-row-top .crystal-screen-label{font-size:clamp(7px,1.85vw,12px)!important}
+#strategy .crystal-screen-row-bottom .crystal-screen-label{font-size:clamp(7px,1.45vw,10px)!important}
+#strategy .crystal-label-line{
+ display:block;width:auto;max-width:none;
+ white-space:nowrap!important;word-break:keep-all!important;
+ overflow-wrap:normal!important;hyphens:none!important;
+}
+#strategy .crystal-display.is-selected .crystal-mini-screen{
+ border-color:var(--gem);box-shadow:0 0 10px var(--gem),inset 0 0 13px color-mix(in srgb,var(--gem) 20%,transparent);
+}
+#strategy .crystal-slot-bank{
+ position:relative;z-index:3;
+ display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:clamp(5px,1.4vw,12px);
+ width:100%;margin-top:27px;align-items:stretch;
+}
+#strategy .crystal-slot-holder{min-width:0;display:grid;place-items:stretch;position:relative}
+#strategy .crystal-slot-holder .crystal-socket{
+ min-width:0!important;min-height:68px!important;width:100%!important;
+ padding:6px 1px!important;gap:0!important;
+ display:grid!important;place-items:center!important;align-items:center;
+ border-radius:6px;
+}
+#strategy .crystal-slot-holder .crystal-port{
+ width:clamp(34px,5vw,49px)!important;
+ height:clamp(38px,5.4vw,52px)!important;
+ margin:auto;
+}
+#strategy .crystal-game{gap:9px!important}
+#strategy .crystal-rain-zone{
+ height:clamp(170px,23dvh,245px)!important;
+ margin-top:5px;
+}
+@media(max-width:700px){
+ #strategy #crystal-matrix{padding:1px 7px 0}
+ #strategy .crystal-display-rows{gap:22px}
+ #strategy .crystal-screen-row{gap:6px}
+ #strategy .crystal-screen-row-top{width:91%;gap:9px}
+ #strategy .crystal-screen-row-bottom{width:93%;gap:5px}
+ #strategy .crystal-screen-row-top .crystal-mini-screen{min-height:83px!important;padding:9px 2px 10px!important}
+ #strategy .crystal-screen-row-bottom .crystal-mini-screen{min-height:74px!important;padding:8px 1px 9px!important}
+ #strategy .crystal-screen-row-top .crystal-screen-label{
+  font-size:clamp(7px,1.89vw,9px)!important;line-height:1.45;
+ }
+ #strategy .crystal-screen-row-bottom .crystal-screen-label{
+  font-size:clamp(6px,1.7vw,8px)!important;line-height:1.46;
+ }
+ #strategy .crystal-slot-bank{gap:4px;margin-top:26px}
+ #strategy .crystal-slot-holder .crystal-socket{min-height:61px!important;padding:4px 0!important}
+ #strategy .crystal-slot-holder .crystal-port{width:32px!important;height:39px!important}
+ #strategy .crystal-rain-zone{height:clamp(177px,25dvh,218px)!important}
+ #strategy .crystal-game{padding:7px!important;gap:8px!important}
+ #strategy .crystal-wire-path{stroke-width:4.5}
+ #strategy .crystal-wire-path.is-powered{stroke-width:5.5}
+}
+@media(max-width:370px){
+ #strategy .crystal-screen-row-top .crystal-screen-label{font-size:6.5px!important}
+ #strategy .crystal-screen-row-bottom .crystal-screen-label{font-size:5.8px!important}
+ #strategy .crystal-screen-row-top .crystal-mini-screen{min-height:79px!important}
+ #strategy .crystal-screen-row-bottom .crystal-mini-screen{min-height:72px!important}
+ #strategy .crystal-rain-zone{height:172px!important}
+}
+@media(prefers-reduced-motion:reduce){
+ #strategy .crystal-wire-path{animation:none!important}
+}

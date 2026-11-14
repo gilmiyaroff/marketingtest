@@ -550,7 +550,7 @@
 (()=>{'use strict';
 const $=(s,root=document)=>root.querySelector(s), $$=(s,root=document)=>[...root.querySelectorAll(s)];
 const stages=['home','research','strategy','pilot','content','scale','puzzle','final'];
-const data={coins:0,found:[],strategy:[null,null,null,null,null],crystals:[false,false,false,false,false],chosen:null,issues:[],ownerAnswers:[null,null,null,null],links:{},selected:null,pipes:{},pipeActive:null,pipeTiles:{},pipeVersion:12,pipeTool:'straight',pipeUnlocks:[],audience:10000,seenTiers:[],fifteenTiles:null,fifteenMoves:0,completed:[]};
+const data={coins:0,found:[],strategy:[null,null,null,null,null],crystals:[false,false,false,false,false],chosen:null,issues:[],ownerAnswers:[null,null,null,null],links:{},selected:null,pipes:{},pipeActive:null,pipeTiles:{},pipeVersion:13,pipeTool:'straight',pipeUnlocks:[],audience:10000,seenTiers:[],fifteenTiles:null,fifteenMoves:0,completed:[]};
 let current='home',drag=null,toastTimer=0,previewPlayed=false,panEngaged=false;
 const clueData={
  market:{title:'ДАННЫЕ · Точка роста',copy:'Первый шаг — не рекламный бюджет, а ясная картина бизнеса. Изучаем CRM, конверсии, стоимость привлечения клиента, удержание и поведение семей. Фиксируем исходные показатели, чтобы каждое решение проверялось цифрами.',accent:'#84e5c4'},
@@ -561,7 +561,7 @@ const strategyCards=[{id:'audience',text:'Сегменты ЦА'},{id:'value',te
 const linkData=[{id:'shorts',src:'Shorts и AI-мультфильмы',target:'Охват',to:'reach'},{id:'ugc',src:'UGC родителей',target:'Доверие',to:'trust'},{id:'quiz',src:'Бесплатный квиз',target:'Первый опыт',to:'experience'},{id:'referral',src:'Рекомендации',target:'Оплаты',to:'payments'}];const shuffledTargets=[linkData[3],linkData[0],linkData[2],linkData[1]];
 const fmt=n=>new Intl.NumberFormat('ru-RU').format(Math.round(n));
 function persist(){try{sessionStorage.setItem('cap-growth-quest-v7',JSON.stringify(data))}catch(e){}}
-function restore(){try{const saved=JSON.parse(sessionStorage.getItem('cap-growth-quest-v7')||'null');if(saved){data.coins=Number(saved.coins)||0;data.found=Array.isArray(saved.found)?saved.found:[];data.strategy=Array.isArray(saved.strategy)&&saved.strategy.length===5?saved.strategy:[null,null,null,null,null];data.crystals=Array.isArray(saved.crystals)&&saved.crystals.length===5?saved.crystals.map(v=>v===true):[false,false,false,false,false];data.issues=Array.isArray(saved.issues)?saved.issues:[];data.ownerAnswers=Array.isArray(saved.ownerAnswers)&&saved.ownerAnswers.length===4?saved.ownerAnswers.map(x=>Number.isInteger(x)&&x>=0&&x<=2?x:null):[null,null,null,null];data.links=saved.links||{};data.pipeTiles=saved.pipeVersion===12&&saved.pipeTiles&&typeof saved.pipeTiles==='object'&&!Array.isArray(saved.pipeTiles)?saved.pipeTiles:{};data.pipeVersion=12;data.pipeTool=['straight','corner','erase'].includes(saved.pipeTool)?saved.pipeTool:'straight';data.pipeUnlocks=saved.pipeVersion===12&&Array.isArray(saved.pipeUnlocks)?[...new Set(saved.pipeUnlocks.filter(id=>['shorts','ugc','ai','referral'].includes(id)))]:[];data.audience=audienceTiers.includes(saved.audience)?saved.audience:10000;data.seenTiers=saved.seenTiers||[];data.fifteenTiles=Array.isArray(saved.fifteenTiles)?saved.fifteenTiles:null;data.fifteenMoves=Math.max(0,Number(saved.fifteenMoves)||0);data.completed=Array.isArray(saved.completed)?saved.completed:[];if(saved.pipeVersion!==12&&data.completed.includes('content')){data.completed=data.completed.filter(x=>x!=='content');data.coins=Math.max(0,data.coins-100)}}}catch(e){}}
+function restore(){try{const saved=JSON.parse(sessionStorage.getItem('cap-growth-quest-v7')||'null');if(saved){data.coins=Number(saved.coins)||0;data.found=Array.isArray(saved.found)?saved.found:[];data.strategy=Array.isArray(saved.strategy)&&saved.strategy.length===5?saved.strategy:[null,null,null,null,null];data.crystals=Array.isArray(saved.crystals)&&saved.crystals.length===5?saved.crystals.map(v=>v===true):[false,false,false,false,false];data.issues=Array.isArray(saved.issues)?saved.issues:[];data.ownerAnswers=Array.isArray(saved.ownerAnswers)&&saved.ownerAnswers.length===4?saved.ownerAnswers.map(x=>Number.isInteger(x)&&x>=0&&x<=2?x:null):[null,null,null,null];data.links=saved.links||{};data.pipeTiles=saved.pipeVersion===13&&saved.pipeTiles&&typeof saved.pipeTiles==='object'&&!Array.isArray(saved.pipeTiles)?saved.pipeTiles:{};data.pipeVersion=13;data.pipeTool=['straight','corner','erase'].includes(saved.pipeTool)?saved.pipeTool:'straight';data.pipeUnlocks=saved.pipeVersion===13&&Array.isArray(saved.pipeUnlocks)?[...new Set(saved.pipeUnlocks.filter(id=>['shorts','ugc','ai','referral'].includes(id)))]:[];data.audience=audienceTiers.includes(saved.audience)?saved.audience:10000;data.seenTiers=saved.seenTiers||[];data.fifteenTiles=Array.isArray(saved.fifteenTiles)?saved.fifteenTiles:null;data.fifteenMoves=Math.max(0,Number(saved.fifteenMoves)||0);data.completed=Array.isArray(saved.completed)?saved.completed:[];if(saved.pipeVersion!==13&&data.completed.includes('content')){data.completed=data.completed.filter(x=>x!=='content');data.coins=Math.max(0,data.coins-100)}}}catch(e){}}
 function updateCoins(){$$('[data-coins]').forEach(x=>x.textContent=fmt(data.coins));$$('[data-progress]').forEach(x=>x.replaceChildren(...Array.from({length:6},(_,i)=>{const a=document.createElement('span');a.className=i<Math.max(0,stages.indexOf(current)-1)?'done':'';return a})))}
 function reward(id){if(data.completed.includes(id))return;data.completed.push(id);data.coins+=100;updateCoins();showToast('★ +100 монет за миссию');persist()}
 function showToast(s){const t=$('#toast');t.textContent=s;t.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),2200)}
@@ -658,7 +658,7 @@ $('#research-next').addEventListener('click',()=>{if(['market','parent','feedbac
 // Mission 4: exact 8x8 positions from the user's hand-drawn blueprint.
 // The colored strokes show a solution, not preinstalled pipes.
 // 11 crossed cells from the sketch are wooden pixel crates.
-const pipeCols=8,pipeRows=8,pipeCellSize=40,pipeStock={straight:20,corner:24},pipeUndo=[];
+const pipeCols=8,pipeRows=8,pipeCellSize=40,pipeUndo=[];
 const pipeDefs=[
  {id:'shorts',name:'МЕДИА',goal:'ОХВАТ',color:'#60dfff',colorName:'голубого',from:[2,3],to:[1,5],startDir:'S',endDir:'W',symbol:'М',insight:'Медийный контент помогает повышать узнаваемость CAP Education.'},
  {id:'ugc',name:'UGC',goal:'ДОВЕРИЕ',color:'#ff79b2',colorName:'розового',from:[5,3],to:[3,7],startDir:'S',endDir:'N',symbol:'U',insight:'Истории родителей и реальные отзывы помогают формировать доверие.'},
@@ -681,8 +681,6 @@ function pipePorts(p){
  if(p.kind==='straight')return p.rot%2?['N','S']:['W','E'];
  return [['N','E'],['E','S'],['S','W'],['W','N']][(p.rot%4+4)%4]||[];
 }
-const pipeUsed=kind=>Object.entries(data.pipeTiles).filter(([k,t])=>!pipeBlocked.has(k)&&t?.kind===kind).length;
-const pipeLeft=kind=>Math.max(0,pipeStock[kind]-pipeUsed(kind));
 function pipeTrace(def){
  let r=def.from[0],c=def.from[1],dir=def.startDir;
  const visited=new Set(),path=[];
@@ -726,44 +724,75 @@ function pipeGlyph(tile,color='#bcd8e5'){
  +'<path d="'+paths+'" stroke="#fff7df9c" stroke-width="5" stroke-linecap="square" fill="none"/>'
  +'<rect x="39" y="39" width="22" height="22" fill="'+color+'" stroke="#fff1ca" stroke-width="3"/></svg>';
 }
-let pipeIgnoreTrayClick=false;
-function pipeBackup(){pipeUndo.push(JSON.stringify(data.pipeTiles));if(pipeUndo.length>70)pipeUndo.shift()}
-function pipeDrag(e,kind){
- if(e.button!==0||pipeLeft(kind)===0)return;
- const pid=e.pointerId,startX=e.clientX,startY=e.clientY;let ghost=null;
- const move=ev=>{
-  if(ev.pointerId!==pid)return;
-  if(!ghost&&Math.hypot(ev.clientX-startX,ev.clientY-startY)>12){
-   ghost=document.createElement('div');ghost.className='pipe-ghost';
-   ghost.innerHTML=pipeGlyph({kind,rot:0},'#e3f3fa');document.body.append(ghost);
+// The blueprint pieces are already installed. Only their rotations are randomized.
+// Remaining free cells contain distractor pieces, so every round is solvable.
+const pipeBlueprintPaths={
+ shorts:[[2,3],[3,3],[3,4],[4,4],[5,4],[5,5],[5,6],[4,6],[3,6],[2,6],[1,6],[1,5]],
+ ugc:[[5,3],[6,3],[7,3],[7,4],[7,5],[6,5],[6,6],[6,7],[5,7],[4,7],[3,7]],
+ ai:[[1,2],[2,2],[3,2],[4,2],[5,2],[5,1],[6,1],[7,1]],
+ referral:[[4,1],[4,0],[3,0],[2,0],[2,1],[1,1],[0,1],[0,2],[0,3],[1,3],[1,4],[2,4],[2,5],[3,5]]
+};
+const pipeCornerOrder=[['N','E'],['E','S'],['S','W'],['W','N']];
+function pipeStep(a,b){
+ const [r,c]=a,[nr,nc]=b;
+ if(Math.abs(nr-r)+Math.abs(nc-c)!==1)throw Error('Nonadjacent blueprint points');
+ return nr<r?'N':nr>r?'S':nc>c?'E':'W';
+}
+function pipeSolvedPieces(){
+ const tiles={};
+ for(const def of pipeDefs){
+  const path=pipeBlueprintPaths[def.id];
+  if(!path||!pipeMatch(path[0],...def.from)||!pipeMatch(path[path.length-1],...def.to))throw Error('Invalid pipe blueprint '+def.id);
+  if(pipeStep(path[0],path[1])!==def.startDir||pipeStep(path[path.length-2],path[path.length-1])!==def.endDir)throw Error('Blueprint port mismatch '+def.id);
+  for(let i=1;i<path.length-1;i++){
+   const p=path[i],key=pipeKey(...p);
+   if(!pipePlaceable(...p)||tiles[key])throw Error('Overlapping or blocked pipe blueprint '+key);
+   const input=pipeReverse[pipeStep(path[i-1],p)],output=pipeStep(p,path[i+1]);
+   const straight=pipeReverse[input]===output;
+   const rot=straight?(input==='N'||input==='S'?1:0):pipeCornerOrder.findIndex(pair=>pair.includes(input)&&pair.includes(output));
+   if(rot<0)throw Error('Invalid pipe elbow '+key);
+   tiles[key]={kind:straight?'straight':'corner',rot};
   }
-  if(ghost){ghost.style.left=ev.clientX+'px';ghost.style.top=ev.clientY+'px';ev.preventDefault()}
- };
- const finish=ev=>{
-  if(ev.pointerId!==pid)return;
-  window.removeEventListener('pointermove',move);window.removeEventListener('pointerup',finish);window.removeEventListener('pointercancel',finish);
-  if(!ghost)return;ghost.remove();pipeIgnoreTrayClick=true;setTimeout(()=>pipeIgnoreTrayClick=false,170);
-  const cell=document.elementFromPoint(ev.clientX,ev.clientY)?.closest('#pipe-board [data-r]');
-  if(cell)pipeAct(+cell.dataset.r,+cell.dataset.c,kind);
- };
- window.addEventListener('pointermove',move,{passive:false});
- window.addEventListener('pointerup',finish);window.addEventListener('pointercancel',finish);
-}
-function pipeInventory(){
- const wrap=$('#pipe-inventory');wrap.replaceChildren();
- for(const kind of ['straight','corner','erase']){
-  const b=document.createElement('button');b.type='button';b.className='pipe-tool'+(data.pipeTool===kind?' selected':'');
-  const erase=kind==='erase',left=erase?0:pipeLeft(kind);
-  b.disabled=!erase&&left===0;b.setAttribute('aria-pressed',String(data.pipeTool===kind));
-  b.setAttribute('aria-label',erase?'Убрать установленную трубу':(kind==='straight'?'Прямая труба':'Поворот')+', осталось '+left);
-  b.innerHTML='<span class="pipe-tool-image">'+(erase?'<span class="pipe-erase-symbol">×</span>':pipeGlyph({kind,rot:0},'#e5ecf2'))+'</span>'
-   +'<span class="pipe-tool-title">'+(kind==='straight'?'Прямая':kind==='corner'?'Поворот':'Убрать')+'</span>'
-   +'<span class="pipe-tool-qty">'+(erase?'Ластик':'× '+left)+'</span>';
-  b.addEventListener('click',()=>{if(pipeIgnoreTrayClick)return;data.pipeTool=kind;persist();drawPipes()});
-  if(!erase)b.addEventListener('pointerdown',e=>pipeDrag(e,kind));
-  wrap.append(b);
  }
+ return tiles;
 }
+function pipeBuildScramble(){
+ const solved=pipeSolvedPieces(),tiles={};
+ for(let r=0;r<pipeRows;r++)for(let c=0;c<pipeCols;c++){
+  if(!pipePlaceable(r,c))continue;
+  const key=pipeKey(r,c),correct=solved[key];
+  const kind=correct?correct.kind:(Math.random()<.52?'straight':'corner');
+  tiles[key]={kind,rot:Math.floor(Math.random()*(kind==='straight'?2:4))};
+ }
+ return tiles;
+}
+function pipeShuffle(){
+ data.pipeTiles=pipeBuildScramble();
+ // Every colored route starts incomplete, even in the unlikely event of lucky rotations.
+ for(const def of pipeDefs){
+  const status=pipeTrace(def);
+  if(status.complete){
+   const key=status.path[0],tile=data.pipeTiles[key];
+   if(tile)tile.rot=(tile.rot+1)%(tile.kind==='straight'?2:4);
+  }
+ }
+ data.pipeUnlocks=[];
+ pipeUndo.length=0;
+ $('#pipe-achievement').hidden=true;
+ persist();
+}
+function pipeEnsure(){
+ const expected=pipeRows*pipeCols-pipeBlocked.size-pipeDefs.length*2;
+ const values=Object.entries(data.pipeTiles||{});
+ const valid=values.length===expected&&values.every(([key,t])=>{
+  const coords=key.split(',').map(Number);
+  return coords.length===2&&pipePlaceable(...coords)&&t&&
+   (t.kind==='straight'||t.kind==='corner')&&Number.isInteger(t.rot)&&
+   t.rot>=0&&t.rot<(t.kind==='straight'?2:4);
+ });
+ if(!valid)pipeShuffle();
+}
+function pipeBackup(){pipeUndo.push(JSON.stringify(data.pipeTiles));if(pipeUndo.length>70)pipeUndo.shift()}
 function pipeShowAchievement(def){
  const banner=$('#pipe-achievement');
  banner.style.setProperty('--pipe-color',def.color);
@@ -774,15 +803,12 @@ function pipeShowAchievement(def){
  void banner.offsetWidth;
  banner.classList.add('pipe-just-unlocked');
 }
-function pipeAct(r,c,kind=data.pipeTool){
+function pipeAct(r,c){
  if(!pipePlaceable(r,c))return;
- const key=pipeKey(r,c),piece=data.pipeTiles[key],before=pipeRouteStates().filter(d=>d.status.complete).length;
- if(piece){pipeBackup();if(kind==='erase')delete data.pipeTiles[key];else piece.rot=(piece.rot+1)%(piece.kind==='straight'?2:4)}
- else{
-  if(kind==='erase')return;
-  if(pipeLeft(kind)===0){showToast('Детали закончились — убери лишнюю или отмени ход');return}
-  pipeBackup();data.pipeTiles[key]={kind,rot:0};
- }
+ const key=pipeKey(r,c),piece=data.pipeTiles[key];if(!piece)return;
+ const before=pipeRouteStates().filter(d=>d.status.complete).length;
+ pipeBackup();
+ piece.rot=(piece.rot+1)%(piece.kind==='straight'?2:4);
  const solved=pipeRouteStates().filter(d=>d.status.complete).map(d=>d.def),after=solved.length;
  const newly=solved.filter(d=>!data.pipeUnlocks.includes(d.id));
  if(newly.length)data.pipeUnlocks.push(...newly.map(d=>d.id));
@@ -794,10 +820,11 @@ function pipeAct(r,c,kind=data.pipeTool){
  }else if(after>before)showToast('Соединено '+after+' из 4');
  if(after===4){
   reward('content');
-  $('#content-feedback').textContent='Все четыре ачивки открыты! Медиа, UGC, контент и рекомендации соединяются в систему роста. Теперь проверим экономику.';
+  $('#content-feedback').textContent='Все четыре ачивки открыты! Теперь проверим экономику роста.';
  }
 }
 function drawPipes(){
+ pipeEnsure();
  const board=$('#pipe-board'),legend=$('#pipe-legend');board.replaceChildren();legend.replaceChildren();
  const routes=pipeRouteStates(),flows=new Map();
  const recovered=routes.filter(x=>x.status.complete&&!data.pipeUnlocks.includes(x.def.id));
@@ -834,18 +861,17 @@ function drawPipes(){
   }else if(tile){
    const color=flows.get(key);cell.classList.add('pipe-used');if(color)cell.classList.add('pipe-lit');
    cell.innerHTML=pipeGlyph(tile,color||'#bcd8e5');
-   cell.setAttribute('aria-label','Клетка '+(r+1)+','+(c+1)+'. '+(tile.kind==='straight'?'Прямая':'Поворот')+'. Нажми, чтобы '+(data.pipeTool==='erase'?'удалить':'повернуть'));
-  }else cell.setAttribute('aria-label','Пустая клетка '+(r+1)+','+(c+1)+'. Разместить деталь');
+   cell.setAttribute('aria-label','Клетка '+(r+1)+','+(c+1)+'. '+(tile.kind==='straight'?'Прямая':'Поворот')+'. Нажми, чтобы повернуть');
+  }else cell.setAttribute('aria-label','Пустая клетка '+(r+1)+','+(c+1));
   board.append(cell);
  }
- pipeInventory();
  const done=routes.filter(x=>x.status.complete).length;
  $('#pipes-count').textContent=done+' / 4';
  $('#content-next').disabled=done!==4;
  $('#content-next').textContent=done===4?'К симулятору роста':'Соединено '+done+' из 4';
  const conflict=routes.some(r=>r.status.conflict);
- $('#pipes-tip').textContent=conflict?'Потоки пересеклись! Разные цвета не могут использовать общую трубу — проложи отдельный обход.':done===4?'Все четыре ачивки открыты! Переходи к экономике роста.':
- 'Соединяй пары одного цвета. Следи за соседними маршрутами: разные потоки не должны пересекаться.';
+ $('#pipes-tip').textContent=conflict?'Два потока пересеклись — разверни трубы, чтобы цвета шли по отдельным линиям.':done===4?'Все четыре потока соединены!':
+ 'Нажимай на трубы, чтобы поворачивать их. Соедини одинаковые цвета. Лишние трубы отвлекают.';
  $('#pipe-undo').disabled=pipeUndo.length===0;
 }
 $('#pipe-board').addEventListener('click',e=>{
@@ -858,9 +884,8 @@ $('#pipe-undo').addEventListener('click',()=>{
  persist();drawPipes();
 });
 $('#pipe-reset').addEventListener('click',()=>{
- if(!Object.keys(data.pipeTiles).length)return;
- pipeBackup();data.pipeTiles={};persist();drawPipes();
- $('#content-feedback').textContent='Поле очищено. Лабиринт решается из ограниченного набора труб — ищи обходы препятствий.';
+ pipeShuffle();drawPipes();
+ $('#content-feedback').textContent='Трубы перемешаны! Нажимай на них, чтобы развернуть и соединить одинаковые цвета.';
 });
 $('#content-next').addEventListener('click',()=>{if(pipeRouteStates().every(d=>d.status.complete))go('scale')});
 // Mission 5: illustrative scenario planner with staged audience sizes
@@ -996,7 +1021,7 @@ $('#fifteen-undo').addEventListener('click',()=>{
  persist();renderPuzzle();
 });
 $('#puzzle-next').addEventListener('click',()=>{if(fifteenSolved(data.fifteenTiles))go('final')});
-$('#restart').addEventListener('click',()=>{data.coins=0;data.found=[];data.strategy=Array(5).fill(null);data.crystals=[false,false,false,false,false];data.chosen=null;data.issues=[];data.ownerAnswers=[null,null,null,null];window.CAPFounder.reset();data.links={};data.selected=null;data.pipes={};data.pipeActive=null;data.pipeTiles={};data.pipeVersion=12;data.pipeTool='straight';data.pipeUnlocks=[];$('#pipe-achievement').hidden=true;pipeUndo.length=0;data.audience=10000;data.seenTiers=[];data.fifteenTiles=null;data.fifteenMoves=0;fifteenUndo.length=0;data.completed=[];previewPlayed=false;panEngaged=false;pan.scrollLeft=0;window.CAPCrystals.reset();$('#strategy-check').textContent='Заряжено 0 из 5';$('#strategy-check').disabled=true;$('#strategy-feedback').textContent='Поймай кристаллы пяти цветов и зажги пять отдельных экранов стратегии.';$('#research-status').textContent='Три опоры роста';$('#research-copy').textContent='Найди аналитическую доску, глобус и город за окном. Каждая находка раскроет часть будущего CAP.';$('#pilot-feedback').textContent='Выберите приоритеты, которые ближе всего вашему видению. Это короткое стратегическое интервью, не экзамен.';$('#content-feedback').textContent='Четыре цвета скрывают четыре маркетинговых потока. Соедини пары и открой все достижения!';$('#puzzle-feedback').textContent='Маленькие решения превращаются в большую систему роста. Расставь числа от 1 до 15, двигая плитки в свободную клетку. Затем открой план на 90 дней.';persist();go('home')});
+$('#restart').addEventListener('click',()=>{data.coins=0;data.found=[];data.strategy=Array(5).fill(null);data.crystals=[false,false,false,false,false];data.chosen=null;data.issues=[];data.ownerAnswers=[null,null,null,null];window.CAPFounder.reset();data.links={};data.selected=null;data.pipes={};data.pipeActive=null;data.pipeTiles={};data.pipeVersion=13;data.pipeTool='straight';data.pipeUnlocks=[];$('#pipe-achievement').hidden=true;pipeUndo.length=0;data.audience=10000;data.seenTiers=[];data.fifteenTiles=null;data.fifteenMoves=0;fifteenUndo.length=0;data.completed=[];previewPlayed=false;panEngaged=false;pan.scrollLeft=0;window.CAPCrystals.reset();$('#strategy-check').textContent='Заряжено 0 из 5';$('#strategy-check').disabled=true;$('#strategy-feedback').textContent='Поймай кристаллы пяти цветов и зажги пять отдельных экранов стратегии.';$('#research-status').textContent='Три опоры роста';$('#research-copy').textContent='Найди аналитическую доску, глобус и город за окном. Каждая находка раскроет часть будущего CAP.';$('#pilot-feedback').textContent='Выберите приоритеты, которые ближе всего вашему видению. Это короткое стратегическое интервью, не экзамен.';$('#content-feedback').textContent='Четыре цвета скрывают четыре маркетинговых потока. Соедини пары и открой все достижения!';$('#puzzle-feedback').textContent='Маленькие решения превращаются в большую систему роста. Расставь числа от 1 до 15, двигая плитки в свободную клетку. Затем открой план на 90 дней.';persist();go('home')});
 window.CAPFounder.init({data,reward,go,persist});window.CAPCrystals.init({data,reward,go,persist});restore();updateCoins();go(({research:'research',strategy:'strategy',pipes:'content',interview:'pilot',puzzle:'puzzle',final:'final'})[new URLSearchParams(window.location.search).get('preview')]||'home');
 
 })();

@@ -15,31 +15,109 @@ function styleGem(node,i){const d=defs[i];node.style.setProperty('--gem',d.color
 // Original artist-made animated GIFs, not the temporary hand-drawn SVG approximations.
 const gemShape=i=>'<span class="crystal-art-host"><img class="crystal-source-gif" src="assets/crystals/'+defs[i].asset+'" alt="" aria-hidden="true" draggable="false" loading="eager"><canvas class="crystal-gem-art" aria-hidden="true"></canvas></span>';
 function notice(s){els.help.textContent=s}
+const titleLines=[
+ ['СЕГМЕНТЫ','ЦА'],
+ ['ПОЗИЦИОНИРОВАНИЕ'],
+ ['ПИЛОТ','ПРОДУКТА'],
+ ['КАНАЛЫ','РОСТА'],
+ ['KPI И','ЭКОНОМИКА']
+];
+const slotOrder=[0,2,3,4,1]; // longest cables serve top two screens, routed along left/right edges.
+function drawWires(){
+ if(!els?.matrix||!$('#strategy').classList.contains('active'))return;
+ const rack=els.matrix,svg=rack.querySelector('.crystal-wire-network');
+ if(!svg)return;
+ const root=rack.getBoundingClientRect(),w=root.width,h=root.height;
+ if(!w||!h)return;
+ svg.setAttribute('viewBox','0 0 '+w+' '+h);
+ const paths=svg.querySelectorAll('[data-crystal-wire]');
+ paths.forEach(path=>{
+  const i=Number(path.dataset.crystalWire);
+  const scr=rack.querySelector('[data-crystal-screen="'+i+'"]');
+  const slot=rack.querySelector('[data-crystal-slot="'+i+'"]');
+  if(!scr||!slot)return;
+  const a=scr.getBoundingClientRect(),b=slot.getBoundingClientRect();
+  const x1=a.left-root.left+a.width/2,y1=a.bottom-root.top;
+  const x2=b.left-root.left+b.width/2,y2=b.top-root.top;
+  let d;
+  if(i===0||i===1){
+   // Outer routes let two upper screens power the outside sockets
+   // without cutting through the three middle screens.
+   const edge=i===0?6:w-6;
+   const upperY=y1+11,lowerY=y2-13;
+   const corner=i===0?1:-1;
+   d='M '+x1+' '+y1+' V '+upperY+
+    ' H '+(edge+corner*7)+' L '+edge+' '+(upperY+7)+
+    ' V '+(lowerY-7)+' L '+(edge+corner*7)+' '+lowerY+
+    ' H '+x2+' V '+y2;
+  }else{
+   const elbowY=y1+12;
+   d='M '+x1+' '+y1+' V '+elbowY+
+     ' H '+x2+' V '+y2;
+  }
+  path.setAttribute('d',d);
+ });
+}
 function render(){
  if(!ctx)return;
  const rack=els.matrix;rack.replaceChildren();
+ const network=document.createElementNS('http://www.w3.org/2000/svg','svg');
+ network.classList.add('crystal-wire-network');
+ network.setAttribute('aria-hidden','true');
+ network.setAttribute('preserveAspectRatio','none');
  defs.forEach((d,i)=>{
-  const powered=ctx.data.crystals[i];
-  const channel=document.createElement('div');
-  channel.className='crystal-channel'+(powered?' is-powered':'')+(held===i&&!powered?' is-selected':'');
-  styleGem(channel,i);
-  const screen=document.createElement('div');screen.className='crystal-mini-screen'+(powered?' is-powered':'');
-  screen.setAttribute('aria-live','polite');
-  const heading=document.createElement('small');heading.textContent='ЭКРАН 0'+(i+1);
-  const label=document.createElement('strong');label.textContent=powered?d.name:'';
-  const led=document.createElement('span');led.className='crystal-monitor-led';led.setAttribute('aria-hidden','true');
-  screen.append(heading,label,led);
-  const wire=document.createElement('div');wire.className='crystal-wire';wire.setAttribute('aria-hidden','true');
-  const socket=document.createElement('button');socket.type='button';socket.className='crystal-socket'+(powered?' is-powered':'')+(held===i?' is-target':'');
-  socket.dataset.crystalSlot=String(i);
-  socket.setAttribute('aria-label',d.label+' гнездо: '+(powered?'включает экран '+d.name:'ожидает кристалл'));
-  socket.setAttribute('aria-pressed',String(powered));
-  const port=document.createElement('span');port.className='crystal-port';port.innerHTML=powered?gemShape(i):'◇';
-  const socketLabel=document.createElement('small');socketLabel.textContent='СЛОТ 0'+(i+1);
-  socket.append(port,socketLabel);
-  socket.addEventListener('click',()=>place(i));
-  channel.append(screen,wire,socket);rack.append(channel);
+  const path=document.createElementNS('http://www.w3.org/2000/svg','path');
+  path.dataset.crystalWire=String(i);
+  path.classList.add('crystal-wire-path');
+  if(ctx.data.crystals[i])path.classList.add('is-powered');
+  else if(held===i)path.classList.add('is-selected');
+  path.style.setProperty('--gem',d.color);
+  network.append(path);
  });
+ rack.append(network);
+ const displayRows=document.createElement('div');
+ displayRows.className='crystal-display-rows';
+ [[0,1],[2,3,4]].forEach((members,index)=>{
+  const row=document.createElement('div');
+  row.className='crystal-screen-row '+(index===0?'crystal-screen-row-top':'crystal-screen-row-bottom');
+  members.forEach(i=>{
+   const d=defs[i],powered=ctx.data.crystals[i];
+   const panel=document.createElement('div');
+   panel.className='crystal-display'+(powered?' is-powered':'')+(held===i&&!powered?' is-selected':'');
+   panel.dataset.crystalScreen=String(i);
+   styleGem(panel,i);
+   const screen=document.createElement('div');
+   screen.className='crystal-mini-screen'+(powered?' is-powered':'');
+   screen.setAttribute('aria-live','polite');
+   screen.setAttribute('aria-label',powered?d.name:'Экран '+(i+1)+' ожидает кристалл');
+   const label=document.createElement('strong');label.className='crystal-screen-label';
+   if(powered)titleLines[i].forEach(piece=>{
+    const line=document.createElement('span');
+    line.className='crystal-label-line';line.textContent=piece;label.append(line);
+   });
+   const led=document.createElement('span');led.className='crystal-monitor-led';led.setAttribute('aria-hidden','true');
+   screen.append(label,led);panel.append(screen);row.append(panel);
+  });
+  displayRows.append(row);
+ });
+ rack.append(displayRows);
+ const bank=document.createElement('div');bank.className='crystal-slot-bank';
+ slotOrder.forEach(i=>{
+  const d=defs[i],powered=ctx.data.crystals[i];
+  const holder=document.createElement('div');holder.className='crystal-slot-holder'+(powered?' is-powered':'');
+  styleGem(holder,i);
+  const socket=document.createElement('button');socket.type='button';
+  socket.className='crystal-socket'+(powered?' is-powered':'')+(held===i?' is-target':'');
+  socket.dataset.crystalSlot=String(i);
+  socket.setAttribute('aria-label',d.label+' гнездо: '+(powered?'включён экран '+d.name:'ожидает кристалл'));
+  socket.setAttribute('aria-pressed',String(powered));
+  const port=document.createElement('span');port.className='crystal-port';
+  port.innerHTML=powered?gemShape(i):'◇';
+  socket.append(port);holder.append(socket);bank.append(holder);
+  socket.addEventListener('click',()=>place(i));
+ });
+ rack.append(bank);
+ requestAnimationFrame(drawWires);
  const n=ctx.data.crystals.filter(Boolean).length;
  els.count.textContent=n+' / 5';els.charge.style.width=n*20+'%';
  els.next.disabled=n!==5;
@@ -49,9 +127,8 @@ function render(){
  els.core.classList.toggle('is-on',n===5);
  els.feedback.textContent=n===5
   ?'✓ Все пять экранов работают! Каждый цвет активировал отдельную часть маркетинговой стратегии CAP Education.'
-  :n===0
-   ?'Лови пролетающие кристаллы и вставляй их в ячейки подходящего цвета. Каждая ячейка включает свой экран.'
-   :'Уже активировано '+n+' из 5 экранов. Продолжай ловить оставшиеся цвета.';
+  :n===0?'Поймай пять цветов и заряди пять экранов, соединённых проводами со слотами.'
+   :'Активировано '+n+' из 5 экранов. Держи кристалл и перенеси его в слот соответствующего цвета.';
  if(n===5){stop();if(!ctx.data.completed.includes('strategy'))ctx.reward('strategy')}
 }
 function choose(i,origin){
@@ -249,7 +326,12 @@ function init(c){
   if(!drag||e.pointerId!==drag.id)return;
   const grabbed=drag;clearDrag();removeCaughtGem(grabbed.entry);markHoverSlot(null);
  });
- els.next.addEventListener('click',()=>{if(allOn()){stop();ctx.go('pilot')}});
+ window.addEventListener('resize',()=>requestAnimationFrame(drawWires),{passive:true});
+ if(window.ResizeObserver){
+  const watcher=new ResizeObserver(()=>requestAnimationFrame(drawWires));
+  watcher.observe(els.matrix);
+ }
+  els.next.addEventListener('click',()=>{if(allOn()){stop();ctx.go('pilot')}});
 }
 function enter(){if(!ctx)return;render();start()}
 function leave(){stop();clearDrag();clearFlight();held=null;heldOrigin=null}

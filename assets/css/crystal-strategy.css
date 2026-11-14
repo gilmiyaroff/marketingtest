@@ -382,3 +382,41 @@
 @media(prefers-reduced-motion:reduce){
  #strategy .crystal-socket.is-target:not(.is-powered){animation:none!important}
 }
+
+/* iPhone/Android drag-and-drop: the grabbed source stays alive under pointer capture.
+   Render the translucent preview above the user's finger and highlight the drop cell. */
+#strategy .crystal-rain-zone,
+#strategy #crystal-rain,
+#strategy .falling-crystal{
+  touch-action:none!important;
+  -webkit-user-select:none;user-select:none;
+  -webkit-touch-callout:none;
+}
+#strategy .falling-crystal.is-grabbed{
+  opacity:0!important;
+  pointer-events:none!important;
+  animation-play-state:paused!important;
+}
+#strategy .crystal-drag-ghost{
+  position:fixed!important;
+  pointer-events:none!important;
+  z-index:99999!important;
+  display:grid;place-items:center;
+  width:74px;height:94px;
+  transform:translate(-50%,-50%)!important;
+  filter:drop-shadow(0 0 12px var(--gem))!important;
+  touch-action:none;
+}
+#strategy .crystal-drag-ghost .crystal-art-host{
+  width:100%;height:100%;
+}
+#strategy .crystal-socket.is-drop-hover:not(.is-powered){
+  outline:3px solid var(--gem-light)!important;
+  outline-offset:1px;
+  background:color-mix(in srgb,var(--gem) 27%,#281d3c)!important;
+  box-shadow:0 0 20px var(--gem),0 0 8px #fff6d7!important;
+}
+@media(max-width:700px){
+  #strategy .crystal-socket{touch-action:none!important}
+  #strategy .crystal-drag-ghost{width:70px;height:90px}
+}

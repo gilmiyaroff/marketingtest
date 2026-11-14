@@ -230,3 +230,50 @@
 @media(prefers-reduced-motion:reduce){
  #research .research-pan-help{animation:none!important;opacity:1!important;visibility:visible!important}
 }
+
+
+/* Mission 04: wooden pixel crates at the exact X-marked cells from the
+   hand-drawn pipe puzzle blueprint (the white X marks indicate obstacles). */
+#content #pipe-board .pipe-cell.pipe-wall{
+ position:relative!important;
+ border:2px solid #e2b588!important;
+ border-radius:0!important;
+ background:repeating-linear-gradient(
+  90deg,#aa795e 0 5px,#ad7d61 5px 10px,#996c58 10px 15px
+ )!important;
+ box-shadow:
+  inset 3px 3px #f0ca92,
+  inset -4px -4px #503c56,
+  0 1px 1px #23192f!important;
+ image-rendering:pixelated;
+ overflow:hidden;
+ cursor:not-allowed!important;
+}
+#content #pipe-board .pipe-cell.pipe-wall .pipe-wall-shine{
+ position:absolute;inset:15%;width:auto;height:auto;left:15%;top:15%;
+ display:block;
+ background:repeating-linear-gradient(
+  0deg,#95644f 0 5px,#a67358 5px 10px
+ );
+ border:2px solid #624353;
+ box-shadow:inset 2px 2px #d7a078,inset -2px -2px #533d54;
+}
+#content #pipe-board .pipe-cell.pipe-wall::after{
+ content:"";position:absolute;inset:16%;z-index:2;pointer-events:none;
+ background:
+  linear-gradient(45deg,transparent 42%,#d8a67a 42% 57%,transparent 57%),
+  linear-gradient(-45deg,transparent 42%,#d8a67a 42% 57%,transparent 57%);
+ filter:drop-shadow(1px 2px 0 #674755);
+}
+#content #pipe-board .pipe-cell.pipe-wall::before{
+ content:"";position:absolute;inset:0;pointer-events:none;z-index:3;
+ background:
+  radial-gradient(circle,#f4d3a1 0 1.5px,transparent 2px) left 4px top 4px/10px 10px no-repeat,
+  radial-gradient(circle,#f4d3a1 0 1.5px,transparent 2px) right 4px top 4px/10px 10px no-repeat,
+  radial-gradient(circle,#f4d3a1 0 1.5px,transparent 2px) left 4px bottom 4px/10px 10px no-repeat,
+  radial-gradient(circle,#f4d3a1 0 1.5px,transparent 2px) right 4px bottom 4px/10px 10px no-repeat;
+}
+@media(max-width:420px){
+ #content #pipe-board .pipe-cell.pipe-wall{border-width:2px!important}
+ #content #pipe-board .pipe-cell.pipe-wall::after{inset:18%}
+}

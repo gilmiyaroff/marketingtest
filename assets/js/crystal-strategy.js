@@ -161,40 +161,86 @@ function start(){
  spawn();timer=setInterval(spawn,640);
 }
 function clearDrag(){
- if(drag?.ghost)drag.ghost.remove();drag=null;
+ if(!drag)return;
+ const d=drag;drag=null;
+ if(d.ghost)d.ghost.remove();
+ if(d.button){
+  d.button.classList.remove('is-grabbed');
+  d.button.style.animationPlayState='';
+ }
+ try{
+  if(els?.rain?.hasPointerCapture?.(d.id))els.rain.releasePointerCapture(d.id);
+ }catch(err){}
+}
+function removeCaughtGem(gem){
+ if(!gem)return;
+ falling=falling.filter(g=>g!==gem);
+ gem.node.remove();
+}
+function getSlotAt(x,y){
+ return document.elementFromPoint(x,y)?.closest('[data-crystal-slot]')||null;
+}
+function markHoverSlot(slot){
+ els.matrix.querySelectorAll('.crystal-socket.is-drop-hover').forEach(node=>{
+  if(node!==slot)node.classList.remove('is-drop-hover');
+ });
+ if(slot&&Number(slot.dataset.crystalSlot)===held&&!ctx.data.crystals[held])slot.classList.add('is-drop-hover');
 }
 function init(c){
  ctx=c;
  els={rain:$('#crystal-rain'),matrix:$('#crystal-matrix'),count:$('#crystal-count'),charge:$('#crystal-charge'),next:$('#strategy-check'),core:$('#crystal-core-text'),help:$('#crystal-help'),feedback:$('#strategy-feedback')};
  els.rain.addEventListener('pointerdown',e=>{
   const button=e.target.closest('.falling-crystal');
-  if(!button||(e.pointerType==='mouse'&&e.button!==0)||busy)return;
+  if(!button||(e.pointerType==='mouse'&&e.button!==0)||busy||drag)return;
   const gem=falling.find(g=>g.node===button);if(!gem)return;
   e.preventDefault();
   const rect=button.getBoundingClientRect();
   const point={x:rect.left+rect.width/2,y:rect.top+rect.height/2};
-  falling=falling.filter(g=>g!==gem);gem.node.remove();
+  // Leave the actual pointer target attached and pause its fall. Removing it
+  // on pointerdown causes iOS Safari to cancel the active touch gesture.
+  button.classList.add('is-grabbed');
+  button.style.animationPlayState='paused';
+  drag={id:e.pointerId,gem:gem.id,entry:gem,button,x:e.clientX,y:e.clientY,ghost:null,moved:false};
+  try{els.rain.setPointerCapture(e.pointerId)}catch(err){
+   try{button.setPointerCapture(e.pointerId)}catch(ignore){}
+  }
   choose(gem.id,point);
-  clearDrag();drag={id:e.pointerId,gem:gem.id,x:e.clientX,y:e.clientY,ghost:null};
  });
  window.addEventListener('pointermove',e=>{
   if(!drag||e.pointerId!==drag.id)return;
-  if(!drag.ghost&&Math.hypot(e.clientX-drag.x,e.clientY-drag.y)>9){
-   drag.ghost=document.createElement('div');drag.ghost.className='crystal-drag-ghost';
+  if(!drag.ghost&&Math.hypot(e.clientX-drag.x,e.clientY-drag.y)>7){
+   drag.moved=true;
+   drag.ghost=document.createElement('div');
+   drag.ghost.className='crystal-drag-ghost';
    drag.ghost.innerHTML=gemShape(drag.gem);styleGem(drag.ghost,drag.gem);
-   document.body.append(drag.ghost);
+   // Keep the drag preview inside #strategy so the original GIF alpha
+   // processing and game CSS are applied to it as well.
+   $('#strategy').append(drag.ghost);
   }
-  if(drag.ghost){drag.ghost.style.left=e.clientX+'px';drag.ghost.style.top=e.clientY+'px';e.preventDefault()}
+  if(drag.ghost){
+   drag.ghost.style.left=e.clientX+'px';
+   drag.ghost.style.top=(e.clientY-30)+'px';
+   const target=getSlotAt(e.clientX,e.clientY);
+   markHoverSlot(target);
+   e.preventDefault();
+  }
  },{passive:false});
  window.addEventListener('pointerup',e=>{
   if(!drag||e.pointerId!==drag.id)return;
-  const wasDragging=!!drag.ghost;clearDrag();
-  if(wasDragging){
-   const target=document.elementFromPoint(e.clientX,e.clientY)?.closest('[data-crystal-slot]');
-   if(target)place(Number(target.dataset.crystalSlot),{x:e.clientX,y:e.clientY});
-  }
+  const grabbed=drag;
+  const destination=grabbed.moved?getSlotAt(e.clientX,e.clientY):null;
+  // End capture only after hit-testing; then release the invisible original.
+  clearDrag();
+  removeCaughtGem(grabbed.entry);
+  markHoverSlot(null);
+  if(destination)place(Number(destination.dataset.crystalSlot),{x:e.clientX,y:e.clientY});
+  // A quick tap, or a drag released elsewhere, keeps the correct slot
+  // highlighted so it can also be completed with one more tap.
  });
- window.addEventListener('pointercancel',e=>{if(drag?.id===e.pointerId)clearDrag()});
+ window.addEventListener('pointercancel',e=>{
+  if(!drag||e.pointerId!==drag.id)return;
+  const grabbed=drag;clearDrag();removeCaughtGem(grabbed.entry);markHoverSlot(null);
+ });
  els.next.addEventListener('click',()=>{if(allOn()){stop();ctx.go('pilot')}});
 }
 function enter(){if(!ctx)return;render();start()}

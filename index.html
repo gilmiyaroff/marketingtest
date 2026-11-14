@@ -703,6 +703,25 @@ function pipeTrace(def){
  }
  return {complete:false,path};
 }
+// A single pipe segment can carry just ONE color. Parallel colored streams
+// must remain physically separate; overlapping complete traces are invalid.
+function pipeRouteStates(){
+ const routes=pipeDefs.map(def=>({def,status:pipeTrace(def)}));
+ const owners=new Map();
+ for(const route of routes){
+  if(!route.status.complete)continue;
+  for(const key of route.status.path){
+   if(!owners.has(key))owners.set(key,new Set());
+   owners.get(key).add(route.def.id);
+  }
+ }
+ routes.forEach(route=>{
+  if(!route.status.complete)return;
+  const overlapping=route.status.path.some(key=>(owners.get(key)?.size||0)>1);
+  if(overlapping){route.status.complete=false;route.status.conflict=true}
+ });
+ return routes;
+}
 function pipeGlyph(tile,color='#bcd8e5'){
  const paths=pipePorts(tile).map(x=>x==='N'?'M50 50 V0':x==='E'?'M50 50 H100':x==='S'?'M50 50 V100':'M50 50 H0').join(' ');
  return '<svg viewBox="0 0 100 100" aria-hidden="true" focusable="false">'
@@ -761,14 +780,14 @@ function pipeShowAchievement(def){
 }
 function pipeAct(r,c,kind=data.pipeTool){
  if(!pipePlaceable(r,c))return;
- const key=pipeKey(r,c),piece=data.pipeTiles[key],before=pipeDefs.filter(d=>pipeTrace(d).complete).length;
+ const key=pipeKey(r,c),piece=data.pipeTiles[key],before=pipeRouteStates().filter(d=>d.status.complete).length;
  if(piece){pipeBackup();if(kind==='erase')delete data.pipeTiles[key];else piece.rot=(piece.rot+1)%(piece.kind==='straight'?2:4)}
  else{
   if(kind==='erase')return;
   if(pipeLeft(kind)===0){showToast('Детали закончились — убери лишнюю или отмени ход');return}
   pipeBackup();data.pipeTiles[key]={kind,rot:0};
  }
- const solved=pipeDefs.filter(d=>pipeTrace(d).complete),after=solved.length;
+ const solved=pipeRouteStates().filter(d=>d.status.complete).map(d=>d.def),after=solved.length;
  const newly=solved.filter(d=>!data.pipeUnlocks.includes(d.id));
  if(newly.length)data.pipeUnlocks.push(...newly.map(d=>d.id));
  persist();drawPipes();
@@ -784,7 +803,7 @@ function pipeAct(r,c,kind=data.pipeTool){
 }
 function drawPipes(){
  const board=$('#pipe-board'),legend=$('#pipe-legend');board.replaceChildren();legend.replaceChildren();
- const routes=pipeDefs.map(def=>({def,status:pipeTrace(def)})),flows=new Map();
+ const routes=pipeRouteStates(),flows=new Map();
  const recovered=routes.filter(x=>x.status.complete&&!data.pipeUnlocks.includes(x.def.id));
  if(recovered.length){data.pipeUnlocks.push(...recovered.map(x=>x.def.id));persist()}
  routes.forEach(({def,status})=>status.path.forEach(k=>{if(!flows.has(k)||status.complete)flows.set(k,def.color)}));
@@ -828,8 +847,9 @@ function drawPipes(){
  $('#pipes-count').textContent=done+' / 4';
  $('#content-next').disabled=done!==4;
  $('#content-next').textContent=done===4?'К симулятору роста':'Соединено '+done+' из 4';
- $('#pipes-tip').textContent=done===4?'Все четыре ачивки открыты! Переходи к экономике роста.':
- 'Соединяй вход и выход одного цвета, чтобы раскрыть секрет. Поставь трубу, повторным нажатием поверни её.';
+ const conflict=routes.some(r=>r.status.conflict);
+ $('#pipes-tip').textContent=conflict?'Потоки пересеклись! Разные цвета не могут использовать общую трубу — проложи отдельный обход.':done===4?'Все четыре ачивки открыты! Переходи к экономике роста.':
+ 'Соединяй пары одного цвета. Следи за соседними маршрутами: разные потоки не должны пересекаться.';
  $('#pipe-undo').disabled=pipeUndo.length===0;
 }
 $('#pipe-board').addEventListener('click',e=>{
@@ -846,7 +866,7 @@ $('#pipe-reset').addEventListener('click',()=>{
  pipeBackup();data.pipeTiles={};persist();drawPipes();
  $('#content-feedback').textContent='Поле очищено. Лабиринт решается из ограниченного набора труб — ищи обходы препятствий.';
 });
-$('#content-next').addEventListener('click',()=>{if(pipeDefs.every(d=>pipeTrace(d).complete))go('scale')});
+$('#content-next').addEventListener('click',()=>{if(pipeRouteStates().every(d=>d.status.complete))go('scale')});
 // Mission 5: illustrative scenario planner with staged audience sizes
 const audienceTiers=[5000,10000,50000,100000,300000,500000,1000000];
 function compact(n){return n>=1000000000?(n/1000000000).toLocaleString('ru-RU',{maximumFractionDigits:1})+' млрд':n>=1000000?(n/1000000).toLocaleString('ru-RU',{maximumFractionDigits:1})+' млн':n>=1000?(n/1000).toLocaleString('ru-RU',{maximumFractionDigits:1})+' тыс.':fmt(n)}

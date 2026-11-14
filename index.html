@@ -550,7 +550,7 @@
 (()=>{'use strict';
 const $=(s,root=document)=>root.querySelector(s), $$=(s,root=document)=>[...root.querySelectorAll(s)];
 const stages=['home','research','strategy','pilot','content','scale','puzzle','final'];
-const data={coins:0,found:[],strategy:[null,null,null,null,null],crystals:[false,false,false,false,false],chosen:null,issues:[],ownerAnswers:[null,null,null,null],links:{},selected:null,pipes:{},pipeActive:null,pipeTiles:{},pipeVersion:10,pipeTool:'straight',pipeUnlocks:[],audience:10000,seenTiers:[],fifteenTiles:null,fifteenMoves:0,completed:[]};
+const data={coins:0,found:[],strategy:[null,null,null,null,null],crystals:[false,false,false,false,false],chosen:null,issues:[],ownerAnswers:[null,null,null,null],links:{},selected:null,pipes:{},pipeActive:null,pipeTiles:{},pipeVersion:11,pipeTool:'straight',pipeUnlocks:[],audience:10000,seenTiers:[],fifteenTiles:null,fifteenMoves:0,completed:[]};
 let current='home',drag=null,toastTimer=0,previewPlayed=false,panEngaged=false;
 const clueData={
  market:{title:'ДАННЫЕ · Точка роста',copy:'Первый шаг — не рекламный бюджет, а ясная картина бизнеса. Изучаем CRM, конверсии, стоимость привлечения клиента, удержание и поведение семей. Фиксируем исходные показатели, чтобы каждое решение проверялось цифрами.',accent:'#84e5c4'},
@@ -561,7 +561,7 @@ const strategyCards=[{id:'audience',text:'Сегменты ЦА'},{id:'value',te
 const linkData=[{id:'shorts',src:'Shorts и AI-мультфильмы',target:'Охват',to:'reach'},{id:'ugc',src:'UGC родителей',target:'Доверие',to:'trust'},{id:'quiz',src:'Бесплатный квиз',target:'Первый опыт',to:'experience'},{id:'referral',src:'Рекомендации',target:'Оплаты',to:'payments'}];const shuffledTargets=[linkData[3],linkData[0],linkData[2],linkData[1]];
 const fmt=n=>new Intl.NumberFormat('ru-RU').format(Math.round(n));
 function persist(){try{sessionStorage.setItem('cap-growth-quest-v7',JSON.stringify(data))}catch(e){}}
-function restore(){try{const saved=JSON.parse(sessionStorage.getItem('cap-growth-quest-v7')||'null');if(saved){data.coins=Number(saved.coins)||0;data.found=Array.isArray(saved.found)?saved.found:[];data.strategy=Array.isArray(saved.strategy)&&saved.strategy.length===5?saved.strategy:[null,null,null,null,null];data.crystals=Array.isArray(saved.crystals)&&saved.crystals.length===5?saved.crystals.map(v=>v===true):[false,false,false,false,false];data.issues=Array.isArray(saved.issues)?saved.issues:[];data.ownerAnswers=Array.isArray(saved.ownerAnswers)&&saved.ownerAnswers.length===4?saved.ownerAnswers.map(x=>Number.isInteger(x)&&x>=0&&x<=2?x:null):[null,null,null,null];data.links=saved.links||{};data.pipeTiles=saved.pipeVersion===10&&saved.pipeTiles&&typeof saved.pipeTiles==='object'&&!Array.isArray(saved.pipeTiles)?saved.pipeTiles:{};data.pipeVersion=10;data.pipeTool=['straight','corner','erase'].includes(saved.pipeTool)?saved.pipeTool:'straight';data.pipeUnlocks=Array.isArray(saved.pipeUnlocks)?[...new Set(saved.pipeUnlocks.filter(id=>['shorts','ugc','ai','referral'].includes(id)))]:[];data.audience=audienceTiers.includes(saved.audience)?saved.audience:10000;data.seenTiers=saved.seenTiers||[];data.fifteenTiles=Array.isArray(saved.fifteenTiles)?saved.fifteenTiles:null;data.fifteenMoves=Math.max(0,Number(saved.fifteenMoves)||0);data.completed=saved.completed||[]}}catch(e){}}
+function restore(){try{const saved=JSON.parse(sessionStorage.getItem('cap-growth-quest-v7')||'null');if(saved){data.coins=Number(saved.coins)||0;data.found=Array.isArray(saved.found)?saved.found:[];data.strategy=Array.isArray(saved.strategy)&&saved.strategy.length===5?saved.strategy:[null,null,null,null,null];data.crystals=Array.isArray(saved.crystals)&&saved.crystals.length===5?saved.crystals.map(v=>v===true):[false,false,false,false,false];data.issues=Array.isArray(saved.issues)?saved.issues:[];data.ownerAnswers=Array.isArray(saved.ownerAnswers)&&saved.ownerAnswers.length===4?saved.ownerAnswers.map(x=>Number.isInteger(x)&&x>=0&&x<=2?x:null):[null,null,null,null];data.links=saved.links||{};data.pipeTiles=saved.pipeVersion===11&&saved.pipeTiles&&typeof saved.pipeTiles==='object'&&!Array.isArray(saved.pipeTiles)?saved.pipeTiles:{};data.pipeVersion=11;data.pipeTool=['straight','corner','erase'].includes(saved.pipeTool)?saved.pipeTool:'straight';data.pipeUnlocks=saved.pipeVersion===11&&Array.isArray(saved.pipeUnlocks)?[...new Set(saved.pipeUnlocks.filter(id=>['shorts','ugc','ai','referral'].includes(id)))]:[];data.audience=audienceTiers.includes(saved.audience)?saved.audience:10000;data.seenTiers=saved.seenTiers||[];data.fifteenTiles=Array.isArray(saved.fifteenTiles)?saved.fifteenTiles:null;data.fifteenMoves=Math.max(0,Number(saved.fifteenMoves)||0);data.completed=Array.isArray(saved.completed)?saved.completed:[];if(saved.pipeVersion!==11&&data.completed.includes('content')){data.completed=data.completed.filter(x=>x!=='content');data.coins=Math.max(0,data.coins-100)}}}catch(e){}}
 function updateCoins(){$$('[data-coins]').forEach(x=>x.textContent=fmt(data.coins));$$('[data-progress]').forEach(x=>x.replaceChildren(...Array.from({length:6},(_,i)=>{const a=document.createElement('span');a.className=i<Math.max(0,stages.indexOf(current)-1)?'done':'';return a})))}
 function reward(id){if(data.completed.includes(id))return;data.completed.push(id);data.coins+=100;updateCoins();showToast('★ +100 монет за миссию');persist()}
 function showToast(s){const t=$('#toast');t.textContent=s;t.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),2200)}
@@ -655,21 +655,24 @@ function researchReveal(k){
 }
 $$('[data-clue]').forEach(btn=>btn.addEventListener('click',()=>researchReveal(btn.dataset.clue)));
 $('#research-next').addEventListener('click',()=>{if(['market','parent','feedback'].every(k=>data.found.includes(k)))go('strategy')});
-// Mission 4: 8x8 compact labyrinth; four disjoint paths are solvable.
-const pipeCols=8,pipeRows=8,pipeCellSize=40,pipeStock={straight:10,corner:16},pipeUndo=[];
+// Mission 4: scattered 8x8 network, with interior terminals and non-overlapping detours.
+// A verified complete solution uses 11 straights and 10 corners; inventory leaves a small margin.
+const pipeCols=8,pipeRows=8,pipeCellSize=40,pipeStock={straight:13,corner:13},pipeUndo=[];
 const pipeDefs=[
- {id:'shorts',name:'МЕДИА',goal:'ОХВАТ',color:'#60dfff',colorName:'голубого',from:[2,0],to:[0,3],startDir:'E',endDir:'N',symbol:'М',insight:'Медийный контент помогает повышать узнаваемость CAP Education.'},
- {id:'ugc',name:'UGC',goal:'ДОВЕРИЕ',color:'#ff79b2',colorName:'розового',from:[0,7],to:[3,7],startDir:'S',endDir:'E',symbol:'U',insight:'Истории родителей и реальные отзывы помогают формировать доверие.'},
- {id:'ai',name:'ОБУЧАЮЩИЙ КОНТЕНТ',goal:'ИНТЕРЕС',color:'#a9f36b',colorName:'зелёного',from:[5,0],to:[7,2],startDir:'E',endDir:'S',symbol:'К',insight:'Полезные видео и AI-мультфильмы помогают привлечь внимание детей и семей.'},
- {id:'referral',name:'РЕКОМЕНДАЦИИ',goal:'ОПЛАТЫ',color:'#ffbd54',colorName:'жёлтого',from:[7,5],to:[5,7],startDir:'N',endDir:'E',symbol:'Р',insight:'Рекомендации семей могут приводить новых клиентов и поддерживать продажи.'}
+ {id:'shorts',name:'МЕДИА',goal:'ОХВАТ',color:'#60dfff',colorName:'голубого',from:[1,1],to:[4,6],startDir:'E',endDir:'E',symbol:'М',insight:'Медийный контент помогает повышать узнаваемость CAP Education.'},
+ {id:'ugc',name:'UGC',goal:'ДОВЕРИЕ',color:'#ff79b2',colorName:'розового',from:[0,5],to:[5,7],startDir:'E',endDir:'S',symbol:'U',insight:'Истории родителей и реальные отзывы помогают формировать доверие.'},
+ {id:'ai',name:'ОБУЧАЮЩИЙ КОНТЕНТ',goal:'ИНТЕРЕС',color:'#a9f36b',colorName:'зелёного',from:[5,0],to:[6,3],startDir:'E',endDir:'E',symbol:'К',insight:'Полезные видео и AI-мультфильмы помогают привлечь внимание детей и семей.'},
+ {id:'referral',name:'РЕКОМЕНДАЦИИ',goal:'ОПЛАТЫ',color:'#ffbd54',colorName:'жёлтого',from:[7,6],to:[3,4],startDir:'W',endDir:'N',symbol:'Р',insight:'Рекомендации семей могут приводить новых клиентов и поддерживать продажи.'}
 ];
 const pipeIslands=[
- [[2,2],[2,3],[3,2],[3,3]],
  [[0,1],[0,2]],
+ [[0,7]],
  [[1,4],[1,5]],
- [[6,0],[7,0]],
- [[6,7],[7,7]],
- [[5,4],[6,4]]
+ [[2,1],[3,1]],
+ [[3,2],[3,3]],
+ [[5,2],[5,3]],
+ [[6,0],[6,6]],
+ [[7,0]]
 ];
 const pipeBlocked=new Set(pipeIslands.flat().map(([r,c])=>r+','+c));
 const pipeDirs={N:[-1,0],E:[0,1],S:[1,0],W:[0,-1]},pipeReverse={N:'S',S:'N',E:'W',W:'E'};
@@ -977,7 +980,7 @@ $('#fifteen-undo').addEventListener('click',()=>{
  persist();renderPuzzle();
 });
 $('#puzzle-next').addEventListener('click',()=>{if(fifteenSolved(data.fifteenTiles))go('final')});
-$('#restart').addEventListener('click',()=>{data.coins=0;data.found=[];data.strategy=Array(5).fill(null);data.crystals=[false,false,false,false,false];data.chosen=null;data.issues=[];data.ownerAnswers=[null,null,null,null];window.CAPFounder.reset();data.links={};data.selected=null;data.pipes={};data.pipeActive=null;data.pipeTiles={};data.pipeVersion=10;data.pipeTool='straight';data.pipeUnlocks=[];$('#pipe-achievement').hidden=true;pipeUndo.length=0;data.audience=10000;data.seenTiers=[];data.fifteenTiles=null;data.fifteenMoves=0;fifteenUndo.length=0;data.completed=[];previewPlayed=false;panEngaged=false;pan.scrollLeft=0;window.CAPCrystals.reset();$('#strategy-check').textContent='Заряжено 0 из 5';$('#strategy-check').disabled=true;$('#strategy-feedback').textContent='Поймай кристаллы пяти цветов и зажги пять отдельных экранов стратегии.';$('#research-status').textContent='Три опоры роста';$('#research-copy').textContent='Найди аналитическую доску, глобус и город за окном. Каждая находка раскроет часть будущего CAP.';$('#pilot-feedback').textContent='Выберите приоритеты, которые ближе всего вашему видению. Это короткое стратегическое интервью, не экзамен.';$('#content-feedback').textContent='Четыре цвета скрывают четыре маркетинговых потока. Соедини пары и открой все достижения!';$('#puzzle-feedback').textContent='Маленькие решения превращаются в большую систему роста. Расставь числа от 1 до 15, двигая плитки в свободную клетку. Затем открой план на 90 дней.';persist();go('home')});
+$('#restart').addEventListener('click',()=>{data.coins=0;data.found=[];data.strategy=Array(5).fill(null);data.crystals=[false,false,false,false,false];data.chosen=null;data.issues=[];data.ownerAnswers=[null,null,null,null];window.CAPFounder.reset();data.links={};data.selected=null;data.pipes={};data.pipeActive=null;data.pipeTiles={};data.pipeVersion=11;data.pipeTool='straight';data.pipeUnlocks=[];$('#pipe-achievement').hidden=true;pipeUndo.length=0;data.audience=10000;data.seenTiers=[];data.fifteenTiles=null;data.fifteenMoves=0;fifteenUndo.length=0;data.completed=[];previewPlayed=false;panEngaged=false;pan.scrollLeft=0;window.CAPCrystals.reset();$('#strategy-check').textContent='Заряжено 0 из 5';$('#strategy-check').disabled=true;$('#strategy-feedback').textContent='Поймай кристаллы пяти цветов и зажги пять отдельных экранов стратегии.';$('#research-status').textContent='Три опоры роста';$('#research-copy').textContent='Найди аналитическую доску, глобус и город за окном. Каждая находка раскроет часть будущего CAP.';$('#pilot-feedback').textContent='Выберите приоритеты, которые ближе всего вашему видению. Это короткое стратегическое интервью, не экзамен.';$('#content-feedback').textContent='Четыре цвета скрывают четыре маркетинговых потока. Соедини пары и открой все достижения!';$('#puzzle-feedback').textContent='Маленькие решения превращаются в большую систему роста. Расставь числа от 1 до 15, двигая плитки в свободную клетку. Затем открой план на 90 дней.';persist();go('home')});
 window.CAPFounder.init({data,reward,go,persist});window.CAPCrystals.init({data,reward,go,persist});restore();updateCoins();go(({research:'research',strategy:'strategy',pipes:'content',interview:'pilot',puzzle:'puzzle',final:'final'})[new URLSearchParams(window.location.search).get('preview')]||'home');
 
 })();

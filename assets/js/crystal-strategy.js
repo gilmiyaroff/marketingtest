@@ -21,7 +21,7 @@ function render(){
  defs.forEach((d,i)=>{
   const powered=ctx.data.crystals[i];
   const channel=document.createElement('div');
-  channel.className='crystal-channel'+(powered?' is-powered':'');
+  channel.className='crystal-channel'+(powered?' is-powered':'')+(held===i&&!powered?' is-selected':'');
   styleGem(channel,i);
   const screen=document.createElement('div');screen.className='crystal-mini-screen'+(powered?' is-powered':'');
   screen.setAttribute('aria-live','polite');

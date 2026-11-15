@@ -277,3 +277,74 @@
  #content #pipe-board .pipe-cell.pipe-wall{border-width:2px!important}
  #content #pipe-board .pipe-cell.pipe-wall::after{inset:18%}
 }
+
+/* Research art: paint the full scrollable world with a real image.
+   This also avoids the dark unpainted band seen on iOS after rightward paging. */
+#research #explore-scroll{
+ overflow-x:auto;
+ overflow-y:hidden;
+ overscroll-behavior-x:contain;
+ -webkit-overflow-scrolling:touch;
+}
+#research #explore-world{
+ position:relative;
+ background-image:none!important;
+ background-color:#30264f;
+ overflow:hidden;
+ flex-shrink:0;
+}
+#research #explore-world .explore-art{
+ position:absolute!important;
+ inset:0!important;
+ width:100%!important;
+ height:100%!important;
+ max-width:none!important;
+ object-fit:fill!important;
+ display:block!important;
+ z-index:0;
+ pointer-events:none!important;
+ user-select:none!important;
+ -webkit-user-select:none!important;
+ -webkit-user-drag:none;
+}
+#research #explore-world .clue{z-index:2}
+
+/* Founder interview: confirmation replaces the upper speech bubble in place.
+   It never inserts height between the choices and the navigation buttons. */
+#pilot .owner-bubble{
+ position:relative;
+ isolation:isolate;
+ min-height:105px;
+}
+#pilot .owner-bubble #owner-response{
+ position:absolute!important;
+ inset:0!important;
+ z-index:4;
+ display:flex;
+ align-items:center;
+ justify-content:flex-start;
+ width:100%;
+ height:100%;
+ min-height:0;
+ margin:0;
+ padding:9px 12px;
+ overflow-y:auto;
+ background:linear-gradient(145deg,#286053,#244940);
+ color:#eaffed;
+ border:0;
+ border-radius:0;
+ box-shadow:inset 0 0 0 2px #60d1ad;
+ font-size:clamp(12px,2.1vw,15px);
+ line-height:1.4;
+ font-weight:800;
+ text-align:left;
+}
+#pilot .owner-bubble #owner-response[hidden]{display:none!important}
+@media(max-width:700px){
+ #pilot .owner-bubble{min-height:116px}
+ #pilot .owner-bubble #owner-response{
+  padding:7px 9px;
+  font-size:clamp(11px,3.05vw,13px);
+  line-height:1.35;
+ }
+}

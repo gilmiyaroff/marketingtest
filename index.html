@@ -668,10 +668,10 @@ $('#research-next').addEventListener('click',()=>{if(['market','parent','feedbac
 // 11 crossed cells from the sketch are wooden pixel crates.
 const pipeCols=8,pipeRows=8,pipeCellSize=40,pipeUndo=[];
 const pipeDefs=[
- {id:'shorts',name:'МЕДИА',goal:'ОХВАТ',color:'#60dfff',colorName:'голубого',from:[2,3],to:[1,5],startDir:'S',endDir:'W',symbol:'М',insight:'Медийный контент помогает повышать узнаваемость CAP Education.'},
- {id:'ugc',name:'UGC',goal:'ДОВЕРИЕ',color:'#ff79b2',colorName:'розового',from:[5,3],to:[3,7],startDir:'S',endDir:'N',symbol:'U',insight:'Истории родителей и реальные отзывы помогают формировать доверие.'},
- {id:'ai',name:'ОБУЧАЮЩИЙ КОНТЕНТ',goal:'ИНТЕРЕС',color:'#a9f36b',colorName:'зелёного',from:[1,2],to:[7,1],startDir:'S',endDir:'S',symbol:'К',insight:'Полезные видео и AI-мультфильмы помогают привлечь внимание детей и семей.'},
- {id:'referral',name:'РЕКОМЕНДАЦИИ',goal:'ОПЛАТЫ',color:'#ffbd54',colorName:'жёлтого',from:[4,1],to:[3,5],startDir:'W',endDir:'S',symbol:'Р',insight:'Рекомендации семей могут приводить новых клиентов и поддерживать продажи.'}
+ {id:'shorts',name:'МЕДИА',goal:'ОХВАТ',color:'#60dfff',colorName:'голубого',from:[2,3],to:[1,5],symbol:'М',insight:'Медийный контент помогает повышать узнаваемость CAP Education.'},
+ {id:'ugc',name:'UGC',goal:'ДОВЕРИЕ',color:'#ff79b2',colorName:'розового',from:[5,3],to:[3,7],symbol:'U',insight:'Истории родителей и реальные отзывы помогают формировать доверие.'},
+ {id:'ai',name:'ОБУЧАЮЩИЙ КОНТЕНТ',goal:'ИНТЕРЕС',color:'#a9f36b',colorName:'зелёного',from:[1,2],to:[7,1],symbol:'К',insight:'Полезные видео и AI-мультфильмы помогают привлечь внимание детей и семей.'},
+ {id:'referral',name:'РЕКОМЕНДАЦИИ',goal:'ОПЛАТЫ',color:'#ffbd54',colorName:'жёлтого',from:[4,1],to:[3,5],symbol:'Р',insight:'Рекомендации семей могут приводить новых клиентов и поддерживать продажи.'}
 ];
 const pipeIslands=[
  [[0,0]],[[0,4]],[[0,7],[1,7]],
@@ -689,12 +689,13 @@ function pipePorts(p){
  if(p.kind==='straight')return p.rot%2?['N','S']:['W','E'];
  return [['N','E'],['E','S'],['S','W'],['W','N']][(p.rot%4+4)%4]||[];
 }
-function pipeTrace(def){
- let r=def.from[0],c=def.from[1],dir=def.startDir;
+function pipeTrace(def,startDir){
+ let r=def.from[0],c=def.from[1],dir=startDir;
  const visited=new Set(),path=[];
  for(let step=0;step<pipeRows*pipeCols;step++){
   const [dr,dc]=pipeDirs[dir],nr=r+dr,nc=c+dc;
-  if(pipeMatch(def.to,nr,nc))return {complete:dir===def.endDir,path};
+  // Either terminal accepts a pipe from every adjacent, traversable side.
+  if(pipeMatch(def.to,nr,nc))return {complete:true,path};
   if(!pipePlaceable(nr,nc))return {complete:false,path};
   const key=pipeKey(nr,nc),tile=data.pipeTiles[key],ports=pipePorts(tile),incoming=pipeReverse[dir];
   if(!tile||visited.has(key)||!ports.includes(incoming))return {complete:false,path};
@@ -705,32 +706,59 @@ function pipeTrace(def){
  }
  return {complete:false,path};
 }
+function pipeTraceOptions(def){
+ return Object.keys(pipeDirs).map(direction=>pipeTrace(def,direction));
+}
 // A single pipe segment can carry just ONE color. Parallel colored streams
 // must remain physically separate; overlapping complete traces are invalid.
 function pipeRouteStates(){
- const routes=pipeDefs.map(def=>({def,status:pipeTrace(def)}));
- const owners=new Map();
- for(const route of routes){
-  if(!route.status.complete)continue;
-  for(const key of route.status.path){
-   if(!owners.has(key))owners.set(key,new Set());
-   owners.get(key).add(route.def.id);
-  }
- }
- routes.forEach(route=>{
-  if(!route.status.complete)return;
-  const overlapping=route.status.path.some(key=>(owners.get(key)?.size||0)>1);
-  if(overlapping){route.status.complete=false;route.status.conflict=true}
+ const candidates=pipeDefs.map(def=>{
+  const traces=pipeTraceOptions(def);
+  return {def,traces,complete:traces.filter(status=>status.complete)};
  });
- return routes;
+ // Terminals can have several possible entrances. Pick the largest set of
+ // simultaneously connected routes that do not share any physical pipe tile.
+ let bestCount=-1,bestChoices=[];
+ function choose(index,used,choices,count){
+  if(index===candidates.length){
+   if(count>bestCount){bestCount=count;bestChoices=choices.slice()}
+   return;
+  }
+  for(const status of candidates[index].complete){
+   if(status.path.some(key=>used.has(key)))continue;
+   const nextUsed=new Set(used);
+   status.path.forEach(key=>nextUsed.add(key));
+   choices.push(status);
+   choose(index+1,nextUsed,choices,count+1);
+   choices.pop();
+  }
+  choices.push(null);
+  choose(index+1,used,choices,count);
+  choices.pop();
+ }
+ choose(0,new Set(),[],0);
+ return candidates.map(({def,traces,complete},index)=>{
+  const picked=bestChoices[index];
+  if(picked)return {def,status:picked};
+  const preview=complete[0]||traces.reduce((best,next)=>next.path.length>best.path.length?next:best,traces[0]);
+  return {def,status:{complete:false,path:preview.path,conflict:complete.length>0}};
+ });
 }
-function pipeGlyph(tile,color='#bcd8e5'){
- const paths=pipePorts(tile).map(x=>x==='N'?'M50 50 V0':x==='E'?'M50 50 H100':x==='S'?'M50 50 V100':'M50 50 H0').join(' ');
+function pipePortArt(ports,color='#bcd8e5'){
+ const paths=ports.map(x=>x==='N'?'M50 50 V0':x==='E'?'M50 50 H100':x==='S'?'M50 50 V100':'M50 50 H0').join(' ');
  return '<svg viewBox="0 0 100 100" aria-hidden="true" focusable="false">'
  +'<path d="'+paths+'" stroke="#21192c" stroke-width="40" stroke-linecap="square" fill="none"/>'
  +'<path d="'+paths+'" stroke="'+color+'" stroke-width="28" stroke-linecap="square" fill="none"/>'
  +'<path d="'+paths+'" stroke="#fff7df9c" stroke-width="5" stroke-linecap="square" fill="none"/>'
  +'<rect x="39" y="39" width="22" height="22" fill="'+color+'" stroke="#fff1ca" stroke-width="3"/></svg>';
+}
+function pipeGlyph(tile,color='#bcd8e5'){
+ return pipePortArt(pipePorts(tile),color);
+}
+function pipeTerminalGlyph(r,c,color){
+ // Only draw ports where a pipe can physically be placed (not into walls/edges).
+ const ports=Object.entries(pipeDirs).filter(([,shift])=>pipePlaceable(r+shift[0],c+shift[1])).map(([direction])=>direction);
+ return pipePortArt(ports,color);
 }
 // The blueprint pieces are already installed. Only their rotations are randomized.
 // Remaining free cells contain distractor pieces, so every round is solvable.
@@ -751,7 +779,6 @@ function pipeSolvedPieces(){
  for(const def of pipeDefs){
   const path=pipeBlueprintPaths[def.id];
   if(!path||!pipeMatch(path[0],...def.from)||!pipeMatch(path[path.length-1],...def.to))throw Error('Invalid pipe blueprint '+def.id);
-  if(pipeStep(path[0],path[1])!==def.startDir||pipeStep(path[path.length-2],path[path.length-1])!==def.endDir)throw Error('Blueprint port mismatch '+def.id);
   for(let i=1;i<path.length-1;i++){
    const p=path[i],key=pipeKey(...p);
    if(!pipePlaceable(...p)||tiles[key])throw Error('Overlapping or blocked pipe blueprint '+key);
@@ -778,10 +805,13 @@ function pipeShuffle(){
  data.pipeTiles=pipeBuildScramble();
  // Every colored route starts incomplete, even in the unlikely event of lucky rotations.
  for(const def of pipeDefs){
-  const status=pipeTrace(def);
-  if(status.complete){
-   const key=status.path[0],tile=data.pipeTiles[key];
-   if(tile)tile.rot=(tile.rot+1)%(tile.kind==='straight'?2:4);
+  // A random board must not begin with any already connected colored pair.
+  for(let attempt=0;attempt<16;attempt++){
+   const status=pipeTraceOptions(def).find(route=>route.complete);
+   if(!status)break;
+   const tile=data.pipeTiles[status.path[0]];
+   if(!tile)break;
+   tile.rot=(tile.rot+1)%(tile.kind==='straight'?2:4);
   }
  }
  data.pipeUnlocks=[];
@@ -862,9 +892,8 @@ function drawPipes(){
    const source=pipeMatch(endpoint.from,r,c);
    cell.classList.add('pipe-endpoint');cell.style.setProperty('--pipe-color',endpoint.color);
    cell.disabled=true;
-   const direction=source?endpoint.startDir:pipeReverse[endpoint.endDir];
    const revealed=data.pipeUnlocks.includes(endpoint.id);
-   cell.innerHTML='<span class="pipe-terminal pipe-t-'+direction+'"></span><span class="endpoint-glyph">'+(source?(revealed?endpoint.symbol:'?'):'◆')+'</span>';
+   cell.innerHTML=pipeTerminalGlyph(r,c,endpoint.color)+'<span class="endpoint-glyph">'+(source?(revealed?endpoint.symbol:'?'):'◆')+'</span>';
    cell.setAttribute('aria-label',(source?'Начало ':'Финиш ')+(revealed?endpoint.name+' — '+endpoint.goal:endpoint.colorName+' скрытого потока'));
   }else if(tile){
    const color=flows.get(key);cell.classList.add('pipe-used');if(color)cell.classList.add('pipe-lit');
@@ -879,7 +908,7 @@ function drawPipes(){
  $('#content-next').textContent=done===4?'К симулятору роста':'Соединено '+done+' из 4';
  const conflict=routes.some(r=>r.status.conflict);
  $('#pipes-tip').textContent=conflict?'Два потока пересеклись — разверни трубы, чтобы цвета шли по отдельным линиям.':done===4?'Все четыре потока соединены!':
- 'Нажимай на трубы, чтобы поворачивать их. Соедини одинаковые цвета. Лишние трубы отвлекают.';
+ 'Нажимай на трубы, чтобы поворачивать их. К башням можно подключаться с любой доступной стороны. Лишние трубы отвлекают.';
  $('#pipe-undo').disabled=pipeUndo.length===0;
 }
 $('#pipe-board').addEventListener('click',e=>{

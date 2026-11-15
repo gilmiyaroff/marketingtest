@@ -414,7 +414,7 @@
     <div class="layout mission-layout">
       <header class="hud"><button class="hud-btn" data-menu>← Меню</button><span class="hud-title">01 / 06</span><div class="hud-tag">◈ <span data-coins>0</span></div></header>
       
-      <div class="activity"><div class="explore"><div class="explore-scroll" id="explore-scroll" tabindex="0" aria-label="Панорама исследовательской комнаты. На компьютере зажми левую кнопку мыши и тащи картинку; можно также использовать колесо мыши и стрелки. На телефоне проведи пальцем."><div class="explore-world" id="explore-world"><button class="clue" data-clue="parent" aria-label="Открыть масштабирование: глобус"></button><button class="clue" data-clue="market" aria-label="Открыть данные: аналитика"></button><button class="clue" data-clue="feedback" aria-label="Открыть влияние: город за окном"></button></div></div><button class="pan-arrow left" id="pan-left" type="button" aria-label="Прокрутить панораму влево" title="Листать влево">❮</button><button class="pan-arrow right" id="pan-right" type="button" aria-label="Прокрутить панораму вправо" title="Листать вправо">❯</button><div class="pan-bar" aria-hidden="true"><span id="pan-thumb"></span></div><div class="research-pan-help">↔ Листай панораму · нажимай на объекты</div></div></div>
+      <div class="activity"><div class="explore"><div class="explore-scroll" id="explore-scroll" tabindex="0" aria-label="Панорама исследовательской комнаты. На компьютере зажми левую кнопку мыши и тащи картинку; можно также использовать колесо мыши и стрелки. На телефоне проведи пальцем."><div class="explore-world" id="explore-world"><img class="explore-art" src="assets/scenes/research.webp" alt="" aria-hidden="true" draggable="false" decoding="async"/><button class="clue" data-clue="parent" aria-label="Открыть масштабирование: глобус"></button><button class="clue" data-clue="market" aria-label="Открыть данные: аналитика"></button><button class="clue" data-clue="feedback" aria-label="Открыть влияние: город за окном"></button></div></div><button class="pan-arrow left" id="pan-left" type="button" aria-label="Прокрутить панораму влево" title="Листать влево">❮</button><button class="pan-arrow right" id="pan-right" type="button" aria-label="Прокрутить панораму вправо" title="Листать вправо">❯</button><div class="pan-bar" aria-hidden="true"><span id="pan-thumb"></span></div><div class="research-pan-help">↔ Листай панораму · нажимай на объекты</div></div></div>
       <div class="spacer"></div>
       <div class="bottom-stack"><div class="research-nav"><button class="soft-btn research-back" type="button" data-menu>← Назад</button><button class="gold-btn" id="research-next" disabled>Открыто 0 из 3</button></div><div class="panel"><div class="dialog-title" id="research-status">Три опоры роста</div><p id="research-copy">Найди аналитическую доску, глобус и город за окном. Каждая находка раскроет часть будущего CAP.</p><div class="clue-chip-row" role="group" aria-label="Три опоры потенциала"><span class="clue-chip" data-chip="market"><span class="research-chip-symbol">▥</span> ДАННЫЕ</span><span class="clue-chip" data-chip="parent"><span class="research-chip-symbol">◎</span> МАСШТАБ</span><span class="clue-chip" data-chip="feedback"><span class="research-chip-symbol">✦</span> ВЛИЯНИЕ</span></div></div></div>
     <div class="chap-head"><div class="chapter-kicker">МИССИЯ 01 · ПОТЕНЦИАЛ CAP EDUCATION</div><h1 class="chapter-title">Открой потенциал CAP Education</h1><p>Три опоры роста CAP: данные, масштаб, влияние.</p><div class="mission-progress-meta"><span>МАРШРУТ РОСТА</span><strong>01 / 06</strong></div><div class="progress" data-progress></div></div>
@@ -454,8 +454,8 @@
 
 <div class="activity"><div class="owner-dialog">
 <div class="owner-status"><span class="owner-pulse"></span> STRATEGY INTERVIEW <span id="owner-counter">01 / 04</span></div>
-<div class="owner-host"><div class="owner-avatar"><picture><source srcset="assets/characters/hero-petting.webp" type="image/webp"><img src="assets/characters/hero-petting.gif" alt="Стратег с котом"/></picture></div><div class="owner-bubble"><strong>СТРАТЕГ CAP GROWTH</strong><p id="owner-talk">Привет! Вижу, вы изучили рынок и наметили стратегию. Расскажите, каким должен стать маркетинг CAP Education?</p></div></div>
-<div id="owner-question-panel"><div class="owner-question-id" id="owner-question-id"></div><h2 id="owner-question"></h2><div class="owner-options" id="owner-options" role="group" aria-label="Варианты ответов"></div><div id="owner-response" class="owner-response" hidden aria-live="polite"></div></div>
+<div class="owner-host"><div class="owner-avatar"><picture><source srcset="assets/characters/hero-petting.webp" type="image/webp"><img src="assets/characters/hero-petting.gif" alt="Стратег с котом"/></picture></div><div class="owner-bubble"><strong>СТРАТЕГ CAP GROWTH</strong><p id="owner-talk">Привет! Вижу, вы изучили рынок и наметили стратегию. Расскажите, каким должен стать маркетинг CAP Education?</p><div id="owner-response" class="owner-response" hidden role="status" aria-live="polite"></div></div></div>
+<div id="owner-question-panel"><div class="owner-question-id" id="owner-question-id"></div><h2 id="owner-question"></h2><div class="owner-options" id="owner-options" role="group" aria-label="Варианты ответов"></div></div>
 <div id="owner-summary" class="owner-summary" hidden><div class="owner-question-id">ПРОФИЛЬ СОБРАН · 4/4</div><h2>Ваши ориентиры для маркетинга</h2><div class="owner-recap" id="owner-recap"></div><p>В финале вы увидите, как выбранные приоритеты меняют план на первые 90 дней. Это мнение собственника, а не проверенные данные рынка.</p></div>
 <div class="owner-nav"><button class="owner-back" id="owner-back" type="button">← Предыдущий вопрос</button><button class="gold-btn owner-next" type="button" id="pilot-next" disabled>Выберите ответ</button></div>
 </div></div>
@@ -541,7 +541,7 @@
 <link rel="stylesheet" href="assets/css/retro-monitor.css?v=bba35fc"/>
 <link rel="stylesheet" href="assets/css/mobile-play.css?v=dc7506bd"/>
 <link rel="stylesheet" href="assets/css/crystal-strategy.css?v=two-three-5211"/>
-<link rel="stylesheet" href="assets/css/mission-layout.css?v=pipe-blueprint-12"/>
+<link rel="stylesheet" href="assets/css/mission-layout.css?v=pan-dialog-20261115"/>
 <script src="assets/js/founder-interview.js?v=7f7fa4"></script>
 <script src="assets/js/mobile-play.js?v=88b0d8ba"></script>
 <script src="assets/js/crystal-strategy.js?v=59338000"></script>
@@ -578,12 +578,16 @@ $('#how').addEventListener('click',()=>modal('Как играть','Осмотр
 const pan=$('#explore-scroll'),panLeft=$('#pan-left'),panRight=$('#pan-right');
 function panSize(){
  const world=$('#explore-world');
- const width=Math.max(pan.clientWidth*1.4,pan.clientHeight*1439/810);
- world.style.width=Math.max(0,Math.round(width))+'px';
+ // Preserve the artwork's native 1439:810 aspect ratio instead of creating
+ // 40% artificial extra width (which could reveal an unpainted dark strip).
+ const width=Math.max(pan.clientWidth,pan.clientHeight*1439/810);
+ const px=Math.max(0,Math.ceil(width))+'px';
+ if(world.style.width!==px)world.style.width=px;
 }
 function panUpdate(){
  panSize();
  const max=Math.max(0,pan.scrollWidth-pan.clientWidth);
+ if(pan.scrollLeft>max)pan.scrollLeft=max;
  const ratio=Math.min(1,pan.clientWidth/Math.max(1,pan.scrollWidth));
  $('#pan-thumb').style.width=Math.max(12,ratio*100)+'%';
  $('#pan-thumb').style.left=(max?((100-ratio*100)*pan.scrollLeft/max):0)+'%';
@@ -592,7 +596,11 @@ function panUpdate(){
 }
 function movePan(direction){
  panEngaged=true;
- pan.scrollBy({left:direction*Math.max(140,pan.clientWidth*.68),behavior:'smooth'});
+ panSize();
+ const max=Math.max(0,pan.scrollWidth-pan.clientWidth);
+ const step=Math.max(110,pan.clientWidth*.68);
+ const target=Math.min(max,Math.max(0,pan.scrollLeft+direction*step));
+ pan.scrollTo({left:target,behavior:'smooth'});
 }
 panLeft.addEventListener('click',()=>movePan(-1));
 panRight.addEventListener('click',()=>movePan(1));

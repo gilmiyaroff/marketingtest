@@ -67,6 +67,8 @@ function render(){
  $('#owner-back').disabled=step===0;$('#owner-back').textContent=done?'← Изменить ответы':'← Предыдущий вопрос';
  $('#owner-talk').textContent=done?'Спасибо! Теперь ваши приоритеты помогут мне адаптировать финальный план CAP Education.':questions[step].intro;
  if(done){
+  $('#owner-response').hidden=true;
+  $('#owner-talk').removeAttribute('aria-hidden');
   const recap=$('#owner-recap');recap.replaceChildren();
   questions.forEach((q,i)=>{
    const node=document.createElement('div');node.className='owner-recap-item';
@@ -91,6 +93,7 @@ function render(){
  });
  const response=$('#owner-response');response.hidden=selected===null;
  response.textContent=selected===null?'':'✓ Понял. '+q.answers[selected][1];
+ $('#owner-talk').setAttribute('aria-hidden',String(selected!==null));
  $('#pilot-next').disabled=selected===null;
  $('#pilot-next').textContent=selected===null?'Выберите ответ':step===3?'Собрать профиль →':'Следующий вопрос →';
  $('#pilot-feedback').textContent=selected===null?'Нет правильных и неправильных ответов. Выберите наиболее близкий вам приоритет.':'Ответ принят — его можно изменить до следующего вопроса.';

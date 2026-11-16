@@ -29,6 +29,55 @@ svg{width:100%;height:auto;display:block}.plot{cursor:pointer;stroke:#fff;stroke
 footer{padding:30px 0 50px;color:#758279;font-size:13px}
 @media (max-width: 1024px){.zone-grid{grid-template-columns:1fr 1fr}.map-layout{grid-template-columns:1fr}.detail-topimg{height:180px}.lot-list{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media (max-width: 700px){.hero-card{min-height:520px}.hero-content{padding:30px 22px 28px}.hero p{font-size:16px}.options,.options.four,.zone-grid{grid-template-columns:1fr}.quiz-title{font-size:30px}.zone-name{font-size:23px}.lot-list{grid-template-columns:repeat(2,minmax(0,1fr))}.specs,.utilities{grid-template-columns:1fr}.map-toolbar{align-items:flex-start}.detail-title{font-size:28px}}
+
+[hidden]{display:none!important}
+body.plot-inner .hero{display:none}
+body.plot-inner main{padding-top:18px}
+body.plot-inner .map-head,body.plot-inner .section-head{margin-top:10px}
+#map .map-layout{grid-template-columns:1fr}
+#map .canvas{overflow-x:auto}
+#map .canvas svg{min-width:650px}
+#map .lot-chip:hover{border-color:#6b9e80;background:#eaf4ed}
+#map .plot:focus-visible{stroke:#cba75f;stroke-width:6;outline:0}
+.plot-page{padding:0 0 65px}
+.plot-breadcrumb{display:flex;align-items:center;flex-wrap:wrap;gap:8px;color:#758176;margin:6px 0 20px;font-size:14px}
+.plot-breadcrumb button{border:0;background:none;color:var(--green);font-weight:800;padding:8px 0}
+.plot-columns{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(310px,.8fr);gap:19px;align-items:start}
+.plot-panel,.plot-details{background:#fff;border:1px solid var(--stroke);border-radius:24px;box-shadow:var(--shadow);overflow:hidden}
+.plot-photo{height:clamp(265px,32vw,420px);background-size:cover;background-position:center;position:relative}
+.plot-photo:after{content:"";position:absolute;inset:55% 0 0;background:linear-gradient(transparent,rgba(5,37,22,.55))}
+.plot-photo-label{position:absolute;bottom:21px;left:23px;color:white;font-weight:800;font-size:21px;z-index:1}
+.plot-photo-note{position:absolute;top:17px;left:18px;z-index:1;background:#fffffff0;border-radius:100px;padding:8px 13px;color:var(--green);font-size:12px;font-weight:800}
+.plot-mainbody{padding:26px}
+.plot-mainbody h2{font-size:26px;letter-spacing:-.03em;margin:0 0 12px}
+.plot-mainbody p{color:var(--muted);line-height:1.65;margin:0}
+.plot-mini-map{background:#dbe8d7;border:1px solid #d8e2d3;border-radius:17px;overflow:auto;margin-top:18px}
+.plot-mini-map svg{min-width:460px}
+.plot-details{position:sticky;top:96px}
+.plot-details .detail-topimg{height:0}
+.plot-details .detail-body{padding:27px}
+.plot-details .detail-title{font-size:35px;line-height:1.05}
+.plot-details .price{font-size:39px}
+.plot-details .detail-actions button{border-radius:12px;min-height:52px}
+.plot-details .detail-actions button:first-child{background:var(--green);color:#fff}
+.plot-details .detail-actions button:last-child{background:#fff;color:var(--green);border:1px solid #d4e1d5}
+.plot-details .detail-actions button:disabled{background:#bfc9c0;color:#fff;cursor:default}
+.plot-note{font-size:12px;color:#78867d;line-height:1.5;margin-top:11px}
+.plot-similar{margin-top:28px}
+.plot-similar h3{font-size:23px;letter-spacing:-.03em}
+.plot-similar-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.plot-similar-grid button{border:1px solid var(--stroke);background:#fff;text-align:left;padding:17px;border-radius:17px}
+.plot-similar-grid button:hover{background:#ecf4eb;border-color:#83ad8e}
+.plot-similar-grid strong{display:block;color:var(--green);font-size:19px;margin-top:10px}
+.plot-demo-dialog{position:fixed;inset:0;z-index:99;background:#092d209c;display:grid;place-items:center;padding:15px}
+.plot-demo-body{background:#fff;border-radius:22px;padding:27px;width:min(450px,100%);box-shadow:0 20px 65px #0003}
+.plot-demo-body h2{margin:0 0 12px}
+.plot-demo-body p{color:#64766a;line-height:1.6}
+.plot-demo-message{padding:13px;border-radius:12px;background:#eff4ed}
+.plot-demo-buttons{display:flex;gap:10px;margin-top:15px}
+.plot-demo-buttons button{flex:1}
+@media(max-width:930px){.plot-columns{grid-template-columns:1fr}.plot-details{position:static}}
+@media(max-width:680px){.plot-details .detail-body,.plot-mainbody{padding:20px}.plot-similar-grid{grid-template-columns:1fr}.plot-photo{height:260px}.plot-details .detail-title{font-size:29px}}
 </style>
 </head>
 <body>
@@ -56,6 +105,7 @@ footer{padding:30px 0 50px;color:#758279;font-size:13px}
   <section class="panel" id="quiz"></section>
   <section id="zones"></section>
   <section id="map"></section>
+  <section id="plotPage" hidden></section>
 </main>
 <footer class="container">Демо-версия концепции LANDJER. Визуализации и участки условные, сделаны для демонстрации механики выбора.</footer>
 <script>
@@ -184,10 +234,10 @@ function renderQuiz(){
   document.querySelectorAll('[data-value]').forEach(btn=>btn.onclick=()=>{
     answers[step.key]=btn.dataset.value;
     if(ui.step<steps.length-1){ui.step++; renderQuiz();}
-    else {renderZones();}
+    else {goTo('#zones');}
   });
   const prev=document.getElementById('prevStep'); if(prev) prev.onclick=()=>{ui.step--; renderQuiz();};
-  document.getElementById('skipBtn').onclick=()=>{answers.purpose=null;answers.where='any';answers.size='any';answers.plan='later';renderZones();};
+  document.getElementById('skipBtn').onclick=()=>{answers.purpose=null;answers.where='any';answers.size='any';answers.plan='later';goTo('#zones');};
 }
 function renderZones(){
   const data=filteredZones();
@@ -303,18 +353,112 @@ function detailHTML(z,l){
     </div>
     <div class="helper">${z.desc}</div>`;
 }
-function setLot(id){
-  const lot=ui.currentZone.lots.find(l=>l.id===id);
+function setScreen(view){
+  const ids={quiz:view==='quiz',zones:view==='zones',map:view==='map',plotPage:view==='plot'};
+  document.querySelector('.hero').hidden=!ids.quiz;
+  document.body.classList.toggle('plot-inner',view!=='quiz');
+  Object.keys(ids).forEach(id=>document.getElementById(id).hidden=!ids[id]);
+}
+
+function goTo(hash){if(location.hash===hash)route();else location.hash=hash;}
+
+function openPlot(lotId){
+  const z=ui.currentZone,lot=z&&z.lots.find(l=>l.id===lotId);
   if(!lot)return;
   ui.currentLot=lot;
-  document.querySelectorAll('.plot').forEach(el=>el.classList.toggle('active',el.dataset.lot===id));
-  document.querySelectorAll('[data-chip]').forEach(el=>el.classList.toggle('active',el.dataset.chip===id));
-  document.getElementById('detailBody').innerHTML=detailHTML(ui.currentZone,lot);
-  if(window.innerWidth<1025)document.querySelector('.detail-card').scrollIntoView({behavior:'smooth',block:'start'});
+  goTo('#lot/'+encodeURIComponent(z.id)+'/'+encodeURIComponent(lot.id));
 }
-document.getElementById('startBtn').onclick=()=>window.scrollTo({top:document.getElementById('quiz').offsetTop-90,behavior:'smooth'});
-document.getElementById('allBtn').onclick=()=>{answers.purpose=null;answers.where='any';answers.size='any';answers.plan='later';renderZones();};
-renderQuiz();
+
+function renderDedicatedPlot(){
+  const z=ui.currentZone,l=ui.currentLot;
+  if(!z||!l){goTo('#zones');return;}
+  setScreen('plot');
+  const alternatives=z.lots.filter(x=>x.id!==l.id&&x.status==='available').slice(0,3);
+  document.getElementById('plotPage').innerHTML=`
+   <div class="plot-page">
+     <div class="plot-breadcrumb"><button id="returnMap">← К схеме массива</button><span> / </span><button id="returnZones">${z.place}</button><span> / ${l.id}</span></div>
+     <div class="plot-columns">
+       <div>
+         <div class="plot-panel">
+           <div class="plot-photo" style="background-image:url('${z.image}')"><span class="plot-photo-note">Визуализация локации</span><span class="plot-photo-label">${z.title}</span></div>
+           <div class="plot-mainbody"><h2>Расположение участка</h2><p>${z.desc}</p><div class="plot-mini-map">${mapSVG(z)}</div><p class="plot-note">Выбранный участок подсвечен золотой рамкой. Границы схематичные.</p><button id="viewFullMap" class="btn" style="background:#eaf3eb;color:var(--green)">Смотреть схему целиком →</button></div>
+         </div>
+       </div>
+       <aside class="plot-details"><div class="detail-body">${detailHTML(z,l)}<p class="plot-note">Это демо. Цены, границы и коммуникации условные; заявка не отправляется.</p></div></aside>
+     </div>
+     <div class="plot-similar"><h3>Другие участки в этом массиве</h3><div class="plot-similar-grid">${alternatives.map(x=>`<button data-related="${x.id}"><b>Участок ${x.id}</b><div>${x.area} соток · Свободен</div><strong>${fmtPrice(x.price)}</strong></button>`).join('')}</div></div>
+   </div>`;
+  const back=()=>goTo('#zone/'+encodeURIComponent(z.id));
+  document.getElementById('returnMap').onclick=back;
+  document.getElementById('returnZones').onclick=()=>goTo('#zones');
+  document.getElementById('viewFullMap').onclick=back;
+  document.querySelectorAll('[data-related]').forEach(b=>b.onclick=()=>openPlot(b.dataset.related));
+  document.querySelectorAll('.plot-mini-map [data-lot]').forEach(e=>e.onclick=()=>openPlot(e.dataset.lot));
+  const btns=document.querySelectorAll('.plot-details .detail-actions button');
+  if(btns[0]){
+    btns[0].disabled=l.status!=='available';
+    if(l.status!=='available')btns[0].textContent='Участок недоступен';
+    else btns[0].onclick=()=>demoRequest(z,l);
+  }
+  if(btns[1]){
+    btns[1].textContent='Поделиться участком ↗';
+    btns[1].onclick=async()=>{
+      try{await navigator.clipboard.writeText(location.href);btns[1].textContent='Ссылка скопирована ✓';}
+      catch(e){window.prompt('Скопируйте ссылку на участок',location.href);}
+    };
+  }
+  window.scrollTo(0,0);
+}
+
+function demoRequest(z,l){
+  const message=`Здравствуйте! Интересует участок ${l.id} (${z.place}, ${l.area} соток, ${fmtPrice(l.price)}). Можно записаться на просмотр?`;
+  const layer=document.createElement('div');
+  layer.className='plot-demo-dialog';
+  layer.innerHTML='<div class="plot-demo-body" role="dialog" aria-modal="true" aria-labelledby="demoReqTitle"><h2 id="demoReqTitle">Запись на просмотр</h2><p>Демо-версия: заявки пока не отправляются. Можно скопировать пример сообщения менеджеру.</p><div class="plot-demo-message" id="demoMessage"></div><div class="plot-demo-buttons"><button class="btn btn-primary" id="demoCopy">Скопировать</button><button class="btn" id="demoClose">Закрыть</button></div></div>';
+  document.body.appendChild(layer);
+  document.getElementById('demoMessage').textContent=message;
+  document.getElementById('demoCopy').onclick=async()=>{
+    try{await navigator.clipboard.writeText(message);document.getElementById('demoCopy').textContent='Скопировано ✓';}
+    catch(e){window.prompt('Скопируйте сообщение',message);}
+  };
+  const close=()=>{layer.remove();document.removeEventListener('keydown',esc);};
+  const esc=e=>{if(e.key==='Escape')close();};
+  document.getElementById('demoClose').onclick=close;
+  layer.addEventListener('click',e=>{if(e.target===layer)close();});
+  document.addEventListener('keydown',esc);
+  document.getElementById('demoClose').focus();
+}
+
+function route(){
+  const p=decodeURIComponent(location.hash.slice(1)).split('/');
+  if(p[0]==='lot'&&p.length===3){
+    const z=zones.find(x=>x.id===p[1]),l=z&&z.lots.find(x=>x.id===p[2]);
+    if(z&&l){ui.currentZone=z;ui.currentLot=l;renderDedicatedPlot();return;}
+  }
+  if(p[0]==='zone'&&p.length===2){
+    const z=zones.find(x=>x.id===p[1]);
+    if(z){ui.currentZone=z;renderMap();return;}
+  }
+  if(p[0]==='zones'){renderZones();return;}
+  renderQuiz();
+}
+const baseQuiz=renderQuiz,baseZones=renderZones,baseMap=renderMap;
+renderQuiz=function(){setScreen('quiz');baseQuiz();};
+renderZones=function(){setScreen('zones');baseZones();document.getElementById('editAnswers').onclick=()=>{ui.step=0;goTo('#start');};window.scrollTo(0,0);};
+renderMap=function(){
+  setScreen('map');baseMap();
+  const side=document.querySelector('#map .detail-card');if(side)side.remove();
+  const layout=document.querySelector('#map .map-layout');if(layout)layout.style.gridTemplateColumns='1fr';
+  document.getElementById('backZones').onclick=()=>goTo('#zones');
+  const subtitle=document.querySelector('#map .map-head p');if(subtitle)subtitle.textContent='Нажмите на участок, чтобы открыть отдельную страницу с характеристиками.';
+  window.scrollTo(0,0);
+};
+openZone=function(id){if(zones.some(z=>z.id===id))goTo('#zone/'+encodeURIComponent(id));};
+setLot=function(id){openPlot(id);};
+document.getElementById('startBtn').onclick=()=>{goTo('#start');document.getElementById('quiz').scrollIntoView({behavior:'smooth',block:'start'});};
+document.getElementById('allBtn').onclick=()=>{answers.purpose=null;answers.where='any';answers.size='any';answers.plan='later';goTo('#zones');};
+window.addEventListener('hashchange',route);
+route();
 </script>
 </body>
 </html>

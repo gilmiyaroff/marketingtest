@@ -127,6 +127,21 @@ body.plot-inner .map-head,body.plot-inner .section-head{margin-top:10px}
 .house-refresh{white-space:nowrap;border:1px solid #d4e3d7;border-radius:11px;background:#fff;color:var(--green);font-size:12px;font-weight:760;padding:11px}
 .house-refresh:hover{background:#edf6ef}
 @media(max-width:700px){.house-vision-copy{padding:19px 17px 14px}.house-hero{margin:0 8px}.house-hero img{aspect-ratio:1.25}.house-pick{flex-direction:column;align-items:stretch;padding:6px;gap:6px}.house-pick img{width:100%;height:85px}.house-picker{gap:8px;padding:9px}.house-vision-bottom{align-items:flex-start;flex-direction:column}.house-refresh{align-self:flex-end}}
+
+.map-stage{overflow:auto;border-radius:14px;background:#d9e5d3}
+.map-zoom{display:flex;align-items:center;gap:5px}
+.map-zoom button{border:1px solid #d2dfd4;background:#f5faf5;width:34px;height:34px;border-radius:10px;color:#22563c;font-size:21px;line-height:1}
+.map-zoom button:hover{background:#e6f3e8}
+.map-zoom span{min-width:43px;text-align:center;font-size:12px;color:#5c7867}
+.plot{transition:fill .15s,stroke .15s;stroke-linejoin:round}
+.plot:hover{stroke:#f2cd83;stroke-width:5}
+.plot:focus-visible{stroke:#ffc879;stroke-width:7;outline:none}
+.plot.active{stroke:#ffce73;stroke-width:7;filter:drop-shadow(0 4px 5px #143d3366)}
+.plot-number{font:800 17px system-ui,sans-serif;fill:#fff;pointer-events:none;text-anchor:middle}
+.plot-size{font:550 13px system-ui,sans-serif;fill:#eff9f0;pointer-events:none;text-anchor:middle}
+.plot-number.dark,.plot-size.dark{fill:#66766a}
+.plan-label{font:770 14px system-ui,sans-serif;fill:#49775b;letter-spacing:.09em}
+.plan-caption{font:620 12px system-ui,sans-serif;fill:#698577}
 </style>
 </head>
 <body>
@@ -337,29 +352,54 @@ function openZone(id){
   renderMap();
 }
 function plotRects(){
-  const rects=[]; let idx=0;
-  for(let row=0; row<3; row++){
-    for(let col=0; col<4; col++){
-      rects.push({x:65+col*145,y:90+row*115,w:118,h:88,idx:idx++});
-    }
-  }
-  return rects;
+ const xs=[73,241,591,759], ys=[150,315,481];
+ return Array.from({length:12},(_,i)=>({x:xs[i%4],y:ys[Math.floor(i/4)],w:160,h:115}));
 }
 function mapSVG(zone){
-  const rects=plotRects();
-  return `<svg viewBox="0 0 700 440" xmlns="http://www.w3.org/2000/svg" aria-label="Схема участков">
-    <rect width="700" height="440" fill="#dae6d8"/>
-    <path d="M0 48H700" stroke="#f7f3e4" stroke-width="28"/>
-    <path d="M0 395H700" stroke="#f7f3e4" stroke-width="28"/>
-    <path d="M220 48v347" stroke="#f7f3e4" stroke-width="24"/>
-    <path d="M470 48v347" stroke="#f7f3e4" stroke-width="24"/>
-    <text x="28" y="26" fill="#69806d" font-size="14" font-weight="800">${zone.place.toUpperCase()} · СХЕМА ЛОКАЦИИ</text>
-    ${rects.map((r,i)=>{
-      const lot=zone.lots[i]; const active=ui.currentLot && ui.currentLot.id===lot.id;
-      const textClass=lot.status==='available'?'plot-text':'plot-text dark';
-      return `<g><rect class="plot ${lot.status} ${active?'active':''}" data-lot="${lot.id}" x="${r.x}" y="${r.y}" width="${r.w}" height="${r.h}" rx="8"/><text class="${textClass}" x="${r.x+r.w/2}" y="${r.y+42}">${lot.id.split('-')[1]}</text><text class="${textClass}" x="${r.x+r.w/2}" y="${r.y+62}">${lot.area} сот.</text></g>`;
-    }).join('')}
-  </svg>`;
+ const rects=plotRects();
+ const forest=zone.place==="Бурабай";
+ const fields=Array.from({length:11},(_,i)=>`<path d="M${i*115-155} 0 l-130 660" fill="none" stroke="#96b894" stroke-width="12" opacity=".17"/>`).join("");
+ const trees=Array.from({length:17},(_,i)=>{
+  const x=i%2===0?440:557, y=154+Math.floor(i/2)*55;
+  return `<g opacity=".83"><circle cx="${x}" cy="${y}" r="${forest?18:13}" fill="${forest?'#508567':'#81a681'}"/><circle cx="${x+4}" cy="${y-4}" r="${forest?8:6}" fill="#b6d3a5" opacity=".6"/></g>`;
+ }).join("");
+ const plots=rects.map((r,i)=>{
+  const lot=zone.lots[i];if(!lot)return "";
+  const active=ui.currentLot&&ui.currentLot.id===lot.id;
+  const dark=lot.status!=="available";
+  const pts=`${r.x+5},${r.y} ${r.x+r.w},${r.y+2} ${r.x+r.w-(i%3===0?6:0)},${r.y+r.h} ${r.x},${r.y+r.h-(i%4===0?6:0)}`;
+  return `<g>
+   <polygon class="plot ${lot.status} ${active?'active':''}" tabindex="0" role="button" data-lot="${lot.id}" aria-label="Участок ${lot.id}, ${lot.area} соток, ${statusText(lot.status)}" points="${pts}"/>
+   <text class="plot-number${dark?' dark':''}" x="${r.x+80}" y="${r.y+51}">№ ${lot.id.split('-')[1]}</text>
+   <text class="plot-size${dark?' dark':''}" x="${r.x+80}" y="${r.y+75}">${lot.area} сот.</text>
+  </g>`;
+ }).join("");
+ return `<svg class="landjer-masterplan" viewBox="0 0 1000 660" xmlns="http://www.w3.org/2000/svg" aria-label="Интерактивная схема ${zone.title}">
+  <defs>
+    <linearGradient id="terrain-${zone.id}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#dce9d2"/><stop offset="1" stop-color="#c4d9bd"/></linearGradient>
+    <pattern id="grass-${zone.id}" width="34" height="34" patternUnits="userSpaceOnUse"><circle cx="7" cy="12" r="1" fill="#87a583" opacity=".34"/><circle cx="24" cy="25" r="1" fill="#739c78" opacity=".31"/></pattern>
+  </defs>
+  <rect width="1000" height="660" fill="url(#terrain-${zone.id})"/>
+  ${fields}
+  <rect width="1000" height="660" fill="url(#grass-${zone.id})"/>
+  <path d="M0 104H1000" stroke="#acb5a9" stroke-width="65"/>
+  <path d="M0 104H1000" stroke="#eeeede" stroke-width="54"/>
+  <path d="M500 128V660" stroke="#b6beb4" stroke-width="112"/>
+  <path d="M500 128V660" stroke="#e7ebe0" stroke-width="92"/>
+  <path d="M0 294H1000 M0 463H1000" stroke="#f1f0e6" stroke-width="35"/>
+  <path d="M500 130V640" stroke="#bbc5bd" stroke-width="2.2" stroke-dasharray="16 17"/>
+  <path d="M0 104H1000" stroke="#bcc5bc" stroke-width="2" stroke-dasharray="16 19"/>
+  ${trees}
+  <rect x="38" y="16" width="343" height="64" rx="14" fill="#fffffff0" stroke="#dce6d8"/>
+  <text class="plan-label" x="60" y="41">LANDJER · ${zone.place.toUpperCase()}</text>
+  <text class="plan-caption" x="60" y="64">${zone.type==="life"?"ЗЕМЕЛЬНЫЕ УЧАСТКИ ДЛЯ ЖИЗНИ":"КОММЕРЧЕСКИЕ УЧАСТКИ"}</text>
+  ${zone.amenities.electric?`<path d="M957 153V614" stroke="#9ca88c" stroke-width="2" stroke-dasharray="7 8"/><text x="933" y="629" fill="#7c907a" font-size="12" text-anchor="end">ЭЛЕКТРИЧЕСТВО</text>`:""}
+  ${plots}
+  <rect x="433" y="86" width="135" height="33" rx="16" fill="#1a6047"/>
+  <text x="500" y="107" fill="#fff" font-size="14" font-weight="700" text-anchor="middle">ВЪЕЗД ↓</text>
+  <rect x="442" y="618" width="116" height="27" rx="12" fill="#fffffff0"/>
+  <text x="500" y="636" fill="#4e805f" font-size="12" font-weight="700" text-anchor="middle">ДОРОГА</text>
+ </svg>`;
 }
 function statusText(s){return s==='available'?'Свободен':s==='booked'?'Забронирован':'Продан';}
 function renderMap(){
@@ -374,8 +414,9 @@ function renderMap(){
       <div class="map-card">
         <div class="map-toolbar">
           <div class="legend"><span><i style="background:#4f915f"></i>Свободно</span><span><i style="background:#d6bb75"></i>Бронь</span><span><i style="background:#d8dfd8"></i>Продано</span></div>
+          <div class="map-zoom"><button id="mapZoomOut" type="button" aria-label="Уменьшить карту">−</button><span id="mapZoomText">100%</span><button id="mapZoomIn" type="button" aria-label="Увеличить карту">+</button></div>
         </div>
-        <div class="canvas">${mapSVG(z)}</div>
+        <div class="canvas"><div class="map-stage">${mapSVG(z)}</div></div>
         <div class="lot-list">${available.map(l=>`<button class="lot-chip ${lot.id===l.id?'active':''}" data-chip="${l.id}"><strong>${l.id}</strong><small>${l.area} соток · ${fmtPrice(l.price)}</small></button>`).join('')}</div>
       </div>
       <aside class="detail-card">
@@ -554,6 +595,19 @@ function route(){
   window.scrollTo(0,0);
 }
 const baseQuiz=renderQuiz,baseZones=renderZones,baseMap=renderMap;
+function setupMapZoom(){
+ let factor=1;
+ const svg=document.querySelector("#map .map-stage svg"),label=document.getElementById("mapZoomText");
+ if(!svg||!label)return;
+ const update=()=>{
+  svg.style.width=(factor*100)+"%";
+  svg.style.maxWidth="none";
+  label.textContent=Math.round(factor*100)+"%";
+ };
+ document.getElementById("mapZoomIn").onclick=()=>{factor=Math.min(2,Math.round((factor+.25)*100)/100);update();};
+ document.getElementById("mapZoomOut").onclick=()=>{factor=Math.max(1,Math.round((factor-.25)*100)/100);update();};
+ update();
+}
 renderQuiz=function(){setScreen('quiz');baseQuiz();};
 renderZones=function(){setScreen('zones');baseZones();document.getElementById('editAnswers').onclick=()=>{ui.step=0;goTo('#start');};window.scrollTo(0,0);};
 renderMap=function(){
@@ -571,6 +625,7 @@ renderMap=function(){
   const layout=document.querySelector('#map .map-layout');if(layout)layout.style.gridTemplateColumns='1fr';
   document.getElementById('backZones').onclick=()=>goTo('#zones');
   const subtitle=document.querySelector('#map .map-head p');if(subtitle)subtitle.textContent='Нажмите на участок, чтобы открыть отдельную страницу с характеристиками.';
+  setupMapZoom();
   window.scrollTo(0,0);
 };
 openZone=function(id){if(zones.some(z=>z.id===id))goTo('#zone/'+encodeURIComponent(id));};

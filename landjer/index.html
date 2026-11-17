@@ -142,6 +142,29 @@ body.plot-inner .map-head,body.plot-inner .section-head{margin-top:10px}
 .plot-number.dark,.plot-size.dark{fill:#66766a}
 .plan-label{font:770 14px system-ui,sans-serif;fill:#49775b;letter-spacing:.09em}
 .plan-caption{font:620 12px system-ui,sans-serif;fill:#698577}
+
+/* Plot page: map first, property price/details second, house ideas third */
+.plot-layout-sequential{display:flex;flex-direction:column;gap:20px}
+.plot-layout-sequential>.house-vision{margin-top:0}
+.plot-layout-sequential .plot-map-order>.eyebrow,
+.plot-layout-sequential .plot-info-order>.eyebrow{display:block;margin:0 0 10px 8px;font-size:11px}
+.plot-layout-sequential .plot-details{position:static;width:100%}
+.plot-layout-sequential .plot-details .detail-body{padding:26px}
+.plot-layout-sequential .plot-details .specs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.plot-layout-sequential .plot-details .spec{background:#f6f9f5;border-radius:12px;padding:12px}
+.plot-layout-sequential .plot-details .detail-actions{margin-top:20px}
+.plot-layout-sequential .plot-mini-map{margin-top:0;overflow:auto}
+.plot-layout-sequential .plot-mini-map svg{width:100%;min-width:590px}
+.plot-layout-sequential .plot-panel h3{font-size:clamp(21px,2.5vw,27px)!important;letter-spacing:-.025em}
+@media(max-width:820px){.plot-layout-sequential .plot-details .specs{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:680px){
+.plot-layout-sequential{gap:18px}
+.plot-layout-sequential .plot-details .detail-body{padding:19px}
+.plot-layout-sequential .plot-mini-map svg{min-width:600px}
+.plot-layout-sequential .plot-map-order .plot-panel{padding:14px!important}
+.plot-layout-sequential .plot-map-order #viewFullMap{width:100%}
+.plot-layout-sequential .plot-details .spec{padding:10px}
+}
 </style>
 </head>
 <body>
@@ -516,16 +539,16 @@ function renderDedicatedPlot(){
   document.getElementById('plotPage').innerHTML=`
    <div class="plot-page">
      <div class="plot-breadcrumb"><button id="returnMap">← К схеме массива</button><span> / </span><button id="returnZones">${z.place}</button><span> / ${l.id}</span></div>
-     <div class="plot-columns">
-       <div>
-         <div class="plot-panel">
-           <div class="plot-photo" style="background-image:url('${z.image}')"><span class="plot-photo-note">Визуализация локации</span><span class="plot-photo-label">${z.title}</span></div>
-           <div class="plot-mainbody"><h2>Расположение участка</h2><p>${z.desc}</p></div>
-         </div>
-         ${z.type==='life'?houseGalleryMarkup(z,l):''}
-         <section class="plot-panel" style="margin-top:19px;padding:20px"><h3 style="font-size:21px;margin:0 0 14px">Участок на карте массива</h3><div class="plot-mini-map" style="margin-top:0">${mapSVG(z)}</div><p class="plot-note">Выбранный участок подсвечен золотой рамкой. Границы схематичные.</p><button id="viewFullMap" class="btn" style="background:#eaf3eb;color:var(--green)">Смотреть схему целиком →</button></section>
+     <div class="plot-layout-sequential">
+       <div class="plot-map-order">
+         <div class="eyebrow" style="color:#38734e">01 · РАСПОЛОЖЕНИЕ УЧАСТКА</div>
+         <section class="plot-panel" style="padding:20px"><h3 style="font-size:21px;margin:0 0 14px">Ваш участок на карте</h3><div class="plot-mini-map" style="margin-top:0">${mapSVG(z)}</div><p class="plot-note">Выбранный участок подсвечен золотой рамкой. Границы схематичные.</p><button id="viewFullMap" class="btn" style="background:#eaf3eb;color:var(--green)">Смотреть схему целиком →</button></section>
        </div>
-       <aside class="plot-details"><div class="detail-body">${detailHTML(z,l)}<p class="plot-note">Это демо. Цены, границы и коммуникации условные; заявка не отправляется.</p></div></aside>
+       <div class="plot-info-order">
+         <div class="eyebrow" style="color:#38734e">02 · ЦЕНА И ХАРАКТЕРИСТИКИ</div>
+         <aside class="plot-details"><div class="detail-body">${detailHTML(z,l)}<p class="plot-note">Это демо. Цены, границы и коммуникации условные; заявка не отправляется.</p></div></aside>
+       </div>
+       ${z.type==='life'?houseGalleryMarkup(z,l):''}
      </div>
      <div class="plot-similar"><h3>Другие участки в этом массиве</h3><div class="plot-similar-grid">${alternatives.map(x=>`<button data-related="${x.id}"><b>Участок ${x.id}</b><div>${x.area} соток · Свободен</div><strong>${fmtPrice(x.price)}</strong></button>`).join('')}</div></div>
    </div>`;

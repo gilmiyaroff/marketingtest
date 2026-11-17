@@ -78,6 +78,38 @@ body.plot-inner .map-head,body.plot-inner .section-head{margin-top:10px}
 .plot-demo-buttons button{flex:1}
 @media(max-width:930px){.plot-columns{grid-template-columns:1fr}.plot-details{position:static}}
 @media(max-width:680px){.plot-details .detail-body,.plot-mainbody{padding:20px}.plot-similar-grid{grid-template-columns:1fr}.plot-photo{height:260px}.plot-details .detail-title{font-size:29px}}
+
+/* Homepage: the first quiz answer is a visual choice, not a duplicate CTA */
+.hero-card{min-height:0}
+.hero-content{max-width:100%;padding:38px 40px 36px}
+.hero h1{max-width:720px;font-size:clamp(34px,5vw,55px);margin-bottom:12px}
+.hero p{max-width:660px;font-size:16px;margin-bottom:24px;line-height:1.5}
+.home-choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;max-width:870px}
+.home-choice{display:block;position:relative;isolation:isolate;min-height:207px;overflow:hidden;padding:0;background:#315b45;color:white;border:1px solid #ffffff52;border-radius:20px;text-align:left;box-shadow:0 9px 22px #09281744}
+.home-choice-photo{position:absolute;inset:0;background-position:center;background-size:cover;z-index:-2;transition:transform .25s ease}
+.home-choice:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,#061a1022 10%,#03140ae6 100%);z-index:-1}
+.home-choice-content{position:absolute;left:19px;right:18px;bottom:17px}
+.home-choice-title{display:block;font-size:clamp(20px,2.4vw,27px);font-weight:820;line-height:1.1;letter-spacing:-.025em}
+.home-choice-caption{display:block;margin-top:7px;font-size:13px;color:#e5f0e9}
+.home-choice-arrow{position:absolute;right:17px;top:15px;display:grid;place-items:center;width:31px;height:31px;border-radius:50%;font-size:20px;background:#ffffffde;color:#17442f}
+.home-choice:hover .home-choice-photo{transform:scale(1.045)}
+.home-choice:hover{border-color:#e4c78d}
+.home-choice:focus-visible{outline:3px solid #e4c78d;outline-offset:3px}
+@media(max-width:700px){
+.hero{padding:13px 0 18px}
+.hero-card{min-height:0;border-radius:22px}
+.hero-content{padding:25px 18px 18px}
+.hero h1{font-size:clamp(30px,8vw,41px);line-height:1.08;margin-bottom:10px}
+.hero p{font-size:14px;line-height:1.4;margin-bottom:18px}
+.hero .eyebrow{font-size:10px;letter-spacing:.13em}
+.home-choices{gap:9px}
+.home-choice{min-height:174px;border-radius:15px}
+.home-choice-content{left:12px;right:10px;bottom:13px}
+.home-choice-title{font-size:19px}
+.home-choice-caption{font-size:11px;line-height:1.25;margin-top:5px}
+.home-choice-arrow{right:10px;top:10px;width:25px;height:25px;font-size:17px}
+}
+@media(max-width:380px){.home-choice{min-height:160px}.home-choice-title{font-size:17px}.home-choice-caption{font-size:10px}}
 </style>
 </head>
 <body>
@@ -91,12 +123,20 @@ body.plot-inner .map-head,body.plot-inner .section-head{margin-top:10px}
   <section class="hero-card">
     <div class="hero-image"></div>
     <div class="hero-content">
-      <span class="eyebrow">Интерактивный подбор участков</span>
-      <h1>Выберите землю под свои планы.</h1>
-      <p>Ответьте на несколько вопросов, откройте подходящую локацию и нажмите на конкретный участок, чтобы сразу увидеть его цену, площадь и коммуникации.</p>
-      <div class="hero-actions">
-        <button class="btn btn-primary" id="startBtn">Подобрать участок</button>
-        <button class="btn btn-secondary" id="allBtn">Смотреть все локации</button>
+      <span class="eyebrow">LANDJER · Шаг 1 из 4</span>
+      <h1>Для чего вам участок?</h1>
+      <p>Выберите свой вариант — подберём подходящие локации и участки.</p>
+      <div class="home-choices">
+        <button type="button" class="home-choice" data-home-purpose="life" aria-label="Подобрать участок для жизни">
+          <span class="home-choice-photo" id="homePhotoLife"></span>
+          <span class="home-choice-arrow" aria-hidden="true">↗</span>
+          <span class="home-choice-content"><span class="home-choice-title">Для жизни</span><span class="home-choice-caption">Дом, дача, загородный отдых</span></span>
+        </button>
+        <button type="button" class="home-choice" data-home-purpose="business" aria-label="Подобрать участок для бизнеса">
+          <span class="home-choice-photo" id="homePhotoBusiness"></span>
+          <span class="home-choice-arrow" aria-hidden="true">↗</span>
+          <span class="home-choice-content"><span class="home-choice-title">Для бизнеса</span><span class="home-choice-caption">Коммерция и инвестиции</span></span>
+        </button>
       </div>
     </div>
   </section>
@@ -236,7 +276,7 @@ function renderQuiz(){
     if(ui.step<steps.length-1){ui.step++; renderQuiz();}
     else {goTo('#zones');}
   });
-  const prev=document.getElementById('prevStep'); if(prev) prev.onclick=()=>{ui.step--; renderQuiz();};
+  const prev=document.getElementById('prevStep'); if(prev) prev.onclick=()=>{if(ui.step<=1){goTo('#start');}else{ui.step--;renderQuiz();}};
   document.getElementById('skipBtn').onclick=()=>{answers.purpose=null;answers.where='any';answers.size='any';answers.plan='later';goTo('#zones');};
 }
 function renderZones(){
@@ -355,8 +395,8 @@ function detailHTML(z,l){
 }
 function setScreen(view){
   const ids={quiz:view==='quiz',zones:view==='zones',map:view==='map',plotPage:view==='plot'};
-  document.querySelector('.hero').hidden=!ids.quiz;
-  document.body.classList.toggle('plot-inner',view!=='quiz');
+  document.querySelector('.hero').hidden=view!=='home';
+  document.body.classList.toggle('plot-inner',view!=='home');
   Object.keys(ids).forEach(id=>document.getElementById(id).hidden=!ids[id]);
 }
 
@@ -446,7 +486,11 @@ function route(){
     }
   }
   if(p[0]==='zones'){renderZones();return;}
-  renderQuiz();
+  if(p[0]==='quiz'&&answers.purpose&&ui.step>=1){renderQuiz();return;}
+  // The homepage handles question 1; don't repeat it below the hero.
+  setScreen('home');
+  ui.step=0;
+  window.scrollTo(0,0);
 }
 const baseQuiz=renderQuiz,baseZones=renderZones,baseMap=renderMap;
 renderQuiz=function(){setScreen('quiz');baseQuiz();};
@@ -470,8 +514,16 @@ renderMap=function(){
 };
 openZone=function(id){if(zones.some(z=>z.id===id))goTo('#zone/'+encodeURIComponent(id));};
 setLot=function(id){openPlot(id);};
-document.getElementById('startBtn').onclick=()=>{goTo('#start');document.getElementById('quiz').scrollIntoView({behavior:'smooth',block:'start'});};
-document.getElementById('allBtn').onclick=()=>{answers.purpose=null;answers.where='any';answers.size='any';answers.plan='later';goTo('#zones');};
+document.getElementById('homePhotoLife').style.backgroundImage='url("'+IMG.life+'")';
+document.getElementById('homePhotoBusiness').style.backgroundImage='url("'+IMG.business+'")';
+document.querySelectorAll('[data-home-purpose]').forEach(button=>button.addEventListener('click',()=>{
+  // Question 1 is answered on the main screen; continue immediately at question 2.
+  answers.purpose=button.dataset.homePurpose;
+  answers.where=null;answers.size=null;answers.plan=null;
+  ui.step=1;
+  goTo('#quiz');
+  window.scrollTo(0,0);
+}));
 window.addEventListener('hashchange',route);
 route();
 </script>

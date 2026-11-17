@@ -437,7 +437,13 @@ function route(){
   }
   if(p[0]==='zone'&&p.length===2){
     const z=zones.find(x=>x.id===p[1]);
-    if(z){ui.currentZone=z;renderMap();return;}
+    if(z){
+      ui.currentZone=z;
+      // Reinitialize when entering a different zone; never reuse another zone's lot.
+      const available=rankLots(z.lots.filter(l=>l.status==='available'));
+      ui.currentLot=available[0] || z.lots[0] || null;
+      renderMap();return;
+    }
   }
   if(p[0]==='zones'){renderZones();return;}
   renderQuiz();
@@ -446,6 +452,15 @@ const baseQuiz=renderQuiz,baseZones=renderZones,baseMap=renderMap;
 renderQuiz=function(){setScreen('quiz');baseQuiz();};
 renderZones=function(){setScreen('zones');baseZones();document.getElementById('editAnswers').onclick=()=>{ui.step=0;goTo('#start');};window.scrollTo(0,0);};
 renderMap=function(){
+  // Every zone needs a valid selected lot before the original map renderer runs.
+  // This also supports opening a zone by a direct URL or using browser Back.
+  const zone=ui.currentZone;
+  if(!zone){goTo('#zones');return;}
+  if(!ui.currentLot || !zone.lots.some(l=>l.id===ui.currentLot.id)){
+    const available=rankLots(zone.lots.filter(l=>l.status==='available'));
+    ui.currentLot=available[0] || zone.lots[0] || null;
+  }
+  if(!ui.currentLot){goTo('#zones');return;}
   setScreen('map');baseMap();
   const side=document.querySelector('#map .detail-card');if(side)side.remove();
   const layout=document.querySelector('#map .map-layout');if(layout)layout.style.gridTemplateColumns='1fr';

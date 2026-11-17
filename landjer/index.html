@@ -147,6 +147,39 @@ body.plot-inner .map-head,body.plot-inner .section-head{margin-top:10px}
 .plot-layout-sequential .plot-map-order #viewFullMap{width:100%}
 .plot-layout-sequential .plot-details .spec{padding:10px}
 }
+
+/* LANDJER home: two vertically stacked, full-width choices */
+.hero-image{display:none}
+.hero-card{background:var(--green);min-height:0}
+.hero-content{max-width:100%;width:100%;padding:32px 34px 34px}
+.hero h1{font-size:clamp(31px,3.8vw,47px);margin:0 0 8px}
+.hero p{margin:0 0 20px}
+.home-choices{grid-template-columns:minmax(0,1fr);grid-template-rows:repeat(2,minmax(210px,1fr));max-width:100%;width:100%;gap:14px}
+.home-choice{width:100%;min-height:210px;border-radius:20px}
+.home-choice-content{left:23px;bottom:23px}
+.home-choice-title{font-size:clamp(25px,3.2vw,35px)}
+.home-choice-caption{font-size:14px}
+@media(max-width:700px){
+  .hero{height:calc(100svh - 68px);min-height:465px;padding:8px 0}
+  .hero .hero-card{height:100%;min-height:0;border-radius:20px}
+  .hero-content{height:100%;display:flex;flex-direction:column;padding:20px 13px 13px}
+  .hero h1{font-size:clamp(27px,7.2vw,35px);line-height:1.08;margin:0 0 8px}
+  .hero p{font-size:13px;line-height:1.35;margin:0 0 16px}
+  .hero .eyebrow{font-size:10px;margin-bottom:8px}
+  .home-choices{flex:1;min-height:0;grid-template-columns:1fr;grid-template-rows:repeat(2,minmax(0,1fr));gap:10px}
+  .home-choice{min-height:0;border-radius:16px}
+  .home-choice-content{left:18px;right:15px;bottom:18px}
+  .home-choice-title{font-size:clamp(25px,6.5vw,32px)}
+  .home-choice-caption{font-size:13px;line-height:1.25}
+  .home-choice-arrow{top:14px;right:14px;width:32px;height:32px;font-size:22px}
+}
+@media(max-width:380px){
+  .hero-content{padding:15px 10px 10px}
+  .hero h1{font-size:27px}
+  .hero p{font-size:12px;margin-bottom:11px}
+  .home-choice-title{font-size:24px}
+  .home-choice-caption{font-size:12px}
+}
 </style>
 </head>
 <body>

@@ -110,6 +110,23 @@ body.plot-inner .map-head,body.plot-inner .section-head{margin-top:10px}
 .home-choice-arrow{right:10px;top:10px;width:25px;height:25px;font-size:17px}
 }
 @media(max-width:380px){.home-choice{min-height:160px}.home-choice-title{font-size:17px}.home-choice-caption{font-size:10px}}
+
+.house-vision{margin-top:19px;background:#fff;border:1px solid var(--stroke);border-radius:23px;box-shadow:var(--shadow);overflow:hidden}
+.house-vision-copy{padding:23px 24px 16px}.house-vision-copy h2{font-size:clamp(23px,2.6vw,30px);letter-spacing:-.035em;margin:3px 0 8px;line-height:1.14}
+.house-vision-copy p{margin:0;color:var(--muted);font-size:14px;line-height:1.5}
+.house-hero{position:relative;margin:0 14px;border-radius:17px;overflow:hidden;background:#dfe9dc}
+.house-hero img{width:100%;display:block;object-fit:cover;aspect-ratio:1.55;max-height:470px}
+.house-hero-label{position:absolute;bottom:14px;left:14px;background:#0a241abf;color:white;font-size:13px;font-weight:760;border-radius:10px;padding:9px 12px}
+.house-picker{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px;padding:14px}
+.house-pick{display:flex;gap:11px;align-items:center;text-align:left;border:2px solid #e3eae2;border-radius:14px;padding:8px;color:var(--text);background:#f9fbf8}
+.house-pick.active{border-color:#377956;background:#eef6f0}
+.house-pick img{width:88px;height:67px;object-fit:cover;border-radius:9px;flex-shrink:0}
+.house-pick strong{display:block;font-size:13px}.house-pick small{display:block;color:#718074;font-size:11px;margin-top:4px}
+.house-vision-bottom{border-top:1px solid #ebf0e9;padding:12px 15px 15px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.house-vision-bottom p{font-size:12px;color:#738176;line-height:1.4;margin:0}
+.house-refresh{white-space:nowrap;border:1px solid #d4e3d7;border-radius:11px;background:#fff;color:var(--green);font-size:12px;font-weight:760;padding:11px}
+.house-refresh:hover{background:#edf6ef}
+@media(max-width:700px){.house-vision-copy{padding:19px 17px 14px}.house-hero{margin:0 8px}.house-hero img{aspect-ratio:1.25}.house-pick{flex-direction:column;align-items:stretch;padding:6px;gap:6px}.house-pick img{width:100%;height:85px}.house-picker{gap:8px;padding:9px}.house-vision-bottom{align-items:flex-start;flex-direction:column}.house-refresh{align-self:flex-end}}
 </style>
 </head>
 <body>
@@ -409,6 +426,47 @@ function openPlot(lotId){
   goTo('#lot/'+encodeURIComponent(z.id)+'/'+encodeURIComponent(lot.id));
 }
 
+const HOUSE_MODELS=[{"src":"assets/houses/house-01.webp","name":"Современный одноэтажный"},{"src":"assets/houses/house-02.webp","name":"Кирпичный с террасой"},{"src":"assets/houses/house-03.webp","name":"Двухэтажный с гаражом"},{"src":"assets/houses/house-04.webp","name":"Уютный с мансардой"},{"src":"assets/houses/house-05.webp","name":"Панорамный одноэтажный"},{"src":"assets/houses/house-06.webp","name":"Семейный двухэтажный"},{"src":"assets/houses/house-07.webp","name":"Компактный современный"},{"src":"assets/houses/house-08.webp","name":"С террасой и двором"},{"src":"assets/houses/house-09.webp","name":"Двухэтажный современный"},{"src":"assets/houses/house-10.webp","name":"Кирпичный загородный"}];
+function houseOptions(zone,lot,cycle=0){
+ if(zone.type!=="life")return [];
+ const pool=lot.area<=6?[0,1,6,9]:lot.area<=10?[0,1,3,4,6,7,9]:[2,3,4,5,7,8];
+ const lotNumber=Number(lot.id.match(/\d+$/)?.[0]||101);
+ const p=(lotNumber+zone.id.length+cycle)%pool.length;
+ return [HOUSE_MODELS[pool[p]],HOUSE_MODELS[pool[(p+Math.floor(pool.length/2))%pool.length]]];
+}
+
+function houseGalleryMarkup(zone,lot){
+ const pair=houseOptions(zone,lot);
+ return `<section class="house-vision" aria-label="Потенциальная застройка участка">
+  <div class="house-vision-copy"><span class="eyebrow" style="color:#327453">ИДЕИ ДЛЯ БУДУЩЕГО ДОМА</span><h2>Как может выглядеть ваш дом</h2><p>Два варианта для вдохновения — выберите понравившийся.</p></div>
+  <div class="house-hero"><img id="houseMain" src="${pair[0].src}" alt="Пример возможного дома: ${pair[0].name}" loading="lazy"><span class="house-hero-label" id="houseMainLabel">${pair[0].name}</span></div>
+  <div class="house-picker">${pair.map((a,i)=>`<button class="house-pick ${i===0?'active':''}" type="button" data-house-choice="${i}" aria-pressed="${i===0}"><img src="${a.src}" alt="Вариант ${i+1}" loading="lazy"><span><strong>Вариант ${i+1}</strong><small>${a.name}</small></span></button>`).join("")}</div>
+  <div class="house-vision-bottom"><p>Это только визуализация. Дом и строительство не входят в стоимость земли.</p><button id="houseRefresh" class="house-refresh" type="button">↻ Другие варианты</button></div>
+ </section>`;
+}
+
+function bindHouseGallery(zone,lot){
+ if(zone.type!=="life")return;
+ let cycle=0,pair=houseOptions(zone,lot);
+ function select(i){
+   const image=document.getElementById("houseMain");
+   image.src=pair[i].src;image.alt="Пример возможного дома: "+pair[i].name;
+   document.getElementById("houseMainLabel").textContent=pair[i].name;
+   document.querySelectorAll("[data-house-choice]").forEach(b=>{
+     const selected=Number(b.dataset.houseChoice)===i;
+     b.classList.toggle("active",selected);b.setAttribute("aria-pressed",String(selected));
+   });
+ }
+ document.querySelectorAll("[data-house-choice]").forEach(b=>b.onclick=()=>select(Number(b.dataset.houseChoice)));
+ document.getElementById("houseRefresh").onclick=()=>{
+  cycle++;pair=houseOptions(zone,lot,cycle);
+  document.querySelectorAll("[data-house-choice]").forEach((b,i)=>{
+    b.querySelector("img").src=pair[i].src;b.querySelector("small").textContent=pair[i].name;
+  });
+  select(0);
+ };
+}
+
 function renderDedicatedPlot(){
   const z=ui.currentZone,l=ui.currentLot;
   if(!z||!l){goTo('#zones');return;}
@@ -421,8 +479,10 @@ function renderDedicatedPlot(){
        <div>
          <div class="plot-panel">
            <div class="plot-photo" style="background-image:url('${z.image}')"><span class="plot-photo-note">Визуализация локации</span><span class="plot-photo-label">${z.title}</span></div>
-           <div class="plot-mainbody"><h2>Расположение участка</h2><p>${z.desc}</p><div class="plot-mini-map">${mapSVG(z)}</div><p class="plot-note">Выбранный участок подсвечен золотой рамкой. Границы схематичные.</p><button id="viewFullMap" class="btn" style="background:#eaf3eb;color:var(--green)">Смотреть схему целиком →</button></div>
+           <div class="plot-mainbody"><h2>Расположение участка</h2><p>${z.desc}</p></div>
          </div>
+         ${z.type==='life'?houseGalleryMarkup(z,l):''}
+         <section class="plot-panel" style="margin-top:19px;padding:20px"><h3 style="font-size:21px;margin:0 0 14px">Участок на карте массива</h3><div class="plot-mini-map" style="margin-top:0">${mapSVG(z)}</div><p class="plot-note">Выбранный участок подсвечен золотой рамкой. Границы схематичные.</p><button id="viewFullMap" class="btn" style="background:#eaf3eb;color:var(--green)">Смотреть схему целиком →</button></section>
        </div>
        <aside class="plot-details"><div class="detail-body">${detailHTML(z,l)}<p class="plot-note">Это демо. Цены, границы и коммуникации условные; заявка не отправляется.</p></div></aside>
      </div>
@@ -432,6 +492,7 @@ function renderDedicatedPlot(){
   document.getElementById('returnMap').onclick=back;
   document.getElementById('returnZones').onclick=()=>goTo('#zones');
   document.getElementById('viewFullMap').onclick=back;
+  if(z.type==='life')bindHouseGallery(z,l);
   document.querySelectorAll('[data-related]').forEach(b=>b.onclick=()=>openPlot(b.dataset.related));
   document.querySelectorAll('.plot-mini-map [data-lot]').forEach(e=>e.onclick=()=>openPlot(e.dataset.lot));
   const btns=document.querySelectorAll('.plot-details .detail-actions button');

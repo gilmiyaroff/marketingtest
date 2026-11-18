@@ -180,6 +180,10 @@ body.plot-inner .map-head,body.plot-inner .section-head{margin-top:10px}
   .home-choice-title{font-size:24px}
   .home-choice-caption{font-size:12px}
 }
+
+/* Keep the price and specs visible below the sticky header after plot selection */
+#plotPage .plot-info-order{scroll-margin-top:96px}
+@media(max-width:700px){#plotPage .plot-info-order{scroll-margin-top:80px}}
 </style>
 </head>
 <body>
@@ -502,6 +506,8 @@ function openPlot(lotId){
   const z=ui.currentZone,lot=z&&z.lots.find(l=>l.id===lotId);
   if(!lot)return;
   ui.currentLot=lot;
+  // A click from the map or similar plots should land on the actual property information.
+  ui.focusPlotInfo=true;
   goTo('#lot/'+encodeURIComponent(z.id)+'/'+encodeURIComponent(lot.id));
 }
 
@@ -545,7 +551,19 @@ function renderDedicatedPlot(){
       catch(e){window.prompt('Скопируйте ссылку на участок',location.href);}
     };
   }
-  window.scrollTo(0,0);
+  // Direct links open at the start (map first); a user's plot selection focuses its price.
+  const focusInfo=ui.focusPlotInfo===true;
+  ui.focusPlotInfo=false;
+  if(focusInfo){
+    requestAnimationFrame(()=>{
+      const info=document.querySelector('#plotPage .plot-info-order');
+      if(info && !document.getElementById('plotPage').hidden){
+        info.scrollIntoView({block:'start',behavior:'instant'});
+      }
+    });
+  }else{
+    window.scrollTo(0,0);
+  }
 }
 
 function demoRequest(z,l){

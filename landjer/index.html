@@ -184,6 +184,68 @@ body.plot-inner .map-head,body.plot-inner .section-head{margin-top:10px}
 /* Keep the price and specs visible below the sticky header after plot selection */
 #plotPage .plot-info-order{scroll-margin-top:96px}
 @media(max-width:700px){#plotPage .plot-info-order{scroll-margin-top:80px}}
+
+/* Compact property details next to a three-view location gallery */
+.plot-overview-grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);align-items:start;gap:18px}
+.plot-overview-grid>.plot-info-order,.plot-overview-grid>.plot-visual-gallery{min-width:0}
+.plot-overview-grid .plot-details .detail-body{padding:19px}
+.plot-overview-grid .plot-details .status{font-size:11px;padding:5px 10px;margin-bottom:7px}
+.plot-overview-grid .plot-details .detail-title{font-size:clamp(25px,2.7vw,32px);margin-bottom:3px}
+.plot-overview-grid .plot-details .detail-zone{font-size:13px;margin-bottom:7px}
+.plot-overview-grid .plot-details .price{font-size:clamp(29px,3.3vw,38px);margin-bottom:12px}
+.plot-overview-grid .plot-details .specs{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:0 0 10px}
+.plot-overview-grid .plot-details .spec{padding:9px 10px;border-radius:11px;min-width:0}
+.plot-overview-grid .plot-details .spec label{font-size:11px;margin-bottom:1px}
+.plot-overview-grid .plot-details .spec b{font-size:14px;line-height:1.25}
+.plot-overview-grid .plot-details .utilities{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:0 0 12px}
+.plot-overview-grid .plot-details .utility{font-size:12px;font-weight:750;line-height:1.35;border-radius:11px;padding:10px}
+.plot-overview-grid .plot-details .detail-actions{gap:8px;margin-top:14px}
+.plot-overview-grid .plot-details .detail-actions button{min-height:44px;font-size:12px;padding:9px 11px;border-radius:11px}
+.plot-overview-grid .plot-details .helper{font-size:12px;line-height:1.42;border-radius:11px;padding:10px 12px;margin-top:12px}
+.plot-overview-grid .plot-details .plot-note{font-size:11px;margin-top:9px}
+.plot-visual-gallery{background:#fff;border:1px solid var(--stroke);border-radius:24px;box-shadow:var(--shadow);padding:14px;overflow:hidden}
+.plot-gallery-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:5px 3px 12px}
+.plot-gallery-head h3{font-size:clamp(19px,2.3vw,25px);letter-spacing:-.03em;line-height:1.16;margin:5px 0 0}
+.plot-gallery-head .eyebrow{font-size:10px;letter-spacing:.08em}
+.plot-gallery-count{font-size:11px;font-weight:750;color:#718079;white-space:nowrap}
+.plot-gallery-stage{position:relative;width:100%;height:clamp(225px,29vw,340px);border-radius:16px;overflow:hidden;background:#dfe9df}
+.plot-gallery-pane{position:absolute;inset:0;overflow:hidden}
+.plot-gallery-pane>img{display:block;width:100%;height:100%;object-fit:cover}
+.plot-gallery-chip{position:absolute;left:10px;top:10px;padding:7px 10px;color:#164d34;background:#f6faf4ed;z-index:2;font-size:11px;font-weight:750;border-radius:9px;box-shadow:0 3px 15px #0001}
+.plot-gallery-plan{background:#dbe9d4}
+.plot-gallery-plan-canvas{height:100%;overflow:auto;display:flex;align-items:center}
+.plot-gallery-plan-canvas svg{height:100%;min-width:520px;width:auto;max-width:none}
+.plot-gallery-geo{background:#d6e7d5}
+.plot-gallery-geo iframe{display:block;border:0;width:100%;height:100%}
+.plot-gallery-geo-footer{position:absolute;left:9px;right:9px;bottom:8px;background:#fffefaec;box-shadow:0 4px 18px #0002;border-radius:10px;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 10px;font-size:11px}
+.plot-gallery-geo-footer a{white-space:nowrap;color:var(--green);font-weight:800}
+.plot-gallery-geo-unavailable{padding:25px;color:var(--muted)}
+.plot-gallery-switch{position:absolute;right:9px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:8px;pointer-events:none}
+.plot-gallery-switch button{pointer-events:auto;width:32px;height:32px;border:1px solid #d7e5da;border-radius:50%;background:#fffefaed;color:#184c32;font-size:25px;display:grid;place-items:center;line-height:1;padding:0}
+.plot-gallery-switch button:hover{background:#e9f5ec}
+.plot-gallery-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin-top:11px}
+.plot-gallery-tabs button{border:1px solid #e1e9e0;border-radius:11px;background:#f6f9f5;padding:10px 4px;font-size:12px;color:#50695a;font-weight:700;display:flex;justify-content:center;align-items:center;gap:6px}
+.plot-gallery-tabs button.active{border-color:#3d8059;background:#e8f3e9;color:#1d6242;box-shadow:0 0 0 1px #3d8059}
+.plot-gallery-tab-icon{font-size:18px;line-height:1}
+.plot-gallery-note{font-size:11px;line-height:1.5;color:#738078;margin:11px 4px 2px}
+@media(max-width:920px){
+ .plot-overview-grid{grid-template-columns:1fr}
+ .plot-gallery-stage{height:clamp(235px,45vw,430px)}
+}
+@media(max-width:680px){
+ .plot-overview-grid{gap:14px}
+ .plot-overview-grid .plot-details .detail-body{padding:16px}
+ .plot-overview-grid .plot-details .detail-title{font-size:26px}
+ .plot-overview-grid .plot-details .price{font-size:32px}
+ .plot-overview-grid .plot-details .specs{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .plot-overview-grid .plot-details .utilities{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .plot-overview-grid .plot-details .utility{font-size:11px}
+ .plot-overview-grid .plot-details .detail-actions button{flex:1 1 45%;font-size:12px}
+ .plot-visual-gallery{padding:10px;border-radius:19px}
+ .plot-gallery-stage{height:clamp(220px,59vw,360px)}
+ .plot-gallery-switch button{width:30px;height:30px}
+ .plot-gallery-geo-footer{font-size:10px;align-items:flex-start}
+}
 </style>
 </head>
 <body>
@@ -511,6 +573,67 @@ function openPlot(lotId){
   goTo('#lot/'+encodeURIComponent(z.id)+'/'+encodeURIComponent(lot.id));
 }
 
+
+/* Gallery map pins refer to settlement centers, never demonstration plot coordinates. */
+const LANDJER_GEO={'Каражар':[51.075930,71.234084],'Косшы':[50.970257,71.355375],'Бурабай':[53.0830,70.3086]};
+function plotGeoLinks(z){
+ const c=LANDJER_GEO[z.place];if(!c)return null;
+ const box=[c[1]-.035,c[0]-.018,c[1]+.035,c[0]+.018].map(n=>n.toFixed(5)).join('%2C');
+ const lat=c[0].toFixed(6),lon=c[1].toFixed(6);
+ return {embed:'https://www.openstreetmap.org/export/embed.html?bbox='+box+'&layer=mapnik&marker='+lat+'%2C'+lon,external:'https://www.openstreetmap.org/?mlat='+lat+'&mlon='+lon+'#map=13/'+lat+'/'+lon};
+}
+function plotGalleryMarkup(z,l){
+ const geo=plotGeoLinks(z);
+ const plan=mapSVG(z).replaceAll('terrain-'+z.id,'terrain-'+z.id+'-gallery').replaceAll('grass-'+z.id,'grass-'+z.id+'-gallery');
+ return `<section class="plot-visual-gallery" id="plotGallery" aria-label="Фото и карты участка">
+    <div class="plot-gallery-head"><div><span class="eyebrow" style="color:#38734e">ФОТО И РАСПОЛОЖЕНИЕ</span><h3>Галерея участка</h3></div><span class="plot-gallery-count" id="galleryCount">01 / 03</span></div>
+    <div class="plot-gallery-stage" id="galleryStage">
+      <div class="plot-gallery-pane" data-media-pane="photo">
+        <img src="${z.image}" alt="Иллюстративное изображение локации ${z.place}" loading="lazy" decoding="async">
+        <span class="plot-gallery-chip">Визуализация района</span>
+      </div>
+      <div class="plot-gallery-pane plot-gallery-plan" data-media-pane="plan" hidden>
+        <div class="plot-gallery-plan-canvas">${plan}</div>
+        <span class="plot-gallery-chip">Участок ${l.id} выделен на схеме</span>
+      </div>
+      <div class="plot-gallery-pane plot-gallery-geo" data-media-pane="geo" hidden>
+        ${geo?`<iframe id="plotGeoFrame" title="Карта района ${z.place}, не координаты участка" data-map-src="${geo.embed}" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe><div class="plot-gallery-geo-footer"><span>Ориентир: ${z.place}, не точка участка</span><a href="${geo.external}" target="_blank" rel="noopener noreferrer">Открыть карту ↗</a></div>`:'<p class="plot-gallery-geo-unavailable">Для этой локации геокарта не задана.</p>'}
+      </div>
+      <div class="plot-gallery-switch"><button id="galleryPrev" type="button" aria-label="Предыдущее изображение">‹</button><button id="galleryNext" type="button" aria-label="Следующее изображение">›</button></div>
+    </div>
+    <div class="plot-gallery-tabs" role="group" aria-label="Выберите вид">
+      <button type="button" class="active" data-media-tab="photo" aria-pressed="true"><span class="plot-gallery-tab-icon">◩</span>Фото</button>
+      <button type="button" data-media-tab="plan" aria-pressed="false"><span class="plot-gallery-tab-icon">▦</span>Схема</button>
+      <button type="button" data-media-tab="geo" aria-pressed="false"><span class="plot-gallery-tab-icon">⌖</span>На карте</button>
+    </div>
+    <p class="plot-gallery-note">Фото — демонстрационная визуализация. Схема условная. Геокарта показывает район ${z.place}, не координаты конкретного участка.</p>
+  </section>`;
+}
+function bindPlotGallery(){
+ const root=document.getElementById('plotGallery');if(!root)return;
+ const tabs=Array.from(root.querySelectorAll('[data-media-tab]')),panes=Array.from(root.querySelectorAll('[data-media-pane]'));
+ let active=0;
+ function show(i){
+   active=(i+3)%3;
+   tabs.forEach((b,n)=>{b.classList.toggle('active',n===active);b.setAttribute('aria-pressed',String(n===active));});
+   panes.forEach((p,n)=>p.hidden=n!==active);
+   root.querySelector('#galleryCount').textContent=String(active+1).padStart(2,'0')+' / 03';
+   const frame=root.querySelector('#plotGeoFrame');
+   if(active===2&&frame&&!frame.getAttribute('src'))frame.setAttribute('src',frame.dataset.mapSrc);
+ }
+ tabs.forEach((b,i)=>b.addEventListener('click',()=>show(i)));
+ root.querySelector('#galleryPrev').addEventListener('click',()=>show(active-1));
+ root.querySelector('#galleryNext').addEventListener('click',()=>show(active+1));
+ let firstTouch=null;const stage=root.querySelector('#galleryStage');
+ stage.addEventListener('touchstart',e=>{if(e.touches.length===1&&active!==2)firstTouch=e.touches[0].clientX;},{passive:true});
+ stage.addEventListener('touchend',e=>{if(firstTouch===null)return;const d=e.changedTouches[0].clientX-firstTouch;firstTouch=null;if(Math.abs(d)>55)show(active+(d<0?1:-1));},{passive:true});
+ root.querySelectorAll('[data-lot]').forEach(el=>{
+   el.addEventListener('click',()=>openPlot(el.dataset.lot));
+   el.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();openPlot(el.dataset.lot);}});
+ });
+ show(0);
+}
+
 function renderDedicatedPlot(){
   const z=ui.currentZone,l=ui.currentLot;
   if(!z||!l){goTo('#zones');return;}
@@ -524,11 +647,13 @@ function renderDedicatedPlot(){
          <div class="eyebrow" style="color:#38734e">01 · РАСПОЛОЖЕНИЕ УЧАСТКА</div>
          <section class="plot-panel" style="padding:20px"><h3 style="font-size:21px;margin:0 0 14px">Ваш участок на карте</h3><div class="plot-mini-map" style="margin-top:0">${mapSVG(z)}</div><p class="plot-note">Выбранный участок подсвечен золотой рамкой. Границы схематичные.</p><button id="viewFullMap" class="btn" style="background:#eaf3eb;color:var(--green)">Смотреть схему целиком →</button></section>
        </div>
-       <div class="plot-info-order">
-         <div class="eyebrow" style="color:#38734e">02 · ЦЕНА И ХАРАКТЕРИСТИКИ</div>
-         <aside class="plot-details"><div class="detail-body">${detailHTML(z,l)}<p class="plot-note">Продаётся только земельный участок, без дома. Цена и характеристики демонстрационные; заявка не отправляется.</p></div></aside>
+       <div class="plot-overview-grid">
+         <div class="plot-info-order">
+           <div class="eyebrow" style="color:#38734e">02 · ЦЕНА И ХАРАКТЕРИСТИКИ</div>
+           <aside class="plot-details"><div class="detail-body">${detailHTML(z,l)}<p class="plot-note">Продаётся только земельный участок, без дома. Цена и характеристики демонстрационные; заявка не отправляется.</p></div></aside>
+         </div>
+         ${plotGalleryMarkup(z,l)}
        </div>
-       
      </div>
      <div class="plot-similar"><h3>Другие участки в этом массиве</h3><div class="plot-similar-grid">${alternatives.map(x=>`<button data-related="${x.id}"><b>Участок ${x.id}</b><div>${x.area} соток · Свободен</div><strong>${fmtPrice(x.price)}</strong></button>`).join('')}</div></div>
    </div>`;
@@ -536,6 +661,7 @@ function renderDedicatedPlot(){
   document.getElementById('returnMap').onclick=back;
   document.getElementById('returnZones').onclick=()=>goTo('#zones');
   document.getElementById('viewFullMap').onclick=back;
+  bindPlotGallery();
   document.querySelectorAll('[data-related]').forEach(b=>b.onclick=()=>openPlot(b.dataset.related));
   document.querySelectorAll('.plot-mini-map [data-lot]').forEach(e=>e.onclick=()=>openPlot(e.dataset.lot));
   const btns=document.querySelectorAll('.plot-details .detail-actions button');
